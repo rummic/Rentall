@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Rentall.DAL\Rentall.DAL.csproj" />
+    <ProjectReference Include="..\Rentall.Services\Rentall.Services.csproj" />
   </ItemGroup>
 
 </Project>

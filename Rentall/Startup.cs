@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Rentall.DAL.Config;
+using Rentall.DAL.Repositories;
+using Rentall.DAL.Repositories.IRepositories;
+using Rentall.Services.UserService;
 
 namespace Rentall
 {
@@ -29,6 +32,8 @@ namespace Rentall
             services.AddDbContext<ApplicationDbContext>();
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "Rentall API", Version = "v1" }));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
