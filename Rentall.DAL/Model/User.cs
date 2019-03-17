@@ -16,5 +16,6 @@ namespace Rentall.DAL.Model
         public string LastName { get; set; }
         public byte[] Password { get; set; }
         public string PhoneNumber { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

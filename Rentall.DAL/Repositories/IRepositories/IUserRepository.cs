@@ -9,6 +9,9 @@ namespace Rentall.DAL.Repositories.IRepositories
     public interface IUserRepository
     {
         Task<User> GetUserById(int id, bool withTracking = true);
-
+        Task<IEnumerable<User>> GetUsers();
+        Task<int> AddUser(User user);
+        Task<int> UpdateUser(User user);
+        Task<bool> DeleteUser(int id);
     }
 }
