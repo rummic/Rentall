@@ -32,7 +32,7 @@ namespace Rentall
             services.AddDbContext<ApplicationDbContext>();
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "Rentall API", Version = "v1" }));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();
         }
 
