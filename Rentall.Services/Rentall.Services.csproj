@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Rentall.Commons\Rentall.Commons.csproj" />
     <ProjectReference Include="..\Rentall.DAL\Rentall.DAL.csproj" />
   </ItemGroup>
 

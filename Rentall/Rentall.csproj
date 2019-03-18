@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Rentall.Commons\Rentall.Commons.csproj" />
     <ProjectReference Include="..\Rentall.DAL\Rentall.DAL.csproj" />
     <ProjectReference Include="..\Rentall.Services\Rentall.Services.csproj" />
   </ItemGroup>

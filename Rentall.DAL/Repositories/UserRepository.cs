@@ -24,6 +24,12 @@ namespace Rentall.DAL.Repositories
             return user;
         }
 
+        public async Task<User> GetUserByLogin(string login)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Login == login);
+            return user;
+        }
+
         public async Task<IEnumerable<User>> GetUsers()
         {
             var users = await _context.Users.ToListAsync();
