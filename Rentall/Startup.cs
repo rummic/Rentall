@@ -30,7 +30,7 @@ namespace Rentall
             services.AddDbContext<ApplicationDbContext>();
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "Rentall API", Version = "v1" }));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddScoped<IUsersRepository, UsersesRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddCors(opt => opt.AddPolicy("policy", policy=> policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
             Mapper.Initialize(cfg =>
