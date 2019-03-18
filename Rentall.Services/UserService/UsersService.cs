@@ -13,24 +13,24 @@ using Rentall.DAL.Repositories.IRepositories;
 
 namespace Rentall.Services.UserService
 {
-    public class UserService : IUserService
+    public class UsersService : IUsersService
     {
-        private IUserRepository _userRepository;
-        public UserService(IUserRepository userRepository)
+        private IUsersRepository _usersRepository;
+        public UsersService(IUsersRepository usersRepository)
         {
-            _userRepository = userRepository;
+            _usersRepository = usersRepository;
         }
 
         public async Task<GetUserByIdDto> GetUserById(int id)
         {
-            var userFromDb = await _userRepository.GetUserById(id);
+            var userFromDb = await _usersRepository.GetUserById(id);
             var mappedUser = Mapper.Map<GetUserByIdDto>(userFromDb);
             return mappedUser;
         }
 
         public async Task<List<GetUsersDto>> GetUsers(bool allUsers = false)
         {
-            var usersFromDb = await _userRepository.GetUsers();
+            var usersFromDb = await _usersRepository.GetUsers();
             var mappedUsers = allUsers ?
                 Mapper.Map<List<GetUsersDto>>(usersFromDb) :
                 Mapper.Map<List<GetUsersDto>>(usersFromDb.Where(x => !x.IsDeleted));
@@ -39,12 +39,12 @@ namespace Rentall.Services.UserService
 
         public async Task<int> AddUser(AddUserDto userToAdd)
         {
-            var userFromDb = await _userRepository.GetUserByLogin(userToAdd.Login);
+            var userFromDb = await _usersRepository.GetUserByLogin(userToAdd.Login);
             if (userFromDb == null)
             {
                 var userToDb = Mapper.Map<User>(userToAdd);
                 userToDb.Password = userToAdd.Password.GenerateSaltedHash(CreateSalt(30));
-                var result = await _userRepository.AddUser(userToDb);
+                var result = await _usersRepository.AddUser(userToDb);
                 return result;
             }
 
@@ -53,13 +53,13 @@ namespace Rentall.Services.UserService
 
         public async Task<int> UpdateUser(AddUserDto userToUpdate)
         {
-            var userFromDb = await _userRepository.GetUserByLogin(userToUpdate.Login);
+            var userFromDb = await _usersRepository.GetUserByLogin(userToUpdate.Login);
             if (userFromDb != null)
             {
                 var mappedUser = Mapper.Map<User>(userToUpdate);
                 mappedUser.Id = userFromDb.Id;
                 mappedUser.Password = userToUpdate.Password.GenerateSaltedHash(CreateSalt(30));
-                var result = await _userRepository.UpdateUser(mappedUser);
+                var result = await _usersRepository.UpdateUser(mappedUser);
                 return result;
             }
 
@@ -68,12 +68,12 @@ namespace Rentall.Services.UserService
 
         public async Task<bool> DeleteUser(int id)
         {
-            var userFromDb = await _userRepository.GetUserById(id);
+            var userFromDb = await _usersRepository.GetUserById(id);
             if (userFromDb == null || userFromDb.IsDeleted == true)
             {
                 return false;
             }
-            var result = await _userRepository.DeleteUser(id);
+            var result = await _usersRepository.DeleteUser(id);
             return result;
         }
         private static byte[] CreateSalt(int size)

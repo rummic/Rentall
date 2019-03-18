@@ -6,7 +6,7 @@ using Rentall.DAL.Model;
 
 namespace Rentall.DAL.Repositories.IRepositories
 {
-    public interface IUserRepository
+    public interface IUsersRepository
     {
         Task<User> GetUserById(int id, bool withTracking = true);
         Task<User> GetUserByLogin(string login);

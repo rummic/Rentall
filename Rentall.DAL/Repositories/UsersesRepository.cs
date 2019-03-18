@@ -9,11 +9,11 @@ using Rentall.DAL.Repositories.IRepositories;
 
 namespace Rentall.DAL.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UsersesRepository : IUsersRepository
     {
         private ApplicationDbContext _context;
 
-        public UserRepository(ApplicationDbContext context)
+        public UsersesRepository(ApplicationDbContext context)
         {
             _context = context;
         }
