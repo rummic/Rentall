@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Rentall.Commons.Dtos;
 using Rentall.Commons.Dtos.UserDto;
+using Rentall.Commons.ErrorMessages;
 using Rentall.Commons.ExtensionMethods;
 using Rentall.DAL.Model;
 using Rentall.DAL.Repositories.IRepositories;
@@ -21,38 +22,50 @@ namespace Rentall.Services.UserService
             _usersRepository = usersRepository;
         }
 
-        public async Task<GetUserByIdDto> GetUserById(int id)
+        public async Task<ResponseDto<GetUserByIdDto>> GetUserById(int id)
         {
+            var response = new ResponseDto<GetUserByIdDto>();
             var userFromDb = await _usersRepository.GetUserById(id);
+            if (userFromDb == null)
+            {
+                response.AddError(UserErrors.NotFoundById);
+                return response;
+            }
             var mappedUser = Mapper.Map<GetUserByIdDto>(userFromDb);
-            return mappedUser;
+            response.Value = mappedUser;
+            return response;
         }
 
-        public async Task<List<GetUsersDto>> GetUsers(bool allUsers = false)
+        public async Task<ResponseDto<List<GetUsersDto>>> GetUsers(bool allUsers = false)
         {
+            var response = new ResponseDto<List<GetUsersDto>>();
             var usersFromDb = await _usersRepository.GetUsers();
             var mappedUsers = allUsers ?
                 Mapper.Map<List<GetUsersDto>>(usersFromDb) :
                 Mapper.Map<List<GetUsersDto>>(usersFromDb.Where(x => !x.IsDeleted));
-            return mappedUsers;
+            response.Value = mappedUsers;
+            return response;
         }
 
-        public async Task<int> AddUser(AddUserDto userToAdd)
+        public async Task<ResponseDto<int>> AddUser(AddUserDto userToAdd)
         {
+            var response = new ResponseDto<int>();
             var userFromDb = await _usersRepository.GetUserByLogin(userToAdd.Login);
             if (userFromDb == null)
             {
                 var userToDb = Mapper.Map<User>(userToAdd);
                 userToDb.Password = userToAdd.Password.GenerateSaltedHash(CreateSalt(30));
                 var result = await _usersRepository.AddUser(userToDb);
-                return result;
+                response.Value = result;
+                return response;
             }
-
-            return 0;
+            response.AddError(UserErrors.LoginTaken);
+            return response;
         }
 
-        public async Task<int> UpdateUser(AddUserDto userToUpdate)
+        public async Task<ResponseDto<int>> UpdateUser(AddUserDto userToUpdate)
         {
+            var response = new ResponseDto<int>();
             var userFromDb = await _usersRepository.GetUserByLogin(userToUpdate.Login);
             if (userFromDb != null)
             {
@@ -60,21 +73,25 @@ namespace Rentall.Services.UserService
                 mappedUser.Id = userFromDb.Id;
                 mappedUser.Password = userToUpdate.Password.GenerateSaltedHash(CreateSalt(30));
                 var result = await _usersRepository.UpdateUser(mappedUser);
-                return result;
+                response.Value = result;
+                return response;
             }
-
-            return 0;
+            response.AddError(UserErrors.NotFoundByLogin);
+            return response;
         }
 
-        public async Task<bool> DeleteUser(int id)
+        public async Task<ResponseDto<bool>> DeleteUser(int id)
         {
+            var response = new ResponseDto<bool>();
             var userFromDb = await _usersRepository.GetUserById(id);
-            if (userFromDb == null || userFromDb.IsDeleted == true)
+            if (userFromDb == null || userFromDb.IsDeleted)
             {
-                return false;
+                response.AddError(UserErrors.NotFoundById);
+                return response;
             }
             var result = await _usersRepository.DeleteUser(id);
-            return result;
+            response.Value = result;
+            return response;
         }
         private static byte[] CreateSalt(int size)
         {

@@ -10,10 +10,10 @@ namespace Rentall.Services.UserService
 {
     public interface IUsersService
     {
-        Task<GetUserByIdDto> GetUserById(int id);
-        Task<List<GetUsersDto>> GetUsers(bool allUsers = false);
-        Task<int> AddUser(AddUserDto userToAdd);
-        Task<int> UpdateUser(AddUserDto userToUpdate);
-        Task<bool> DeleteUser(int id);
+        Task<ResponseDto<GetUserByIdDto>> GetUserById(int id);
+        Task<ResponseDto<List<GetUsersDto>>> GetUsers(bool allUsers = false);
+        Task<ResponseDto<int>> AddUser(AddUserDto userToAdd);
+        Task<ResponseDto<int>> UpdateUser(AddUserDto userToUpdate);
+        Task<ResponseDto<bool>> DeleteUser(int id);
     }
 }

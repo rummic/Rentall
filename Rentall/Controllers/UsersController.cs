@@ -10,6 +10,7 @@ using Rentall.Commons.Dtos;
 using Rentall.Commons.Dtos.UserDto;
 using Rentall.DAL.Model;
 using Rentall.Services.UserService;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Rentall.Controllers
 {
@@ -27,29 +28,29 @@ namespace Rentall.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetUserByIdDto>> GetUserById(int id)
+        public async Task<ActionResult<ResponseDto<GetUserByIdDto>>> GetUserById(int id)
         {
-            var user = await _usersService.GetUserById(id);
-            if (user == null)
+            var userResponse = await _usersService.GetUserById(id);
+            if (userResponse.HasErrors)
             {
-                return BadRequest();
+                return BadRequest(userResponse);
             }
-            return user;
+            return Ok(userResponse);
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetUsersDto>>> GetUsers()
+        public async Task<ActionResult<ResponseDto<List<GetUsersDto>>>> GetUsers()
         {
-            var users = await _usersService.GetUsers();
-            if (!users.Any())
+            var usersResponse = await _usersService.GetUsers();
+            if (!usersResponse.HasErrors)
             {
-                return BadRequest();
+                return BadRequest(usersResponse);
             }
-            return users;
+            return Ok(usersResponse);
         }
 
 
         [HttpPost]
-        public async Task<ActionResult<int>> AddUser([FromBody]AddUserDto userToAdd)
+        public async Task<ActionResult<ResponseDto<int>>> AddUser([FromBody]AddUserDto userToAdd)
         {
             if (!ModelState.IsValid)
             {
@@ -58,9 +59,9 @@ namespace Rentall.Controllers
 
             var result = await _usersService.AddUser(userToAdd);
 
-            if (result == 0)
+            if (result.HasErrors)
             {
-                return BadRequest();
+                return BadRequest(result);
             }
 
             return Ok(result);
@@ -76,9 +77,9 @@ namespace Rentall.Controllers
 
             var result = await _usersService.UpdateUser(userToUpdate);
 
-            if (result == 0)
+            if (result.HasErrors)
             {
-                return BadRequest();
+                return BadRequest(result);
             }
 
             return Ok(result);
@@ -89,12 +90,12 @@ namespace Rentall.Controllers
         {
             var result = await _usersService.DeleteUser(id);
 
-            if (result)
+            if (result.Value)
             {
-                return Ok();
+                return Ok(result);
             }
 
-            return BadRequest();
+            return BadRequest(result);
 
 
         }
