@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Rentall.Commons.Dtos;
 using Rentall.Commons.Dtos.UserDto;
+using Rentall.Commons.Enumerables;
 using Rentall.DAL.Model;
 using Rentall.Services.UserService;
 using Swashbuckle.AspNetCore.Swagger;
@@ -17,7 +19,7 @@ namespace Rentall.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("policy")]
-
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private IUsersService _usersService;
@@ -25,6 +27,19 @@ namespace Rentall.Controllers
         public UsersController(IUsersService usersService)
         {
             _usersService = usersService;
+        }
+
+        [AllowAnonymous]
+        [HttpPost("Authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] LoginUserDto userParam)
+        {
+            var userResult = await _usersService.Authenticate(userParam);
+
+            if (userResult.HasErrors)
+            {
+                return BadRequest(userResult);
+            }
+            return Ok(userResult);
         }
 
         [HttpGet("{id}")]
@@ -38,10 +53,11 @@ namespace Rentall.Controllers
             return Ok(userResponse);
         }
         [HttpGet]
+        [Authorize(Roles = Role.Admin+", "+Role.SuperAdmin)]
         public async Task<ActionResult<ResponseDto<List<GetUsersDto>>>> GetUsers()
         {
             var usersResponse = await _usersService.GetUsers();
-            if (!usersResponse.HasErrors)
+            if (usersResponse.HasErrors)
             {
                 return BadRequest(usersResponse);
             }
@@ -50,6 +66,7 @@ namespace Rentall.Controllers
 
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<ResponseDto<int>>> AddUser([FromBody]AddUserDto userToAdd)
         {
             if (!ModelState.IsValid)
@@ -86,10 +103,10 @@ namespace Rentall.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = Role.User+", "+Role.SuperAdmin)]
         public async Task<ActionResult> DeleteUser(int id)
         {
-            var result = await _usersService.DeleteUser(id);
-
+            var result = await _usersService.DeleteUser(User, id);
             if (result.Value)
             {
                 return Ok(result);

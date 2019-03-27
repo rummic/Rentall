@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using Rentall.Commons.Enumerables;
+
 namespace Rentall.DAL.Model
 {
     public class User
@@ -17,5 +19,7 @@ namespace Rentall.DAL.Model
         public byte[] Password { get; set; }
         public string PhoneNumber { get; set; }
         public bool IsDeleted { get; set; }
+        public string Role { get; set; }
+        public byte[] Salt { get; set; }
     }
 }

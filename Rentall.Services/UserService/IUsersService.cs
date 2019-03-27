@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using Rentall.Commons.Dtos;
@@ -14,6 +16,7 @@ namespace Rentall.Services.UserService
         Task<ResponseDto<List<GetUsersDto>>> GetUsers(bool allUsers = false);
         Task<ResponseDto<int>> AddUser(AddUserDto userToAdd);
         Task<ResponseDto<int>> UpdateUser(AddUserDto userToUpdate);
-        Task<ResponseDto<bool>> DeleteUser(int id);
+        Task<ResponseDto<bool>> DeleteUser(ClaimsPrincipal userIdentity, int id);
+        Task<ResponseDto<LoggedInUserDto>> Authenticate(LoginUserDto loginUserDto);
     }
 }

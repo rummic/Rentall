@@ -1,4 +1,8 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +13,12 @@ using Rentall.DAL.Repositories;
 using Rentall.DAL.Repositories.IRepositories;
 using Rentall.Services.UserService;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.IdentityModel.Tokens;
 using Rentall.Commons.Dtos;
 using Rentall.Commons.Dtos.UserDto;
+using Rentall.Commons.Helpers;
 using Rentall.DAL.Model;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Rentall
 {
@@ -28,11 +35,51 @@ namespace Rentall
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>();
-            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "Rentall API", Version = "v1" }));
+            services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "Rentall API", Version = "v1" });
+                    c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                    {
+                        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: bearer {token}\"",
+                        Name = "Authorization",
+                        In = "header",
+                        Type = "apiKey"
+                    });
+                    c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                    {
+                        {"Bearer", Enumerable.Empty<string>()}
+                    });
+                }
+                );
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<IUsersRepository, UsersRepository>();
-            services.AddTransient<IUsersService, UsersService>();
-            services.AddCors(opt => opt.AddPolicy("policy", policy=> policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+            services.AddScoped<IUsersService, UsersService>();
+            services.AddCors(opt => opt.AddPolicy("policy", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<User, GetUserByIdDto>();
@@ -59,6 +106,8 @@ namespace Rentall
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Rentall API"));
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

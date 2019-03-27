@@ -27,7 +27,7 @@ namespace Rentall.Commons.ExtensionMethods
             return algorithm.ComputeHash(plainTextWithSaltBytes);
         }
 
-        public static bool CompareByteArrays(this byte[] array1, byte[] array2)
+        public static bool IsEqualTo(this byte[] array1, byte[] array2)
         {
             if (array1.Length != array2.Length)
             {
