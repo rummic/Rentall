@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-//import Login from './Components/login';
-import Register from './Components/register'
+//import Accsett from './Components/accsettings';
+//import App from './App'
+import Register from './Components/accsettings';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<Register />, document.getElementById('root'));
