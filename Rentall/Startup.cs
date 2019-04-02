@@ -15,6 +15,7 @@ using Rentall.Services.UserService;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.IdentityModel.Tokens;
 using Rentall.Commons.Dtos;
+using Rentall.Commons.Dtos.OfferDto;
 using Rentall.Commons.Dtos.UserDto;
 using Rentall.Commons.Helpers;
 using Rentall.DAL.Model;
@@ -55,6 +56,8 @@ namespace Rentall
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IOffersRepository, OffersRepository>();
+            services.AddScoped<IOffersService, OffersService>();
             services.AddCors(opt => opt.AddPolicy("policy", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -85,6 +88,7 @@ namespace Rentall
                 cfg.CreateMap<User, GetUserByIdDto>();
                 cfg.CreateMap<User, GetUsersDto>();
                 cfg.CreateMap<AddUserDto, User>();
+                cfg.CreateMap<Offer, GetOfferByIdDto>();
 
             });
         }

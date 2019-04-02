@@ -20,7 +20,7 @@ namespace Rentall.DAL.Repositories
 
         public async Task<Offer> GetOfferById(int id)
         {
-            var offer = await _context.Offers.FirstOrDefaultAsync(x => x.Id == id);
+            var offer = await _context.Offers.Include(c => c.User).FirstOrDefaultAsync(x => x.Id == id);
             return offer;
         }
 
