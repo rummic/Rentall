@@ -5,9 +5,12 @@ import { Form,Button,Row,Col } from 'react-bootstrap';
 class login extends Component {
     render() {
       return (
-          <div class="fomrconatiner">
-              <div class="formbox">
-                <div class="formtext">
+       /* fetch('http://localhost:53965/api/values')
+        .then(response => (response.json())
+        .then(values => console.log({ values }))),*/
+          <div className="fomrconatiner">
+              <div className="formbox">
+                <div className="formtext">
                         <Row>
                         <Col md={1}>
                         <a href="javascript:void(0);"><h1>&lsaquo;</h1></a>
@@ -17,7 +20,7 @@ class login extends Component {
                         </Col>
                         </Row>
 
-                        <p class="log">Zaloguj sie</p>
+                        <p className="log">Zaloguj sie</p>
                         <a>Aby korzystać z usług RentAll musisz zalogować się na swoje konto na portalu RentAll</a>
 
                     </div>
@@ -35,10 +38,10 @@ class login extends Component {
                     </Button>
                 </Form>
               </div>
-            <div class="formboxre">
-                <p class="rej">Nie masz konta ?</p>
-                <p class="rej1">Czas je założyć na portalu</p><a class="rej1" href="#">Zarejestruj sie</a>
-                <div class="clearfix"></div>
+            <div className="formboxre">
+                <p className="rej">Nie masz konta ?</p>
+                <p className="rej1">Czas je założyć na portalu</p><a className="rej1" href="#">Zarejestruj sie</a>
+                <div className="clearfix"></div>
             </div>
           </div>
       );

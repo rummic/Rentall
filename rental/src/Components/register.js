@@ -21,6 +21,24 @@ class register extends Component {
 
                     </div>
               <Form>
+                    <Row>
+                        <Col lg={6}>
+                        <Form.Group controlId="formBasicName">
+                        <Form.Label>Imie</Form.Label>
+                        <Form.Control type="text" placeholder="Imie" />
+                        </Form.Group>
+                        </Col>
+                        <Col lg={6}>
+                        <Form.Group controlId="formBasicLastName">
+                        <Form.Label>Nazwisko</Form.Label>
+                        <Form.Control type="text" placeholder="Nazwisko" />
+                        </Form.Group>
+                        </Col>
+                    </Row>
+                    <Form.Group controlId="formBasicNick">
+                    <Form.Label>Nickname</Form.Label>
+                    <Form.Control type="text" placeholder="Nickname" />
+                    </Form.Group>
                     <Form.Group controlId="formBasicEmail">
                     <Form.Label>Adres Email</Form.Label>
                     <Form.Control type="email" placeholder="Adres email" />
