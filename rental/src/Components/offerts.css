@@ -57,7 +57,7 @@ li a{
     margin-top: 10px;
 }
 
-.logo{
+.logooff{
     font-weight: bold;
     color: rgb(243, 177, 53);
 }
@@ -76,7 +76,7 @@ li:hover{
     text-align: center;
 }
 
-.offerts{
+.offerts1{
     width: 80%;
     background-color: white;
     margin: auto;
@@ -115,7 +115,7 @@ li:hover{
     margin-bottom: 10px;
 }
 
-.offerts input, select{
+.offerts1 input, select{
     margin:auto;
     width: 60%;
     margin-bottom: 5px; 
@@ -123,11 +123,11 @@ li:hover{
     border-bottom: 1px solid gray;
 }
 
-.offerts select{
+.offerts1 select{
     -webkit-appearance: none;
     -moz-appearance: none;
     background: transparent;
-    background-image: url("../fotos/arrow.png");
+    background-image: url();
     background-repeat: no-repeat;
     background-size: 10%;
     background-position-x: 100%;
@@ -136,7 +136,7 @@ li:hover{
 }
 
 
-.offerts input:focus{
+.offerts1 input:focus{
     transform: scale(1.02);
     border-bottom: 2px solid blue;
     margin-bottom: 4px;

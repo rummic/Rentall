@@ -33,10 +33,9 @@ class home extends Component {
                         <input type="text" placeholder="Miejscowość"  />
                         <button value="wyszukaj">Wyszukaj</button>
                     </div>
-                    </div>
-                
+                    </div>            
                     <div className="offerts">
-                    <h6 className="random">Przykładowe nasze oferty</h6>
+                    <p className="random">Przykładowe nasze oferty</p>
                     <div className="offert">
                     <div className="ofer"><img src={logo} alt="as"/>jakiś tam opisik<div className="cost">144zł</div></div>
                     <button>Szczegóły</button>

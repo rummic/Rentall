@@ -58,7 +58,7 @@ class offerts extends Component {
         <div className="navBar">
         <div className="navBarCon">
         <ul>
-              <li className="logo"><Link to="/index">RentAll</Link></li>
+              <li className="logooff"><Link to="/index">RentAll</Link></li>
               <li><a>Oferty</a></li>
               <li className="options"><span className="menu"><Button className="logout" variant="info" onClick={this.logout}>Logout</Button></span></li>
               <li className="options" ><Link to="/addOffer">Dodaj oferte</Link><p className="optionss" > </p></li>
@@ -68,7 +68,7 @@ class offerts extends Component {
         </div>
         <div className="clearfix"></div>
         <div className="contentbox">
-        <div className="offerts">
+        <div className="offerts1">
             <div className="title">RentAll - dodaj nowe ogłoszenie</div>
             <div className="section">
             <label>Tytuł</label>
@@ -92,7 +92,7 @@ class offerts extends Component {
             </div>
             <div className="clearfix"></div>
         </div>
-        <div className="offerts">
+        <div className="offerts1">
         <div className="subtitle">Podstawowe informacje</div>
         <div className="subsection">
             <label>Rodzaj ogłoszenia</label>
@@ -161,7 +161,7 @@ class offerts extends Component {
             
             <div className="clearfix"></div>
         </div>
-        <div className="offerts">
+        <div className="offerts1">
             <div className="subtitle">Dodaj zdjęcia</div>
             <div>
             <input type="file" accept="image/*" multiple/>
