@@ -9,14 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
-using Rentall.Commons.Dtos;
-using Rentall.Commons.Dtos.UserDto;
 using Rentall.Commons.ErrorMessages;
 using Rentall.Commons.ExtensionMethods;
 using Rentall.Commons.Helpers;
 using Rentall.DAL.Model;
 using Rentall.DAL.Repositories.IRepositories;
 using Microsoft.Extensions.Options;
+using Rentall.Services.Dtos;
+using Rentall.Services.Dtos.UserDto;
 
 namespace Rentall.Services.UserService
 {

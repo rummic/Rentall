@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Rentall.Commons.Dtos.UserDto
+﻿namespace Rentall.Services.Dtos.UserDto
 {
     public class AddUserDto
     {

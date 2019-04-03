@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Rentall.Commons.Dtos;
-using Rentall.Commons.Dtos.OfferDto;
+using Rentall.Services.Dtos;
+using Rentall.Services.Dtos.OfferDto;
 using Rentall.Services.UserService;
+using System.Threading.Tasks;
 
 namespace Rentall.Controllers
 {
@@ -18,7 +14,7 @@ namespace Rentall.Controllers
     [Authorize]
     public class OffersController : ControllerBase
     {
-        private IOffersService _offersService;
+        private readonly IOffersService _offersService;
 
         public OffersController(IOffersService offersService)
         {
@@ -36,6 +32,23 @@ namespace Rentall.Controllers
             }
 
             return Ok(offerResponse);
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult<ResponseDto<int>>> AddOffer([FromBody] AddOfferDto offer)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            ResponseDto<int> result = await _offersService.AddOffer(offer);
+            if (result.HasErrors)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
     }
 }

@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+using Rentall.Services.Dtos.UserDto;
 
-namespace Rentall.DAL.Model
+namespace Rentall.Services.Dtos.OfferDto
 {
-    public class Offer
+    public class GetOfferByIdDto
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
         public string Title { get; set; }
         public string Description { get; set; }
         public string Price { get; set; }
@@ -22,11 +15,11 @@ namespace Rentall.DAL.Model
         public string City { get; set; }
         public string Street { get; set; }
         public string ZipCode { get; set; }
-        public bool Active { get; set; }
+        public bool Status { get; set; }
         public DateTime CreateDate { get; set; }
 
-        public Category Category { get; set; }
-        public OfferType OfferType { get; set; }
-        public User User { get; set; }
+        public string CategoryName { get; set; }
+        public string OfferType { get; set; }
+        public GetUserByIdDto User { get; set; }
     }
 }

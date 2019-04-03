@@ -1,9 +1,8 @@
 ﻿using System;
-using Rentall.Commons.Dtos.UserDto;
 
-namespace Rentall.Commons.Dtos.OfferDto
+namespace Rentall.Services.Dtos.OfferDto
 {
-    public class GetOfferByIdDto
+    public class AddOfferDto
     {
         public string Title { get; set; }
         public string Description { get; set; }
@@ -15,11 +14,9 @@ namespace Rentall.Commons.Dtos.OfferDto
         public string City { get; set; }
         public string Street { get; set; }
         public string ZipCode { get; set; }
-        public bool Status { get; set; }
-        public DateTime CreateDate { get; set; }
-
-        public int Category { get; set; }
-        public int OfferType { get; set; }
-        public GetUserByIdDto User { get; set; }
+        public bool Active { get; set; }
+        public int CategoryId { get; set; }
+        public int OfferTypeId { get; set; }
+        public string UserLogin { get; set; }
     }
 }
