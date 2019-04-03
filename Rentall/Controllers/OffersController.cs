@@ -1,10 +1,17 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Rentall.Services.Dtos;
 using Rentall.Services.Dtos.OfferDto;
 using Rentall.Services.UserService;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Rentall.Commons.ErrorMessages;
+using Rentall.Services.Dtos.UserDto;
 
 namespace Rentall.Controllers
 {
@@ -15,10 +22,15 @@ namespace Rentall.Controllers
     public class OffersController : ControllerBase
     {
         private readonly IOffersService _offersService;
+        private IHostingEnvironment _hostingEnvironment;
 
-        public OffersController(IOffersService offersService)
+        private List<string> _allowedExtensions = new List<string>(){"jpeg", "jpg","png"};
+
+
+        public OffersController(IOffersService offersService, IHostingEnvironment hostingEnvironment)
         {
             _offersService = offersService;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [AllowAnonymous]
@@ -48,6 +60,33 @@ namespace Rentall.Controllers
                 return BadRequest(result);
             }
 
+            return Ok(result);
+        }
+
+        [HttpPost("Photo")]
+        public async Task<ActionResult<ResponseDto<bool>>> UploadPhoto(PhotoUploadDto photo)
+        {
+            var result = new ResponseDto<bool>();
+            var file = photo.File;
+            string folder = Path.Combine(_hostingEnvironment.WebRootPath, "Photos");
+            string filePath = Path.Combine(folder, file.FileName);
+            photo.SourcePath = filePath;
+            photo.Extension = Path.GetExtension(file.FileName).Substring(1);
+            if (_allowedExtensions.All(x => x != photo.Extension))
+            {
+                result.AddError(PhotoErrors.WrongExtension);
+                result.Value = false;
+                return result;
+            }
+            if (file.Length > 0)
+            {
+                using (var fs = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fs);
+                }
+            }
+
+            result.Value = true;
             return Ok(result);
         }
     }
