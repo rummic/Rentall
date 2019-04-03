@@ -4,18 +4,18 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
 
-
 class register extends Component {
 
   state = {
     user: [],
     newUserData: {
-      login: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
+      login: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+      role:"string"
     }
 
   }
@@ -31,9 +31,9 @@ class register extends Component {
         "lastName": this.state.newUserData.lastName,
         "email": this.state.newUserData.email,
         "phoneNumber": this.state.newUserData.phoneNumber,
+        "role": this.state.newUserData.role
       })
     });
-
 
   }
 
@@ -62,8 +62,7 @@ class register extends Component {
                   <Form.Control type="text" placeholder="Imie" name="firstName" value={this.state.newUserData.firstName} onChange={(e) => {
                     let { newUserData } = this.state;
                     newUserData.firstName = e.target.value;
-                    this.setState({ newUserData });
-
+                    this.setState({ newUserData });                
                   }} />
                 </Form.Group>
 
@@ -126,12 +125,10 @@ class register extends Component {
               <Form.Label>Powtórz hasło</Form.Label>
               <Form.Control type="password" placeholder="Powtórz hasło" name="password_copy" />
             </Form.Group>
-            <Button variant="primary" size="md" type="submit" block onClick={this.addUser.bind(this)}>
-              Zarejestruj
-                    </Button>
+            <Button variant="primary" size="md" type="submit" block onClick={this.addUser.bind(this)}>Zarejestruj</Button>
           </Form>
           <p className="rej1">Masz już konto?</p>
-           <Link to="/login" class="rej1">Zaloguj sie</Link>
+           <Link to="/login" className="rej1">Zaloguj sie</Link>
           <div className="clearfix"></div>
         </div>
       </div>

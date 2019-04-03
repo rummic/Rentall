@@ -1,9 +1,43 @@
 import React, { Component } from 'react';
 import './home.css';
 import logo from '../fotos/back.jpg'
+import {Redirect} from 'react-router-dom';
+import { Button} from 'react-bootstrap';
 
 class homez extends Component {
+
+    constructor(props){
+        super(props);
+        this.state={
+            redirect : false,
+            login : ""         
+        }
+        this.logout= this.logout.bind(this);
+    }
+
+componentWillMount(){
+    if(sessionStorage.getItem("value")){
+        console.log("zal");
+    }else{
+        this.setState({redirect : true});
+    }
+}
+
+logout(){
+    sessionStorage.setItem("value",'');
+    sessionStorage.clear();
+    this.setState({redirect : true});
+}
+
+
+
     render() {
+
+        
+
+        if(this.state.redirect){
+            return (<Redirect to={'/login'}/>)
+        }
       return (
           <div className="box">
           <div className="navBar">
@@ -11,8 +45,8 @@ class homez extends Component {
           <ul>
               <li className="logo"><a>RentAll</a></li>
               <li><a>Oferty</a></li>
-              <li className="options"><span className="menu"><button>jh</button><span className="menud">kljklj</span></span></li>
-              <li className="options"><a>Nazwa użytkownika</a></li>
+              <li className="options"><span className="menu"><Button className="logout" variant="info" onClick={this.logout}>Logout</Button></span></li>
+              <li className="options" ><p className="optionss" > </p></li>
               
           </ul>
           </div>
