@@ -53,8 +53,9 @@ logout(){
           </div>
           <div className="clearfix"></div>
             <div className="contentbox">
-                <div className="description"><p >U nas możesz wynająć nawet budę</p></div>
-                <div className="subdescription"><p>wyszukaj interesujących cię ofert</p></div>
+            <div className="contentbox">
+                <div className="description">U nas możesz wynająć nawet budę</div>
+                <div className="subdescription">wyszukaj interesujących cię ofert</div>
                     <div className="searchbox arrow">
                         <select>
                             <option value="mieszkanie">Mieszkanie</option>
@@ -70,20 +71,21 @@ logout(){
                     </div>
                 
                     <div className="offerts">
-                    <p className="random">Przykładowe nasze oferty</p>
+                    <h6 className="random">Przykładowe nasze oferty</h6>
                     <div className="offert">
-                    <img src={logo} alt="as"/><p>jakiś tam opisik</p><p className="cost">144zł</p>
+                    <div className="ofer"><img src={logo} alt="as"/>jakiś tam opisik<div className="cost">144zł</div></div>
                     <button>Szczegóły</button>
                     </div>
                     <div className="offert">
-                    <img src={logo}alt="as"/><p>jakiś tam opisik</p><p className="cost">144zł</p>
+                    <div className="ofer"><img src={logo} alt="as"/>jakiś tam opisik<div className="cost">144zł</div></div>
                     <button>Szczegóły</button>
                     </div>
                     <div className="offert">
-                    <img src={logo} alt="as"/><p>jakiś tam opisik</p><p className="cost">144zł</p>
+                    <div className="ofer"><img src={logo} alt="as"/>jakiś tam opisik<div className="cost">144zł</div></div>
                     <button>Szczegóły</button>
                     </div>
                     </div>
+          </div>
           </div>
       );
     }
