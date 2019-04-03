@@ -67,7 +67,7 @@ class offerts extends Component {
         </div>
         </div>
         <div className="clearfix"></div>
-        <div className="contentbox">
+        <div className="contentbox1">
         <div className="offerts1">
             <div className="title">RentAll - dodaj nowe ogłoszenie</div>
             <div className="section">
