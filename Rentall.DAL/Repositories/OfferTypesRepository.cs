@@ -19,8 +19,14 @@ namespace Rentall.DAL.Repositories
         }
         public async Task<IEnumerable<OfferType>> GetOfferTypes()
         {
-            var offerTypes = await _context.OfferTypes.ToListAsync();
+            var offerTypes = await _context.OfferTypes.AsNoTracking().ToListAsync();
             return offerTypes;
+        }
+
+        public async Task<OfferType> GetOfferTypeById(int offerOfferTypeId)
+        {
+            var offerType = await _context.OfferTypes.AsNoTracking().FirstOrDefaultAsync(x => x.Id == offerOfferTypeId);
+            return offerType;
         }
     }
 }

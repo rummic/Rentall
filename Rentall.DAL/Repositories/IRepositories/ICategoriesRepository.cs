@@ -9,5 +9,6 @@ namespace Rentall.DAL.Repositories.IRepositories
     public interface ICategoriesRepository
     {
         Task<IEnumerable<Category>> GetCategories();
+        Task<Category> GetCategoryById(int offerCategoryId);
     }
 }

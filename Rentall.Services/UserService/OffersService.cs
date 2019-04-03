@@ -16,10 +16,14 @@ namespace Rentall.Services.UserService
     {
         private IOffersRepository _offersRepository;
         private IUsersRepository _usersRepository;
-        public OffersService(IOffersRepository offersRepository, IUsersRepository usersRepository)
+        private ICategoriesRepository _categoriesRepository;
+        private IOfferTypesRepository _offerTypesRepository;
+        public OffersService(IOffersRepository offersRepository, IUsersRepository usersRepository, ICategoriesRepository categoriesRepository, IOfferTypesRepository offerTypesRepository)
         {
             _offersRepository = offersRepository;
             _usersRepository = usersRepository;
+            _categoriesRepository = categoriesRepository;
+            _offerTypesRepository = offerTypesRepository;
         }
         public async Task<ResponseDto<GetOfferByIdDto>> GetOfferById(int id)
         {
@@ -41,12 +45,24 @@ namespace Rentall.Services.UserService
             var response = new ResponseDto<int>();
             var offerToDb = Mapper.Map<Offer>(offer);
             var userFromDb = await _usersRepository.GetUserByLogin(offer.UserLogin);
-            //var categoryFromDb = await _categoriesRepository.GetCategoryById(offer.CategoryId);
-            //var offerTypeFromDb = await _offerTypesRepository.GetOfferTypeById(offer.OfferTypeId);
+            if (userFromDb == null)
+            {
+                response.AddError(UserErrors.NotFoundByLogin);
+            }
+            var categoryFromDb = await _categoriesRepository.GetCategoryById(offer.CategoryId);
+            if (categoryFromDb == null)
+            {
+                response.AddError(CategoryErrors.NotFoundById);
+            }
+            var offerTypeFromDb = await _offerTypesRepository.GetOfferTypeById(offer.OfferTypeId);
+            if (offerTypeFromDb == null)
+            {
+                response.AddError(OfferTypeErrors.NotFoundById);
+            }
             offerToDb.CreateDate = DateTime.Now;
             offerToDb.User = userFromDb;
-            //offerToDb.Category = categoryFromDb;
-            //offerToDb.OfferType = offerTypeFromDb;
+            offerToDb.Category = categoryFromDb;
+            offerToDb.OfferType = offerTypeFromDb;
             try
             {
                 response.Value = await _offersRepository.AddOffer(offerToDb);

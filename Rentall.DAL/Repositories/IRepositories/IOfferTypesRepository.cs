@@ -9,5 +9,6 @@ namespace Rentall.DAL.Repositories.IRepositories
     public interface IOfferTypesRepository
     {
         Task<IEnumerable<OfferType>> GetOfferTypes();
+        Task<OfferType> GetOfferTypeById(int offerOfferTypeId);
     }
 }

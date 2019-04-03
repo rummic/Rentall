@@ -20,8 +20,14 @@ namespace Rentall.DAL.Repositories
 
         public async Task<IEnumerable<Category>> GetCategories()
         {
-            var categories = await _context.Categories.ToListAsync();
+            var categories = await _context.Categories.AsNoTracking().ToListAsync();
             return categories;
+        }
+
+        public async Task<Category> GetCategoryById(int offerCategoryId)
+        {
+            var category = await _context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Id == offerCategoryId);
+            return category;
         }
     }
 }
