@@ -80,8 +80,9 @@ class login extends Component {
         </div>
 
         <div className="formboxre">
-          <p className="rej">Nie masz konta ?</p>
-          <p className="rej1">Czas je założyć na portalu</p><Link to="/register"><p className="rej1">Zarejestruj sie</p></Link>
+          <div className="rej">Nie masz konta ?</div>
+          <div className="rej1">Czas je założyć na portalu</div>
+          <div className="rej1"><Link to="/register">Zarejestruj sie</Link></div>
           <div className="clearfix"></div>
         </div>
       </div>

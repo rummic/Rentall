@@ -8,6 +8,7 @@ import Register from "./Components/register";
 import Index from "./Components/homez";
 
 
+
 class App extends Component {
 
   render() {

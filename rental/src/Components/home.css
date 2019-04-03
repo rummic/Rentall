@@ -15,6 +15,7 @@ body{
     
 }
 
+
 .navBarCon{
     width: 90%;
     margin:auto;
@@ -43,6 +44,7 @@ ul{
 li{
     float: left;
     color: white;
+    text-decoration: none;
 
 }
 
@@ -54,6 +56,7 @@ li a{
     padding: 10px;
     margin-bottom: 10px;
     margin-top: 10px;
+
 }
 
 .logo{
@@ -71,6 +74,7 @@ li:hover{
 }
 
 
+
 .contentbox{
     clear:both;
     width: 100%;
@@ -84,16 +88,16 @@ li:hover{
 }
 
 
-.description{
+.description {
     clear:both;
     margin-top: 100px;
     color:white;
-    font-size: 25px;
+    font-size: 30px;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
 }
     
-.subdescription{
+.subdescription {
     clear:both;
     padding: 0;
     margin-bottom: 30px;
@@ -172,6 +176,8 @@ li:hover{
     
 }
 
+
+
 .offert:hover{
     transform: scale(1.01);
     background-color: rgba(151, 151, 151, 0.2);
@@ -185,7 +191,7 @@ li:hover{
 
 }
 
-.offert p{
+.offert .ofer{
     width: 100%;
     font-size: 18px;
     font-family: 'Times New Roman', Times, serif;
@@ -207,6 +213,4 @@ li:hover{
     border-radius: 7px;
     color: white;
 }
-
-
 
