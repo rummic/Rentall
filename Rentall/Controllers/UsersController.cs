@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Rentall.Commons.Dtos;
-using Rentall.Commons.Dtos.UserDto;
 using Rentall.Commons.Enumerables;
 using Rentall.DAL.Model;
+using Rentall.Services.Dtos;
+using Rentall.Services.Dtos.UserDto;
 using Rentall.Services.UserService;
 using Swashbuckle.AspNetCore.Swagger;
 

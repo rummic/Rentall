@@ -1,4 +1,4 @@
-﻿namespace Rentall.Commons.Dtos.UserDto
+﻿namespace Rentall.Services.Dtos.UserDto
 {
     public class GetUsersDto
     {

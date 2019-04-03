@@ -1,25 +1,23 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Rentall.Commons.Helpers;
 using Rentall.DAL.Config;
+using Rentall.DAL.Model;
 using Rentall.DAL.Repositories;
 using Rentall.DAL.Repositories.IRepositories;
+using Rentall.Services.Dtos.OfferDto;
+using Rentall.Services.Dtos.UserDto;
 using Rentall.Services.UserService;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.IdentityModel.Tokens;
-using Rentall.Commons.Dtos;
-using Rentall.Commons.Dtos.OfferDto;
-using Rentall.Commons.Dtos.UserDto;
-using Rentall.Commons.Helpers;
-using Rentall.DAL.Model;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Rentall
 {
@@ -89,7 +87,10 @@ namespace Rentall
                 cfg.CreateMap<User, GetUsersDto>();
                 cfg.CreateMap<AddUserDto, User>();
                 cfg.CreateMap<Offer, GetOfferByIdDto>();
-
+                cfg.CreateMap<AddOfferDto, Offer>()
+                    .ForMember(x=>x.User,o=>o.Ignore())
+                    .ForMember(x=>x.Category,o=>o.Ignore())
+                    .ForMember(x=>x.OfferType,o=>o.Ignore());
             });
         }
 

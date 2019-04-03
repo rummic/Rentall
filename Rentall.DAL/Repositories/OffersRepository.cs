@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Rentall.DAL.Config;
 using Rentall.DAL.Model;
 using Rentall.DAL.Repositories.IRepositories;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Rentall.DAL.Repositories
 {
     public class OffersRepository : IOffersRepository
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public OffersRepository(ApplicationDbContext context)
         {
@@ -56,7 +54,7 @@ namespace Rentall.DAL.Repositories
             offerFromDb.City = offer.City;
             offerFromDb.Street = offer.Street;
             offerFromDb.ZipCode = offer.ZipCode;
-            offerFromDb.Status = offer.Status;
+            offerFromDb.Active = offer.Active;
             offerFromDb.CreateDate = offer.CreateDate;
 
             offerFromDb.Category = offer.Category;

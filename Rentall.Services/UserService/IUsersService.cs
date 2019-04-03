@@ -4,9 +4,9 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
-using Rentall.Commons.Dtos;
-using Rentall.Commons.Dtos.UserDto;
 using Rentall.DAL.Model;
+using Rentall.Services.Dtos;
+using Rentall.Services.Dtos.UserDto;
 
 namespace Rentall.Services.UserService
 {
