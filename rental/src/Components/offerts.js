@@ -24,7 +24,7 @@ class offerts extends Component {
         }
     
       }
-
+    
     
       addOffer() {
         fetch('https://localhost:44359/api/Offers', {
