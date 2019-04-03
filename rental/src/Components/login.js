@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './login.css';
 import { Form,Button,Row,Col } from 'react-bootstrap';
-
+import {Link} from 'react-router-dom';
 class login extends Component {
     render() {
       return (
@@ -13,7 +13,7 @@ class login extends Component {
                 <div className="formtext">
                         <Row>
                         <Col md={1}>
-                        <a href="javascript:void(0);"><h1>&lsaquo;</h1></a>
+                        <Link to="/"><h1>&lsaquo;</h1></Link>
                         </Col>
                         <Col md={10}>
                             <p>RentAll &ensp; Logowanie</p>
@@ -40,7 +40,7 @@ class login extends Component {
               </div>
             <div className="formboxre">
                 <p className="rej">Nie masz konta ?</p>
-                <p className="rej1">Czas je założyć na portalu</p><a className="rej1" href="#">Zarejestruj sie</a>
+                <p className="rej1">Czas je założyć na portalu</p><Link to="/register"><p className="rej1">Zarejestruj sie</p></Link>
                 <div className="clearfix"></div>
             </div>
           </div>

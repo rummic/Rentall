@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './home.css';
 import logo from '../fotos/back.jpg'
-
+import {Link} from 'react-router-dom';
 class home extends Component {
     render() {
       return (
@@ -9,10 +9,10 @@ class home extends Component {
           <div className="navBar">
           <div className="navBarCon">
           <ul>
-              <li className="logo"><a>RentAll</a></li>
+              <li className="logo"><Link to="/">Rentall</Link></li>
               <li><a>Oferty</a></li>
-              <li className="options"><a>Zaloguj</a></li>
-              <li className="options"><a>Zarejestruj</a></li>
+              <li className="options"><Link to="/login">Login</Link></li>
+              <li className="options"><Link to="/register">Registration</Link></li>
           </ul>
           </div>
           </div>

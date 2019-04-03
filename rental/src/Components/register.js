@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './register.css';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-
+import {Link} from 'react-router-dom';
 
 
 
@@ -44,7 +44,7 @@ class register extends Component {
           <div className="formtext">
             <Row>
               <Col md={1}>
-                <a href="javascript:void(0);"><h1>&lsaquo;</h1></a>
+                <Link to="/"><h1>&lsaquo;</h1></Link>
               </Col>
               <Col md={10}>
                 <p>RentAll &ensp; Rejestracja</p>
@@ -131,7 +131,7 @@ class register extends Component {
                     </Button>
           </Form>
           <p className="rej1">Masz już konto?</p>
-          {/* <Link to="/login" class="rej1">Zaloguj sie</Link> */}
+           <Link to="/login" class="rej1">Zaloguj sie</Link>
           <div className="clearfix"></div>
         </div>
       </div>
