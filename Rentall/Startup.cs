@@ -58,6 +58,8 @@ namespace Rentall
             services.AddScoped<IOffersService, OffersService>();
             services.AddScoped<ICategoriesRepository, CategoriesRepository>();
             services.AddScoped<ICategoriesService, CategoriesService>();
+            services.AddScoped<IOfferTypesRepository, OfferTypesRepository>();
+            services.AddScoped<IOfferTypesService, OfferTypesService>();
             services.AddCors(opt => opt.AddPolicy("policy", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
             var appSettingsSection = Configuration.GetSection("AppSettings");

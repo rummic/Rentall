@@ -19,7 +19,7 @@ namespace Rentall.Services.Dtos.OfferDto
         public DateTime CreateDate { get; set; }
 
         public string CategoryName { get; set; }
-        public string OfferType { get; set; }
+        public string OfferTypeType { get; set; }
         public GetUserByIdDto User { get; set; }
     }
 }
