@@ -6,6 +6,7 @@ import Home from "./Components/home";
 import Login from "./Components/login";
 import Register from "./Components/register";
 import Index from "./Components/homez";
+import Offer from "./Components/offerts";
 
 
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
       <Route path="/login" component={Login}/>
       <Route path="/register" component={Register}/>
       <Route path="/index" component={Index}/>
+      <Route path="/addOffer" component={Offer}/>
       </div>
       </BrowserRouter>
     );

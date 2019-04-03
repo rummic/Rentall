@@ -3,7 +3,7 @@ import './home.css';
 import logo from '../fotos/back.jpg'
 import {Redirect} from 'react-router-dom';
 import { Button} from 'react-bootstrap';
-
+import {Link} from 'react-router-dom';
 class homez extends Component {
 
     constructor(props){
@@ -46,7 +46,7 @@ logout(){
               <li className="logo"><a>RentAll</a></li>
               <li><a>Oferty</a></li>
               <li className="options"><span className="menu"><Button className="logout" variant="info" onClick={this.logout}>Logout</Button></span></li>
-              <li className="options" ><p className="optionss" > </p></li>
+              <li className="options" ><Link to="/addOffer">Dodaj oferte</Link><p className="optionss" > </p></li>
               
           </ul>
           </div>
