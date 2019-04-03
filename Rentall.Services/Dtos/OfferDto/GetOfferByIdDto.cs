@@ -15,7 +15,7 @@ namespace Rentall.Services.Dtos.OfferDto
         public string City { get; set; }
         public string Street { get; set; }
         public string ZipCode { get; set; }
-        public bool Status { get; set; }
+        public bool Active { get; set; }
         public DateTime CreateDate { get; set; }
 
         public string CategoryName { get; set; }
