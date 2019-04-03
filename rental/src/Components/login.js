@@ -66,11 +66,11 @@ class login extends Component {
 
           <Form.Group controlId="formBasicLogin">
             <Form.Label>Login</Form.Label>
-            <Form.Control type="text" placeholder="Login" name="login" onChange={this.onChange} />
+            <Form.Control type="text" required placeholder="Login" name="login" onChange={this.onChange} />
           </Form.Group>
           <Form.Group controlId="formBasicPassowrd">
             <Form.Label>Hasło</Form.Label>
-            <Form.Control type="password" placeholder="Hasło" name="password" onChange={this.onChange} />
+            <Form.Control type="password" required placeholder="Hasło" name="password" onChange={this.onChange} />
           </Form.Group>
           <Button variant="primary" size="md" type="submit" block onClick={this.login}>
             Zaloguj
