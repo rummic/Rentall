@@ -12,8 +12,8 @@ class home extends Component {
           <ul>
               <li className="logo"><Link to="/">Rentall</Link></li>
               <li><a>Oferty</a></li>
-              <li className="options"><Link to="/login" className="options">Login in</Link></li>
-              <li className="options"><Link to="/register">Registration</Link></li>
+              <li className="options"><Link to="/login" className="options">Log in</Link></li>
+              <li className="options"><Link to="/register">Register</Link></li>
           </ul>
           </div>
           </div>
