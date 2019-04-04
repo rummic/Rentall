@@ -14,7 +14,6 @@ namespace Rentall.Services.Dtos.OfferDto
         public string City { get; set; }
         public string Street { get; set; }
         public string ZipCode { get; set; }
-        public bool Active { get; set; }
         public int CategoryId { get; set; }
         public int OfferTypeId { get; set; }
         public string UserLogin { get; set; }

@@ -60,15 +60,16 @@ namespace Rentall.Services.ModelServices.OfferService
             offerToDb.User = userFromDb;
             offerToDb.Category = categoryFromDb;
             offerToDb.OfferType = offerTypeFromDb;
-            //try
-            //{
+
+            try
+            {
                 response.Value = await _offersRepository.AddOffer(offerToDb);
-            //}
-            //catch (Exception e)
-            //{
+            }
+            catch (Exception e)
+            {
                 response.AddError(OfferErrors.AddingError);
-             //   Console.Error.WriteLine(e); //TODO proper logging 
-            //}
+                Console.Error.WriteLine(e); //TODO proper logging 
+            }
 
             return response;
         }

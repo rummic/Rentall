@@ -11,5 +11,6 @@ namespace Rentall.Services.Dtos.UserDto
         public string SourcePath { get; set; }
         public long Size { get; set; }
         public string Extension { get; set; }
+        public int OfferId { get; set; }
     }
 }

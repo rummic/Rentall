@@ -26,7 +26,7 @@ namespace Rentall.DAL.Repositories
 
         public async Task<Category> GetCategoryById(int offerCategoryId)
         {
-            var category = await _context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Id == offerCategoryId);
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == offerCategoryId);
             return category;
         }
     }
