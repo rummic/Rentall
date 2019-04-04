@@ -21,8 +21,10 @@ class login extends Component {
     if (this.state.login && this.state.password) {
       PostData('Authenticate', this.state).then((result) => {
         let responseJSON = result;
+        
         if (responseJSON.value) {
           sessionStorage.setItem('value',responseJSON);
+          sessionStorage.setItem('login',responseJSON.value.login);
           this.setState({redirect: true});  
         } else {
           console.log("Login error");

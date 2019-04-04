@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './register.css';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { Link,Redirect} from 'react-router-dom';
-import Login from "./login";
+
 
 
 const emailRegex = RegExp(/^[a-z\d]+[\w\d.-]*@(?:[a-z\d]+[a-z\d-]+\.){1,5}[a-z]{2,6}$/);
@@ -36,7 +36,7 @@ class register extends Component {
       lastName: null,
       email: null,
       phoneNumber: "",
-      role: "string",
+      role: "user",
       formErrors: {
         login: "",
         password: "",
