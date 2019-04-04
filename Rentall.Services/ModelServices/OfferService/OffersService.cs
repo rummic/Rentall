@@ -56,6 +56,8 @@ namespace Rentall.Services.ModelServices.OfferService
             {
                 response.AddError(OfferTypeErrors.NotFoundById);
             }
+
+            offerToDb.Active = true;
             offerToDb.CreateDate = DateTime.Now;
             offerToDb.User = userFromDb;
             offerToDb.Category = categoryFromDb;
