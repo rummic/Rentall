@@ -13,11 +13,14 @@ using Rentall.DAL.Repositories;
 using Rentall.DAL.Repositories.IRepositories;
 using Rentall.Services.Dtos.OfferDto;
 using Rentall.Services.Dtos.UserDto;
-using Rentall.Services.UserService;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Rentall.Services.ModelServices.CategoryService;
+using Rentall.Services.ModelServices.OfferService;
+using Rentall.Services.ModelServices.OfferTypeService;
+using Rentall.Services.ModelServices.UserService;
 
 namespace Rentall
 {

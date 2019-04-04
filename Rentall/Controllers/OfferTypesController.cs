@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Rentall.DAL.Model;
 using Rentall.DAL.Repositories.IRepositories;
 using Rentall.Services.Dtos;
-using Rentall.Services.UserService;
+using Rentall.Services.ModelServices.OfferTypeService;
 
 namespace Rentall.Controllers
 {

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Rentall.Commons.ErrorMessages;
@@ -10,14 +7,14 @@ using Rentall.DAL.Repositories.IRepositories;
 using Rentall.Services.Dtos;
 using Rentall.Services.Dtos.OfferDto;
 
-namespace Rentall.Services.UserService
+namespace Rentall.Services.ModelServices.OfferService
 {
     public class OffersService : IOffersService
     {
-        private IOffersRepository _offersRepository;
-        private IUsersRepository _usersRepository;
-        private ICategoriesRepository _categoriesRepository;
-        private IOfferTypesRepository _offerTypesRepository;
+        private readonly IOffersRepository _offersRepository;
+        private readonly IUsersRepository _usersRepository;
+        private readonly ICategoriesRepository _categoriesRepository;
+        private readonly IOfferTypesRepository _offerTypesRepository;
         public OffersService(IOffersRepository offersRepository, IUsersRepository usersRepository, ICategoriesRepository categoriesRepository, IOfferTypesRepository offerTypesRepository)
         {
             _offersRepository = offersRepository;
@@ -63,15 +60,15 @@ namespace Rentall.Services.UserService
             offerToDb.User = userFromDb;
             offerToDb.Category = categoryFromDb;
             offerToDb.OfferType = offerTypeFromDb;
-            try
-            {
+            //try
+            //{
                 response.Value = await _offersRepository.AddOffer(offerToDb);
-            }
-            catch (Exception e)
-            {
+            //}
+            //catch (Exception e)
+            //{
                 response.AddError(OfferErrors.AddingError);
-                Console.Error.WriteLine(e); //TODO proper logging 
-            }
+             //   Console.Error.WriteLine(e); //TODO proper logging 
+            //}
 
             return response;
         }

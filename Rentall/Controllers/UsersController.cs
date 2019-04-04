@@ -11,7 +11,7 @@ using Rentall.Commons.Enumerables;
 using Rentall.DAL.Model;
 using Rentall.Services.Dtos;
 using Rentall.Services.Dtos.UserDto;
-using Rentall.Services.UserService;
+using Rentall.Services.ModelServices.UserService;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Rentall.Controllers

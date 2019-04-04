@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Rentall.DAL.Model;
 using Rentall.Services.Dtos;
-using Rentall.Services.UserService;
+using Rentall.Services.ModelServices.CategoryService;
 
 namespace Rentall.Controllers
 {

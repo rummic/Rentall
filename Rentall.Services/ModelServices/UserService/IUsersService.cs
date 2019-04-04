@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
-using System.Security.Principal;
-using System.Text;
 using System.Threading.Tasks;
-using Rentall.DAL.Model;
 using Rentall.Services.Dtos;
 using Rentall.Services.Dtos.UserDto;
 
-namespace Rentall.Services.UserService
+namespace Rentall.Services.ModelServices.UserService
 {
     public interface IUsersService
     {

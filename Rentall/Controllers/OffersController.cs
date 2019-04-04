@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Rentall.Services.Dtos;
 using Rentall.Services.Dtos.OfferDto;
-using Rentall.Services.UserService;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Rentall.Commons.ErrorMessages;
 using Rentall.Services.Dtos.UserDto;
+using Rentall.Services.ModelServices.OfferService;
 
 namespace Rentall.Controllers
 {

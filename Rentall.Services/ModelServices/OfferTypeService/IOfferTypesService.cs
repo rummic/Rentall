@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Rentall.DAL.Model;
 using Rentall.Services.Dtos;
 
-namespace Rentall.Services.UserService
+namespace Rentall.Services.ModelServices.OfferTypeService
 {
     public interface IOfferTypesService
     {

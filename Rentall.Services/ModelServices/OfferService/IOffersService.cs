@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Rentall.Services.Dtos;
 using Rentall.Services.Dtos.OfferDto;
 
-namespace Rentall.Services.UserService
+namespace Rentall.Services.ModelServices.OfferService
 {
     public interface IOffersService
     {

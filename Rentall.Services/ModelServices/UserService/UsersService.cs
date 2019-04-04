@@ -4,25 +4,24 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Rentall.Commons.ErrorMessages;
 using Rentall.Commons.ExtensionMethods;
 using Rentall.Commons.Helpers;
 using Rentall.DAL.Model;
 using Rentall.DAL.Repositories.IRepositories;
-using Microsoft.Extensions.Options;
 using Rentall.Services.Dtos;
 using Rentall.Services.Dtos.UserDto;
 
-namespace Rentall.Services.UserService
+namespace Rentall.Services.ModelServices.UserService
 {
     public class UsersService : IUsersService
     {
-        private IUsersRepository _usersRepository;
+        private readonly IUsersRepository _usersRepository;
         private readonly IOptions<AppSettings> _appSettings;
         public UsersService(IUsersRepository usersRepository, IOptions<AppSettings> appSettings)
         {
