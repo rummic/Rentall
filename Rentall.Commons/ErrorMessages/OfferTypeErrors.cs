@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Rentall.Commons.ErrorMessages
+﻿namespace Rentall.Commons.ErrorMessages
 {
     public static class OfferTypeErrors
     {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Rentall.Services.Dtos.OfferDto
+﻿namespace Rentall.Services.Dtos.OfferDto
 {
     public class AddOfferDto
     {

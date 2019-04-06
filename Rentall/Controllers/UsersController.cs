@@ -1,28 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Rentall.Commons.Enumerables;
-using Rentall.DAL.Model;
-using Rentall.Services.Dtos;
-using Rentall.Services.Dtos.UserDto;
-using Rentall.Services.ModelServices.UserService;
-using Swashbuckle.AspNetCore.Swagger;
-
-namespace Rentall.Controllers
+﻿namespace Rentall.Controllers
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Cors;
+    using Microsoft.AspNetCore.Mvc;
+
+    using Rentall.Commons.Enumerables;
+    using Rentall.Services.Dtos;
+    using Rentall.Services.Dtos.UserDto;
+    using Rentall.Services.ModelServices.UserService;
+
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("policy")]
     [Authorize]
     public class UsersController : ControllerBase
     {
-        private IUsersService _usersService;
+        private readonly IUsersService _usersService;
 
         public UsersController(IUsersService usersService)
         {
@@ -39,6 +35,7 @@ namespace Rentall.Controllers
             {
                 return BadRequest(userResult);
             }
+
             return Ok(userResult);
         }
 
@@ -50,10 +47,12 @@ namespace Rentall.Controllers
             {
                 return BadRequest(userResponse);
             }
+
             return Ok(userResponse);
         }
+
         [HttpGet]
-        [Authorize(Roles = Role.Admin+", "+Role.SuperAdmin)]
+        [Authorize(Roles = Role.Admin + ", " + Role.SuperAdmin)]
         public async Task<ActionResult<ResponseDto<List<GetUsersDto>>>> GetUsers()
         {
             var usersResponse = await _usersService.GetUsers();
@@ -61,9 +60,9 @@ namespace Rentall.Controllers
             {
                 return BadRequest(usersResponse);
             }
+
             return Ok(usersResponse);
         }
-
 
         [HttpPost]
         [AllowAnonymous]
@@ -103,7 +102,7 @@ namespace Rentall.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = Role.User+", "+Role.SuperAdmin)]
+        [Authorize(Roles = Role.User + ", " + Role.SuperAdmin)]
         public async Task<ActionResult> DeleteUser(int id)
         {
             var result = await _usersService.DeleteUser(User, id);
@@ -113,9 +112,6 @@ namespace Rentall.Controllers
             }
 
             return BadRequest(result);
-
-
         }
-
     }
 }

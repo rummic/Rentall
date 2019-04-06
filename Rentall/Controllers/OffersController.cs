@@ -1,31 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
-using Rentall.Services.Dtos;
-using Rentall.Services.Dtos.OfferDto;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Rentall.Commons.ErrorMessages;
-using Rentall.Services.Dtos.UserDto;
-using Rentall.Services.ModelServices.OfferService;
-
-namespace Rentall.Controllers
+﻿namespace Rentall.Controllers
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Cors;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc;
+
+    using Rentall.Commons.ErrorMessages;
+    using Rentall.Services.Dtos;
+    using Rentall.Services.Dtos.OfferDto;
+    using Rentall.Services.Dtos.UserDto;
+    using Rentall.Services.ModelServices.OfferService;
+
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("policy")]
     [Authorize]
     public class OffersController : ControllerBase
     {
+        private readonly List<string> _allowedExtensions = new List<string> { "jpeg", "jpg", "png" };
+
         private readonly IOffersService _offersService;
-        private IHostingEnvironment _hostingEnvironment;
 
-        private List<string> _allowedExtensions = new List<string>(){"jpeg", "jpg","png"};
-
+        private readonly IHostingEnvironment _hostingEnvironment;
 
         public OffersController(IOffersService offersService, IHostingEnvironment hostingEnvironment)
         {
@@ -45,6 +46,7 @@ namespace Rentall.Controllers
 
             return Ok(offerResponse);
         }
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<ResponseDto<int>>> AddOffer([FromBody] AddOfferDto offer)
@@ -78,6 +80,7 @@ namespace Rentall.Controllers
                 result.Value = false;
                 return result;
             }
+
             if (file.Length > 0)
             {
                 using (var fs = new FileStream(filePath, FileMode.Create))

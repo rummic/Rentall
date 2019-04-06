@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Rentall.DAL.Model;
-using Rentall.DAL.Repositories.IRepositories;
-using Rentall.Services.Dtos;
-
-namespace Rentall.Services.ModelServices.OfferTypeService
+﻿namespace Rentall.Services.ModelServices.OfferTypeService
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Rentall.DAL.Model;
+    using Rentall.DAL.Repositories.IRepositories;
+    using Rentall.Services.Dtos;
+
     public class OfferTypesService : IOfferTypesService
     {
-        private IOfferTypesRepository _offerTypesRepository;
+        private readonly IOfferTypesRepository _offerTypesRepository;
 
         public OfferTypesService(IOfferTypesRepository offerTypesRepository)
         {

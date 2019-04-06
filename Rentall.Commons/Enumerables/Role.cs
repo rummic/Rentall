@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Rentall.Commons.Enumerables
+﻿namespace Rentall.Commons.Enumerables
 {
     public static class Role
     {

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Rentall.Services.Dtos;
-using Rentall.Services.Dtos.UserDto;
-
-namespace Rentall.Services.ModelServices.UserService
+﻿namespace Rentall.Services.ModelServices.UserService
 {
+    using System.Collections.Generic;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using Rentall.Services.Dtos;
+    using Rentall.Services.Dtos.UserDto;
+
     public interface IUsersService
     {
         Task<ResponseDto<GetUserByIdDto>> GetUserById(int id);

@@ -1,27 +1,35 @@
-﻿using System;
-using System.Threading.Tasks;
-using AutoMapper;
-using Rentall.Commons.ErrorMessages;
-using Rentall.DAL.Model;
-using Rentall.DAL.Repositories.IRepositories;
-using Rentall.Services.Dtos;
-using Rentall.Services.Dtos.OfferDto;
-
-namespace Rentall.Services.ModelServices.OfferService
+﻿namespace Rentall.Services.ModelServices.OfferService
 {
+    using System;
+    using System.Threading.Tasks;
+
+    using AutoMapper;
+
+    using Rentall.Commons.ErrorMessages;
+    using Rentall.DAL.Model;
+    using Rentall.DAL.Repositories.IRepositories;
+    using Rentall.Services.Dtos;
+    using Rentall.Services.Dtos.OfferDto;
+
     public class OffersService : IOffersService
     {
         private readonly IOffersRepository _offersRepository;
         private readonly IUsersRepository _usersRepository;
         private readonly ICategoriesRepository _categoriesRepository;
         private readonly IOfferTypesRepository _offerTypesRepository;
-        public OffersService(IOffersRepository offersRepository, IUsersRepository usersRepository, ICategoriesRepository categoriesRepository, IOfferTypesRepository offerTypesRepository)
+
+        public OffersService(
+            IOffersRepository offersRepository,
+            IUsersRepository usersRepository,
+            ICategoriesRepository categoriesRepository,
+            IOfferTypesRepository offerTypesRepository)
         {
             _offersRepository = offersRepository;
             _usersRepository = usersRepository;
             _categoriesRepository = categoriesRepository;
             _offerTypesRepository = offerTypesRepository;
         }
+
         public async Task<ResponseDto<GetOfferByIdDto>> GetOfferById(int id)
         {
             var response = new ResponseDto<GetOfferByIdDto>();
@@ -46,11 +54,13 @@ namespace Rentall.Services.ModelServices.OfferService
             {
                 response.AddError(UserErrors.NotFoundByLogin);
             }
+
             var categoryFromDb = await _categoriesRepository.GetCategoryById(offer.CategoryId);
             if (categoryFromDb == null)
             {
                 response.AddError(CategoryErrors.NotFoundById);
             }
+
             var offerTypeFromDb = await _offerTypesRepository.GetOfferTypeById(offer.OfferTypeId);
             if (offerTypeFromDb == null)
             {
@@ -70,7 +80,7 @@ namespace Rentall.Services.ModelServices.OfferService
             catch (Exception e)
             {
                 response.AddError(OfferErrors.AddingError);
-                Console.Error.WriteLine(e); //TODO proper logging 
+                Console.Error.WriteLine(e); // TODO proper logging 
             }
 
             return response;

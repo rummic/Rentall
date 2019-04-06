@@ -1,28 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Rentall.Commons.ErrorMessages;
-using Rentall.Commons.ExtensionMethods;
-using Rentall.Commons.Helpers;
-using Rentall.DAL.Model;
-using Rentall.DAL.Repositories.IRepositories;
-using Rentall.Services.Dtos;
-using Rentall.Services.Dtos.UserDto;
-
-namespace Rentall.Services.ModelServices.UserService
+﻿namespace Rentall.Services.ModelServices.UserService
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Security.Cryptography;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using AutoMapper;
+
+    using Microsoft.Extensions.Options;
+    using Microsoft.IdentityModel.Tokens;
+
+    using Rentall.Commons.ErrorMessages;
+    using Rentall.Commons.ExtensionMethods;
+    using Rentall.Commons.Helpers;
+    using Rentall.DAL.Model;
+    using Rentall.DAL.Repositories.IRepositories;
+    using Rentall.Services.Dtos;
+    using Rentall.Services.Dtos.UserDto;
+
     public class UsersService : IUsersService
     {
         private readonly IUsersRepository _usersRepository;
+
         private readonly IOptions<AppSettings> _appSettings;
+
         public UsersService(IUsersRepository usersRepository, IOptions<AppSettings> appSettings)
         {
             _usersRepository = usersRepository;
@@ -38,6 +43,7 @@ namespace Rentall.Services.ModelServices.UserService
                 response.AddError(UserErrors.NotFoundById);
                 return response;
             }
+
             var mappedUser = Mapper.Map<GetUserByIdDto>(userFromDb);
             response.Value = mappedUser;
             return response;
@@ -67,6 +73,7 @@ namespace Rentall.Services.ModelServices.UserService
                 response.Value = result;
                 return response;
             }
+
             response.AddError(UserErrors.LoginTaken);
             return response;
         }
@@ -84,10 +91,12 @@ namespace Rentall.Services.ModelServices.UserService
                     mappedUser.Salt = CreateSalt();
                     mappedUser.Password = userToUpdate.Password.GenerateSaltedHash(mappedUser.Salt);
                 }
+
                 var result = await _usersRepository.UpdateUser(mappedUser);
                 response.Value = result;
                 return response;
             }
+
             response.AddError(UserErrors.NotFoundByLogin);
             return response;
         }
@@ -106,6 +115,7 @@ namespace Rentall.Services.ModelServices.UserService
             {
                 response.AddError(UserErrors.CannotDeleteUser);
             }
+
             var result = await _usersRepository.DeleteUser(id);
             response.Value = result;
             return response;
@@ -126,40 +136,40 @@ namespace Rentall.Services.ModelServices.UserService
                 response.Errors.Add(UserErrors.InvalidPassword);
                 return response;
             }
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Value.Secret);
 
-            var subject = new ClaimsIdentity(new[]
-            {
-                new Claim(ClaimTypes.Name, user.Login),
-                new Claim(ClaimTypes.Role, user.Role)
-            });
+            var subject = new ClaimsIdentity(
+                new[] { new Claim(ClaimTypes.Name, user.Login), new Claim(ClaimTypes.Role, user.Role) });
 
-            var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+            var signingCredentials = new SigningCredentials(
+                new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = subject,
-                   
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = signingCredentials
-            };
+                                      {
+                                          Subject = subject,
+                                          Expires = DateTime.UtcNow.AddDays(7),
+                                          SigningCredentials = signingCredentials
+                                      };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             response.Value = new LoggedInUserDto()
-            { Id = user.Id, Login = user.Login, Token = tokenHandler.WriteToken(token) };
+                                 {
+                                     Id = user.Id, Login = user.Login, Token = tokenHandler.WriteToken(token)
+                                 };
             return response;
         }
 
         private static byte[] CreateSalt()
         {
             var size = 30;
-            //Generate a cryptographic random number.
+
+            // Generate a cryptographic random number.
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             byte[] buff = new byte[size];
             rng.GetBytes(buff);
             return buff;
         }
-
     }
 }

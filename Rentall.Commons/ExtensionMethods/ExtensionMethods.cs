@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-
-namespace Rentall.Commons.ExtensionMethods
+﻿namespace Rentall.Commons.ExtensionMethods
 {
+    using System.Security.Cryptography;
+    using System.Text;
+
     public static class ExtensionMethods
     {
         public static byte[] GenerateSaltedHash(this string password, byte[] salt)
@@ -19,6 +17,7 @@ namespace Rentall.Commons.ExtensionMethods
             {
                 plainTextWithSaltBytes[i] = plainText[i];
             }
+
             for (int i = 0; i < salt.Length; i++)
             {
                 plainTextWithSaltBytes[plainText.Length + i] = salt[i];

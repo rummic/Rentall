@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Rentall.Services.Dtos
+﻿namespace Rentall.Services.Dtos
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class ResponseDto<T>
     {
         public ResponseDto()
@@ -10,11 +10,9 @@ namespace Rentall.Services.Dtos
             Errors = new List<string>();
         }
 
-        public ResponseDto(T value)
-        {
-            Value = value;
-        }
-
+        public T Value { get; set; }
+        public bool HasErrors => Errors != null && Errors.Any();
+        public List<string> Errors { get; set; }
         public void AddError(string error)
         {
             Errors.Add(error);
@@ -24,8 +22,5 @@ namespace Rentall.Services.Dtos
         {
             Errors.AddRange(errors);
         }
-        public T Value { get; set; }
-        public bool HasErrors => Errors != null && Errors.Any();
-        public List<string> Errors { get; set; }
     }
 }

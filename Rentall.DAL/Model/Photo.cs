@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace Rentall.DAL.Model
+﻿namespace Rentall.DAL.Model
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class Photo
     {
         public Offer Offer { get; set; }

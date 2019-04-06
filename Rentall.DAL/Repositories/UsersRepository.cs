@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Rentall.DAL.Config;
-using Rentall.DAL.Model;
-using Rentall.DAL.Repositories.IRepositories;
-
-namespace Rentall.DAL.Repositories
+﻿namespace Rentall.DAL.Repositories
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Microsoft.EntityFrameworkCore;
+
+    using Rentall.DAL.Config;
+    using Rentall.DAL.Model;
+    using Rentall.DAL.Repositories.IRepositories;
+
     public class UsersRepository : IUsersRepository
     {
         private ApplicationDbContext _context;

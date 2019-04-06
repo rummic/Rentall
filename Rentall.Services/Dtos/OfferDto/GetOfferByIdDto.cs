@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Rentall.Services.Dtos.UserDto;
-
-namespace Rentall.Services.Dtos.OfferDto
+﻿namespace Rentall.Services.Dtos.OfferDto
 {
+    using System;
+
+    using Rentall.Services.Dtos.UserDto;
+
     public class GetOfferByIdDto
     {
         public string Title { get; set; }
@@ -22,6 +22,7 @@ namespace Rentall.Services.Dtos.OfferDto
         public string CategoryName { get; set; }
         public string OfferTypeType { get; set; }
         public GetUserByIdDto User { get; set; }
-        //public List<string> Photos { get; set; }
+
+        // public List<string> Photos { get; set; }
     }
 }

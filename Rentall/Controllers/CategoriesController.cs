@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Rentall.DAL.Model;
-using Rentall.Services.Dtos;
-using Rentall.Services.ModelServices.CategoryService;
-
-namespace Rentall.Controllers
+﻿namespace Rentall.Controllers
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Cors;
+    using Microsoft.AspNetCore.Mvc;
+
+    using Rentall.DAL.Model;
+    using Rentall.Services.Dtos;
+    using Rentall.Services.ModelServices.CategoryService;
+
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("policy")]
