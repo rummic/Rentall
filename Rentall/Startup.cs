@@ -24,6 +24,7 @@
     using Rentall.Services.ModelServices.CategoryService;
     using Rentall.Services.ModelServices.OfferService;
     using Rentall.Services.ModelServices.OfferTypeService;
+    using Rentall.Services.ModelServices.PhotoService;
     using Rentall.Services.ModelServices.UserService;
 
     using Swashbuckle.AspNetCore.Swagger;
@@ -68,6 +69,8 @@
             services.AddScoped<ICategoriesService, CategoriesService>();
             services.AddScoped<IOfferTypesRepository, OfferTypesRepository>();
             services.AddScoped<IOfferTypesService, OfferTypesService>();
+            services.AddScoped<IPhotosRepository, PhotosRepository>();
+            services.AddScoped<IPhotoService, PhotoService>();
             services.AddCors(opt => opt.AddPolicy("policy", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -122,7 +125,7 @@
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Rentall API"));
             app.UseHttpsRedirection();
-
+            app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMvc();
         }

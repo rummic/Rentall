@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     using Rentall.Commons.ErrorMessages;
@@ -22,16 +23,13 @@
     [Authorize]
     public class OffersController : ControllerBase
     {
-        private readonly List<string> _allowedExtensions = new List<string> { "jpeg", "jpg", "png" };
-
         private readonly IOffersService _offersService;
 
-        private readonly IHostingEnvironment _hostingEnvironment;
 
         public OffersController(IOffersService offersService, IHostingEnvironment hostingEnvironment)
         {
             _offersService = offersService;
-            _hostingEnvironment = hostingEnvironment;
+           
         }
 
         [AllowAnonymous]
@@ -62,34 +60,6 @@
                 return BadRequest(result);
             }
 
-            return Ok(result);
-        }
-
-        [HttpPost("Photo")]
-        public async Task<ActionResult<ResponseDto<bool>>> UploadPhoto(PhotoUploadDto photo)
-        {
-            var result = new ResponseDto<bool>();
-            var file = photo.File;
-            string folder = Path.Combine(_hostingEnvironment.WebRootPath, "Photos");
-            string filePath = Path.Combine(folder, file.FileName);
-            photo.SourcePath = filePath;
-            photo.Extension = Path.GetExtension(file.FileName).Substring(1);
-            if (_allowedExtensions.All(x => x != photo.Extension))
-            {
-                result.AddError(PhotoErrors.WrongExtension);
-                result.Value = false;
-                return result;
-            }
-
-            if (file.Length > 0)
-            {
-                using (var fs = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fs);
-                }
-            }
-
-            result.Value = true;
             return Ok(result);
         }
     }

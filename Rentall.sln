@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.421
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rentall", "Rentall\Rentall.csproj", "{7BD77FD9-2A55-4CF6-A8E3-DB2D864606F7}"
 EndProject
@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rentall.DAL", "Rentall.DAL\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rentall.Services", "Rentall.Services\Rentall.Services.csproj", "{B1E45280-98DD-46BE-B056-A345DE4F0FDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rentall.Commons", "Rentall.Commons\Rentall.Commons.csproj", "{63AC1AD9-5CAD-47DC-B5CC-CE07B8864643}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rentall.Commons", "Rentall.Commons\Rentall.Commons.csproj", "{63AC1AD9-5CAD-47DC-B5CC-CE07B8864643}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
