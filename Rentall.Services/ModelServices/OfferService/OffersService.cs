@@ -1,4 +1,6 @@
-﻿namespace Rentall.Services.ModelServices.OfferService
+﻿using System.Linq;
+
+namespace Rentall.Services.ModelServices.OfferService
 {
     using System;
     using System.Threading.Tasks;
@@ -41,6 +43,10 @@
             }
 
             var mappedOffer = Mapper.Map<GetOfferByIdDto>(offerFromDb);
+            for (int i = 0; i < mappedOffer.Photos.Count; i++)
+            {
+                mappedOffer.Photos[i] = string.Join('/', mappedOffer.Photos[i].Split('\\').Skip(mappedOffer.Photos[i].Split('\\').Length - 2));
+            }
             response.Value = mappedOffer;
             return response;
         }

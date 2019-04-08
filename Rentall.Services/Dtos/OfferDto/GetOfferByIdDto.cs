@@ -1,4 +1,6 @@
-﻿namespace Rentall.Services.Dtos.OfferDto
+﻿using System.Collections.Generic;
+
+namespace Rentall.Services.Dtos.OfferDto
 {
     using System;
 
@@ -22,7 +24,6 @@
         public string CategoryName { get; set; }
         public string OfferTypeType { get; set; }
         public GetUserByIdDto User { get; set; }
-
-        // public List<string> Photos { get; set; }
+        public List<string> Photos { get; set; }
     }
 }

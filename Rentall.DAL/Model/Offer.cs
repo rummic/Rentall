@@ -1,4 +1,6 @@
-﻿namespace Rentall.DAL.Model
+﻿using System.Collections.Generic;
+
+namespace Rentall.DAL.Model
 {
     using System;
     using System.ComponentModel.DataAnnotations;
@@ -26,5 +28,6 @@
         public Category Category { get; set; }
         public OfferType OfferType { get; set; }
         public User User { get; set; }
+        public ICollection<Photo> Photos { get; set; }
     }
 }
