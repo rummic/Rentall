@@ -1,22 +1,16 @@
 ﻿namespace Rentall.Services.ModelServices.PhotoService
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Threading.Tasks;
-
-    using AutoMapper;
-
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
-
     using Rentall.Commons.ErrorMessages;
     using Rentall.DAL.Model;
     using Rentall.DAL.Repositories.IRepositories;
     using Rentall.Services.Dtos;
-    using Rentall.Services.Dtos.UserDto;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     public class PhotoService : IPhotoService
     {
@@ -92,7 +86,8 @@
             try
             {
                 await _photosRepository.AddPhoto(photoToAdd);
-                result.Value = string.Join('/' , filePath.Split('\\').Skip(filePath.Split('\\').Length - 2));
+                var split = filePath.Split('\\');
+                result.Value = string.Join('/', split.Skip(split.Length - 2));
                 return result;
             }
             catch (Exception e)

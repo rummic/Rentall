@@ -45,7 +45,8 @@ namespace Rentall.Services.ModelServices.OfferService
             var mappedOffer = Mapper.Map<GetOfferByIdDto>(offerFromDb);
             for (int i = 0; i < mappedOffer.Photos.Count; i++)
             {
-                mappedOffer.Photos[i] = string.Join('/', mappedOffer.Photos[i].Split('\\').Skip(mappedOffer.Photos[i].Split('\\').Length - 2));
+                var split = mappedOffer.Photos[i].Split('\\');
+                mappedOffer.Photos[i] = string.Join('/', split.Skip(split.Length - 2));
             }
             response.Value = mappedOffer;
             return response;
