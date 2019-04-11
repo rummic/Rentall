@@ -9,5 +9,7 @@
         public static readonly string CannotSave = "File could not be saved.";
 
         public static readonly string InfoSaveFailed = "File information could not be saved.";
+
+        public static readonly string NotFoundByPath = "Photo with provided path does not exist.";
     }
 }

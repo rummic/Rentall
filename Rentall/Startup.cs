@@ -1,4 +1,6 @@
-﻿namespace Rentall
+﻿using Rentall.Services.Dtos.PhotoDto;
+
+namespace Rentall
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -106,6 +108,7 @@
                     .ForMember(x => x.User, o => o.Ignore())
                     .ForMember(x => x.Category, o => o.Ignore())
                     .ForMember(x => x.OfferType, o => o.Ignore());
+                cfg.CreateMap<Photo, GetPhotoByPathDto>();
             });
         }
 

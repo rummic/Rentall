@@ -1,4 +1,7 @@
-﻿namespace Rentall.Controllers
+﻿using Rentall.DAL.Model;
+using Rentall.Services.Dtos.PhotoDto;
+
+namespace Rentall.Controllers
 {
     using System.Threading.Tasks;
 
@@ -23,6 +26,19 @@
             _photoService = photoService;
         }
 
+        [HttpGet("{photoPath}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ResponseDto<GetPhotoByPathDto>>> GetPhotoByPath(string photoPath)
+        {
+            var result = await _photoService.GetPhotoByPath(photoPath);
+            if (result.HasErrors)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
         [HttpPost("{offerId}")]
         [AllowAnonymous]
         public async Task<ActionResult<ResponseDto<string>>> UploadPhoto(IFormFile photo, int offerId)
@@ -34,6 +50,18 @@
             }
 
             return Ok(result);
+        }
+
+        [HttpPut("{photoPath}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ResponseDto<bool>>> ChangePhotoActivity(string photoPath)
+        {
+            var result = await _photoService.ChangePhotoActivity(photoPath);
+            if (result.HasErrors)
+            {
+                return BadRequest(result);
+            }
+            return  Ok(result);
         }
     }
 }

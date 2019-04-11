@@ -1,4 +1,7 @@
-﻿namespace Rentall.Services.ModelServices.PhotoService
+﻿using AutoMapper;
+using Rentall.Services.Dtos.PhotoDto;
+
+namespace Rentall.Services.ModelServices.PhotoService
 {
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -96,6 +99,36 @@
                 result.AddError(PhotoErrors.InfoSaveFailed);
                 return result;
             }
+        }
+
+        public async Task<ResponseDto<bool>> ChangePhotoActivity(string photoPath)
+        {
+            var response = new ResponseDto<bool>();
+            var photoFromDb = await _photosRepository.GetPhotoByPath(photoPath);
+            if (photoFromDb != null)
+            {
+                var result = await _photosRepository.ChangePhotoActivity(photoPath);
+                response.Value = result;
+                return response;
+            }
+            response.AddError(PhotoErrors.NotFoundByPath);
+            return response;
+        }
+
+        public async Task<ResponseDto<GetPhotoByPathDto>> GetPhotoByPath(string photoPath)
+        {
+            var response = new ResponseDto<GetPhotoByPathDto>();
+            var photoFromDb = await _photosRepository.GetPhotoByPath(photoPath);
+            if (photoFromDb == null)
+            {
+                response.AddError(PhotoErrors.NotFoundByPath);
+                return response;
+                
+            }
+
+            var mappedPhoto = Mapper.Map<GetPhotoByPathDto>(photoFromDb);
+            response.Value = mappedPhoto;
+            return response;
         }
 
         private string GetAvailablePath(string photosFolderPath, string photoFileName)
