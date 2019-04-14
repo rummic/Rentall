@@ -48,6 +48,19 @@ namespace Rentall.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("user/{userLogin}")]
+        public async Task<ActionResult<ResponseDto<List<GetOfferByIdDto>>>> GetOffersByUser(string userLogin)
+        {
+            var result = await _offersService.GetOffersByUser(userLogin);
+            if (result.HasErrors)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<ResponseDto<int>>> AddOffer([FromBody] AddOfferDto offer)
         {

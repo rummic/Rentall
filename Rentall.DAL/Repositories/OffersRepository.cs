@@ -1,4 +1,6 @@
-﻿namespace Rentall.DAL.Repositories
+﻿using System.Linq;
+
+namespace Rentall.DAL.Repositories
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -79,6 +81,12 @@
             offerFromDb.Active = !offerFromDb.Active;
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<IEnumerable<Offer>> GetOffersByUser(User userFromDb)
+        {
+            var offers = await _context.Offers.Include(x => x.Category).Include(x=>x.OfferType).Include(x=>x.Photos).Where(x => x.User == userFromDb).ToListAsync();
+            return offers;
         }
     }
 }

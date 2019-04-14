@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 
 namespace Rentall.Services.ModelServices.OfferService
@@ -126,6 +127,36 @@ namespace Rentall.Services.ModelServices.OfferService
 
             var result = await _offersRepository.DeleteOffer(offerFromDb);
             response.Value = result;
+            return response;
+        }
+
+        public async Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersByUser(string userLogin)
+        {
+            var response = new ResponseDto<List<GetOfferByIdDto>>();
+            var userFromDb = await _usersRepository.GetUserByLogin(userLogin);
+            if (userFromDb == null)
+            {
+                response.AddError(UserErrors.NotFoundByLogin);
+                return response;
+            }
+
+            var offersFromDb = await _offersRepository.GetOffersByUser(userFromDb);
+            if (!offersFromDb.Any())
+            {
+                response.AddError(OfferErrors.NotFoundOffersByUser);
+                return response;
+            }
+
+            var mappedOffers = Mapper.Map<List<GetOfferByIdDto>>(offersFromDb);
+            foreach (var mappedOffer in mappedOffers)
+            {
+                for (int i = 0; i < mappedOffer.Photos.Count; i++)
+                {
+                    var split = mappedOffer.Photos[i].Split('\\');
+                    mappedOffer.Photos[i] = string.Join('/', split.Skip(split.Length - 2));
+                }
+            }
+            response.Value = mappedOffers;
             return response;
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace Rentall.Services.ModelServices.OfferService
 {
@@ -13,5 +14,6 @@ namespace Rentall.Services.ModelServices.OfferService
         Task<ResponseDto<int>> AddOffer(AddOfferDto offer);
         Task<ResponseDto<bool>> ChangeOfferActivity(int id);
         Task<ResponseDto<bool>> DeleteOffer(ClaimsPrincipal userIdentity, int id);
+        Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersByUser(string userLogin);
     }
 }
