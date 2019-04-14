@@ -114,6 +114,7 @@
             if (userIdentity.IsInRole("User") && userIdentity.Identity.Name != userFromDb.Login)
             {
                 response.AddError(UserErrors.CannotDeleteUser);
+                return response;
             }
 
             var result = await _usersRepository.DeleteUser(id);

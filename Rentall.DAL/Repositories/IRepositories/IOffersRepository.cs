@@ -13,5 +13,6 @@
         Task<int> AddOffer(Offer offer);
         Task<int> UpdateOffer(Offer offer);
         Task<bool> DeleteOffer(Offer offer);
+        Task<bool> ChangeOfferActivity(int id);
     }
 }

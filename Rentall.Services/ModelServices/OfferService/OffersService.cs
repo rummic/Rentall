@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Security.Claims;
 
 namespace Rentall.Services.ModelServices.OfferService
 {
@@ -90,6 +91,41 @@ namespace Rentall.Services.ModelServices.OfferService
                 Console.Error.WriteLine(e); // TODO proper logging 
             }
 
+            return response;
+        }
+
+        public async Task<ResponseDto<bool>> ChangeOfferActivity(int id)
+        {
+            var response = new ResponseDto<bool>();
+            var offerFromDb = await _offersRepository.GetOfferById(id);
+            if (offerFromDb != null)
+            {
+                var result = await _offersRepository.ChangeOfferActivity(id);
+                response.Value = result;
+                return response;
+            }
+            response.AddError(OfferErrors.NotFoundById);
+            return response;
+        }
+
+        public async Task<ResponseDto<bool>> DeleteOffer(ClaimsPrincipal userIdentity, int id)
+        {
+            var response = new ResponseDto<bool>();
+            var offerFromDb = await _offersRepository.GetOfferById(id);
+            if (offerFromDb == null)
+            {
+                response.AddError(OfferErrors.NotFoundById);
+                return response;
+            }
+
+            if (userIdentity.Identity.Name != offerFromDb.User.Login)
+            {
+                response.AddError(OfferErrors.CannotDeleteOffer);
+                return response;
+            }
+
+            var result = await _offersRepository.DeleteOffer(offerFromDb);
+            response.Value = result;
             return response;
         }
     }

@@ -72,5 +72,13 @@
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<bool> ChangeOfferActivity(int id)
+        {
+            var offerFromDb = await GetOfferById(id);
+            offerFromDb.Active = !offerFromDb.Active;
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }
