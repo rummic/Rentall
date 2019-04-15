@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './offerts.css';
 import { Button } from 'react-bootstrap';
-import { Link,Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import axios from 'axios';
 
 class offerts extends Component {
   constructor(props) {
@@ -21,7 +22,8 @@ class offerts extends Component {
       categoryId: 1,
       offerTypeId: 1,
       userLogin: sessionStorage.getItem('login'),
-      redirect: false
+      redirect: false,
+      files: []
     }
     this.onChange = this.onChange.bind(this);
   };
@@ -29,6 +31,19 @@ class offerts extends Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
+  }
+
+  addFile() {
+    if (this.state.files.length < 5) {
+      this.setState({ files: [...this.state.files, ''] });
+    } else {
+      document.getElementById("add").style.display = "none";
+    }
+  }
+
+  handleChange(e, index) {
+    this.state.files[index] = e.target.files[0];
+    this.setState({ files: this.state.files });
   }
 
   addOffer() {
@@ -52,17 +67,40 @@ class offerts extends Component {
         "userLogin": sessionStorage.getItem('login')
 
       })
-    });
+    }).then(res => res.json())
+      .then(data => {
+        if (this.state.files.length > 0) {
+          var filesArray = this.state.files;
+
+          for (let i = 0; i < this.state.files.length; i++) {
+
+            let formData = new FormData();
+
+            formData.append('photo', filesArray[i]);
+
+            axios({
+              url: 'https://localhost:44359/api/Photos/' + data.value,
+              method: 'POST',
+              headers: { 'Content-Type': 'multipart/form-data' },
+              data: formData
+            })
+
+            //console.log("dodano " + (i+1)+" zdjecie");
+          }
+          alert("Offer upload completed");
+        }
+        else {
+          alert("Please select photos first");
+        }
+      })
     this.setState({ redirect: true });
+
   }
 
   render() {
-
     if (this.state.redirect) {
       return (<Redirect to={'/index'} />)
     }
-
-
     return (
       <div className="box">
         <div className="navBar">
@@ -143,7 +181,19 @@ class offerts extends Component {
           <div className="offerts1">
             <div className="subtitle">Dodaj zdjęcia</div>
             <div>
-              <input type="file" accept="image/*" multiple />
+              {
+                this.state.files.map((file, index) => {
+                  return (
+                    <div key={index}>
+                      <input type="file" name="photo" onChange={(e) => this.handleChange(e, index)} value={this.state.file} />
+                    </div>
+                  )
+                })
+              }
+              <hr />
+
+              <button id="add" onClick={(e) => this.addFile(e)}>Dodaj</button>
+              <hr />
             </div>
             <div className="but"><button onClick={this.addOffer.bind(this)}>Dodaj</button></div>
             <div className="clearfix"></div>
