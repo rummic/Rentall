@@ -23,12 +23,31 @@ class offerts extends Component {
       offerTypeId: 1,
       userLogin: sessionStorage.getItem('login'),
       redirect: false,
-      files: []
+      files: [],
+      category: [],
+      offerType : []
     }
     this.onChange = this.onChange.bind(this);
   };
 
+  componentDidMount() {
+    fetch('https://localhost:44359/api/Categories')
+    .then(response=>response.json())
+    .then(parseJSON=>{
+        this.setState({
+            category : parseJSON.value
+        })
+    })
 
+    fetch('https://localhost:44359/api/OfferTypes')
+    .then(response=>response.json())
+    .then(parseJSON=>{
+        this.setState({
+            offerType : parseJSON.value
+        })
+    })
+        
+}
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
   }
@@ -127,8 +146,12 @@ class offerts extends Component {
             <div className="section">
               <label>Kategoria</label>
               <select className="arrow" value={this.state.categoryId} name="categoryId" onChange={this.onChange} >
-                <option value="1">Mieszkanie</option>
-                <option value="2">Dom</option>
+              {
+                    this.state.category.map(item => (
+                      <option key={item.name} value={item.id}>{item.name}</option>
+                    
+                ))
+                }
               </select>
             </div>
             <div className="clearfix"></div>
@@ -139,8 +162,12 @@ class offerts extends Component {
               <label>Rodzaj ogłoszenia</label>
               <div>
                 <select className="arrow" name="offerTypeId" onChange={this.onChange} >
-                  <option value="1">Sprzedaż</option>
-                  <option value="2">Zamiana</option>
+                {
+                    this.state.offerType.map(item => (
+                      <option key={item.type} value={item.id}>{item.type}</option>
+                    
+                ))
+                }
                 </select>
               </div>
             </div>
