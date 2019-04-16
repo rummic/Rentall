@@ -127,16 +127,17 @@ class offerts extends Component {
     return (
       <div className="box">
         <div className="navBar">
-          <div className="navBarCon">
-            <ul>
-              <li className="logooff"><Link to="/index">RentAll</Link>
-              </li>
-              <li><a>Witaj,<b> {sessionStorage.getItem('login')}!</b></a></li>
-              <li className="options"><span className="menu"><Button className="logout" variant="info" onClick={this.logout}>Logout</Button></span></li>
-              <li className="options" ><Link to="/addOffer">Dodaj oferte</Link><p className="optionss" > </p></li>
-            </ul>
-          </div>
-        </div>
+                    <div className="navBarCon">
+                        <ul>
+                            <li className="logo"><Link to="/index">RentAll</Link></li>
+                            <li><Link to="/alloff">Oferty</Link></li>
+                            <li><a>Witaj,<b> {sessionStorage.getItem('login')}!</b></a></li>
+                            <li className="options"><span className="menu"><Button className="logout" variant="info" onClick={this.logout}>Logout</Button></span></li>
+                            <li className="options" ><Link to="/addOffer">Dodaj oferte</Link><p className="optionss" > </p></li>
+
+                        </ul>
+                    </div>
+                </div>
         <div className="clearfix"></div>
         <div className="contentbox1">
 

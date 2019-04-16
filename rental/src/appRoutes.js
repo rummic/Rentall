@@ -7,7 +7,8 @@ import Login from "./Components/login";
 import Register from "./Components/register";
 import Index from "./Components/homez";
 import Offer from "./Components/offerts";
-
+import Alloff from "./Components/alloff";
+import Detailsoff from "./Components/detailsoff";
 
 
 class App extends Component {
@@ -22,6 +23,9 @@ class App extends Component {
       <Route path="/register" component={Register}/>
       <Route path="/index" component={Index}/>
       <Route path="/addOffer" component={Offer}/>
+      <Route path="/alloff" component={Alloff}/>
+      <Route path="/detailsoff" component={Detailsoff}/>
+
       </div>
       </BrowserRouter>
     );
