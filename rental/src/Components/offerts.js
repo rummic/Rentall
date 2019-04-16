@@ -25,29 +25,29 @@ class offerts extends Component {
       redirect: false,
       files: [],
       category: [],
-      offerType : []
+      offerType: []
     }
     this.onChange = this.onChange.bind(this);
   };
 
   componentDidMount() {
     fetch('https://localhost:44359/api/Categories')
-    .then(response=>response.json())
-    .then(parseJSON=>{
+      .then(response => response.json())
+      .then(parseJSON => {
         this.setState({
-            category : parseJSON.value
+          category: parseJSON.value
         })
-    })
+      })
 
     fetch('https://localhost:44359/api/OfferTypes')
-    .then(response=>response.json())
-    .then(parseJSON=>{
+      .then(response => response.json())
+      .then(parseJSON => {
         this.setState({
-            offerType : parseJSON.value
+          offerType: parseJSON.value
         })
-    })
-        
-}
+      })
+
+  }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
   }
@@ -120,16 +120,20 @@ class offerts extends Component {
     if (this.state.redirect) {
       return (<Redirect to={'/index'} />)
     }
+    if(!sessionStorage.getItem("value")){
+      return(<Redirect to={'/index'}/>) 
+    }
+    
     return (
       <div className="box">
         <div className="navBar">
           <div className="navBarCon">
             <ul>
-              <li className="logooff"><Link to="/index">RentAll</Link></li>
-              <li><a>Oferty</a></li>
+              <li className="logooff"><Link to="/index">RentAll</Link>
+              </li>
+              <li><a>Witaj,<b> {sessionStorage.getItem('login')}!</b></a></li>
               <li className="options"><span className="menu"><Button className="logout" variant="info" onClick={this.logout}>Logout</Button></span></li>
               <li className="options" ><Link to="/addOffer">Dodaj oferte</Link><p className="optionss" > </p></li>
-
             </ul>
           </div>
         </div>
@@ -146,11 +150,11 @@ class offerts extends Component {
             <div className="section">
               <label>Kategoria</label>
               <select className="arrow" value={this.state.categoryId} name="categoryId" onChange={this.onChange} >
-              {
-                    this.state.category.map(item => (
-                      <option key={item.name} value={item.id}>{item.name}</option>
-                    
-                ))
+                {
+                  this.state.category.map(item => (
+                    <option key={item.name} value={item.id}>{item.name}</option>
+
+                  ))
                 }
               </select>
             </div>
@@ -162,12 +166,12 @@ class offerts extends Component {
               <label>Rodzaj ogłoszenia</label>
               <div>
                 <select className="arrow" name="offerTypeId" onChange={this.onChange} >
-                {
+                  {
                     this.state.offerType.map(item => (
                       <option key={item.type} value={item.id}>{item.type}</option>
-                    
-                ))
-                }
+
+                    ))
+                  }
                 </select>
               </div>
             </div>

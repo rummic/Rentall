@@ -117,6 +117,9 @@ class register extends Component {
     if(this.state.redirect){
       return(<Redirect to={'/login'}/>)
     }
+    if(sessionStorage.getItem("value")){
+      return(<Redirect to={'/index'}/>) 
+    }
 
 
     return (

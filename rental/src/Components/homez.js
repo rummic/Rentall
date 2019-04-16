@@ -11,7 +11,8 @@ class homez extends Component {
         super(props);
         this.state = {
             redirect: false,
-            login: ""
+            login: "",
+            offerts: []
         }
         this.logout = this.logout.bind(this);
     }
@@ -20,6 +21,17 @@ class homez extends Component {
         if (!sessionStorage.getItem("value")) {
             this.setState({ redirect: true });
         }
+
+        fetch('https://localhost:44359/api/Offers/user/' + sessionStorage.getItem('login'))
+            .then(response => response.json())
+            .then(parseJSON => {
+                this.setState({
+                    offerts: parseJSON.value
+                })
+            })
+
+
+
     }
 
     logout() {
@@ -34,7 +46,7 @@ class homez extends Component {
 
 
         if (this.state.redirect) {
-            return (<Redirect to={'/login'} />)
+            return (<Redirect to={'/home'} />)
         }
         return (
             <div className="box">
@@ -50,38 +62,27 @@ class homez extends Component {
                     </div>
                 </div>
                 <div className="clearfix"></div>
-                <div className="contentbox">
-                    <div className="description">U nas możesz wynająć nawet budę</div>
-                    <div className="subdescription">wyszukaj interesujących cię ofert</div>
-                    <div className="searchbox arrow">
-                        <select>
-                            <option value="mieszkanie">Mieszkanie</option>
-                            <option value="dom">Dom</option>
-                        </select>
-                        <select>
-                            <option value="kupno">Kupno</option>
-                            <option value="wynajem">Wynajem</option>
-                        </select>
-                        <input type="text" placeholder="Miejscowość" />
-                        <button value="wyszukaj">Wyszukaj</button>
-                    </div>
-                </div>
+                
                 <div className="offerts">
-                    <p className="random">Przykładowe nasze oferty</p>
-                    <div className="offert">
-                        <div className="ofer"><img src={logo} alt="as" />jakiś tam opisik<div className="cost">144zł</div></div>
-                        <button>Szczegóły</button>
-                    </div>
-                    <div className="offert">
-                        <div className="ofer"><img src={logo} alt="as" />jakiś tam opisik<div className="cost">144zł</div></div>
-                        <button>Szczegóły</button>
-                    </div>
-                    <div className="offert">
-                        <div className="ofer"><img src={logo} alt="as" />jakiś tam opisik<div className="cost">144zł</div></div>
-                        <button>Szczegóły</button>
-                    </div>
+                    <p className="random">Twoje oferty</p>
+
+                    {
+                        this.state.offerts.map((item,i) => (
+                            <div className="offert" key={i}>
+                                <div className="ofer" >
+                                <img src="https://uwolnijnauke.pl/wp-content/uploads/sites/13/2014/02/chomik-200x200.png" alt="as" />
+                                {item.title}</div>
+                                <button>Szczegóły</button>
+                            </div>
+                        ))
+
+                    }
+
+
+
+
                 </div>
-            </div>
+            </div >
 
         );
     }
