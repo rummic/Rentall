@@ -1,5 +1,6 @@
 ﻿namespace Rentall.DAL.Model
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,5 +18,9 @@
         public bool IsDeleted { get; set; }
         public string Role { get; set; }
         public byte[] Salt { get; set; }
+
+        // public List<Message> SentMessages { get; set; }
+        // public List<Message> ReceivedMessages { get; set; }
+        // public List<Offer> CreatedOffers { get; set; }
     }
 }

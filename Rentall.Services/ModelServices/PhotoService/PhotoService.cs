@@ -39,7 +39,7 @@
             }
         }
 
-        public async Task<ResponseDto<string>> AddPhoto(IFormFile photo, int offerId)
+        public async Task<ResponseDto<string>> AddPhoto(IFormFile photo, int offerId, bool mainPhoto)
         {
             var result = new ResponseDto<string>();
             if (photo.Length <= 0)
@@ -61,13 +61,19 @@
                 return result;
             }
 
+            if (mainPhoto && offerFromDb.Photos.Any(x => x.IsMain))
+            {
+                result.AddError(OfferErrors.OneMainPhoto);
+                return result;
+            }
             string filePath = GetAvailablePath(_photosFolderPath, photo.FileName);
             Photo photoToAdd =
                 new Photo
                 {
                     Path = filePath,
                     Active = true,
-                    Offer = offerFromDb
+                    Offer = offerFromDb,
+                    IsMain = mainPhoto
                 };
 
             try

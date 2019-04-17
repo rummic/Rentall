@@ -22,6 +22,7 @@
         public string Street { get; set; }
         public string ZipCode { get; set; }
         public bool Active { get; set; }
+
         public DateTime CreateDate { get; set; }
 
         public Category Category { get; set; }

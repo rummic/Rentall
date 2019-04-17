@@ -9,7 +9,6 @@
 
     public interface IPhotoService
     {
-
-        Task<ResponseDto<string>> AddPhoto(IFormFile photo, int offerId);
+        Task<ResponseDto<string>> AddPhoto(IFormFile photo, int offerId, bool mainPhoto);
     }
 }
