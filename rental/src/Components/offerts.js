@@ -225,6 +225,30 @@ class offerts extends Component {
             <div className="clearfix"></div>
           </div>
           <div className="offerts1">
+            <div className="subtitle">Lokalizacja</div>
+            <div className="subsection">
+              <label>Miejscowosc</label>
+              <div>
+                <input type="text" name="city" onChange={this.onChange} />
+              </div>
+            </div>
+            <div className="subsection">
+              <label>Ulica</label>
+              <div>
+                <input type="text" name="street" onChange={this.onChange} />
+              </div>
+            </div>
+            
+            <div className="subsection">
+              <label>Kod pocztowy</label>
+              <div>
+                <input type="text" name="zipCode" onChange={this.onChange} />
+              </div>
+            </div>
+            <div className="clearfix"></div>
+          </div>
+
+          <div className="offerts1">
             <div className="subtitle">Dodaj zdjęcia</div>
             <div>
               {

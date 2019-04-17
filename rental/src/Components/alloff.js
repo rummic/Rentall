@@ -69,9 +69,11 @@ class alloff extends Component {
                     {
                         this.state.offerts.map((item, i) => (
                             <div className="offcon" key={i}>
+                            <a  className="close"></a>
                                 <div className="offoto"><img src={"https://localhost:44359/" + item.photos[0]} alt="as" /></div>
-                                <div className="ofdesc">{item.title}
+                                <div className="ofdesc">{item.title}<hr/>
                                 <div className="ofinf">
+                                <div className="localization"> {item.city}, {item.street}</div>
                                 <ul>
                                     <li>Powierzchnia : {item.area} m²</li>
                                     <li>Piętro : {item.level}</li>

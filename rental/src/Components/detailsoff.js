@@ -47,7 +47,7 @@ class detailsoff extends Component {
       document.getElementsByClassName("offertitle")[0].innerHTML = obj.title;
       document.getElementsByClassName("offerprice")[0].innerHTML = obj.price +" zł";
       document.getElementsByClassName("opis")[0].innerHTML = obj.description; 
-      document.getElementsByClassName("offerinfo")[0].innerHTML = "Powierzchnia : "+obj.area +" m²"+"</br>"+"Piętro : "+obj.level +"</br>" +"Liczba pokoi : "+obj.roomCount +"</br>"+"Kategoria : "+obj.categoryName +"</br>" +"Rodzaj ogłoszenia : " + obj.offerTypeType 
+      document.getElementsByClassName("offerinfo")[0].innerHTML = "<b>"+obj.city+", "+obj.street+", "+"</b>"+"</br>"+"Powierzchnia : "+obj.area +" m²"+"</br>"+"Piętro : "+obj.level +"</br>" +"Liczba pokoi : "+obj.roomCount +"</br>"+"Kategoria : "+obj.categoryName +"</br>" +"Rodzaj ogłoszenia : " + obj.offerTypeType 
     }
   }
 
@@ -109,7 +109,7 @@ class detailsoff extends Component {
             <div className="titleOffer">Podstawowe informacje<hr/></div>
             <div className="offerdesc">
             
-            <div className="offerinfo">Miasto : Olsztyn
+            <div className="offerinfo">
             
             </div>
             <div className="offerinfo">
