@@ -1,0 +1,117 @@
+body{
+    background-color: rgba(234, 234, 234, 1);
+}
+
+.box{
+    text-align: center;
+    width: 100%;
+}
+
+.navBar{
+    background-color: rgb(148, 146, 146);
+    width: 100%;
+    height:70px;
+    text-align: center;
+    
+}
+
+
+.navBarCon{
+    width: 90%;
+    margin:auto;
+}
+
+
+
+.logo{
+    font-weight: bold;
+    color: rgb(243, 177, 53);
+}
+
+.options{
+    float:right;
+
+}
+
+
+
+.ofbox{
+    background-color: white;
+    width: 90%;
+    margin: auto;
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 20px;
+}
+
+.offcon{
+    margin-top: 30px;
+    padding: 10px;
+    border: 1px lightgray solid;
+    border-radius: 5px;
+}
+
+.offoto{
+    width:40%;
+    float:left;
+
+}
+
+.offoto img{
+    width:50%;
+}
+
+.ofdesc{
+    width:40%;
+    float:left;
+    margin-bottom: 10px;
+    text-align: left;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.ofinf{
+    font-size: 16px;
+    color: gray;
+    font-weight: normal;
+}
+
+.ofdes{
+    margin-top: 2%;
+    width: 20%;
+    float: left;
+    border-left: gray 1px solid ;
+}
+
+.ofprice{
+    text-align: center;
+    font-size: 20px;
+    color:red;
+}
+
+.ofbutton{
+    margin-top: 10%;
+    width:40%;
+    margin-left: 30%;
+}
+
+.ofbutton button{
+    margin-bottom:10px;
+    border: none;
+    background-color: orange;
+    width: 100%;
+    height: 40px;
+    border-radius: 7px;
+    color: white;
+}
+
+.ofbutton button:hover{
+    margin-bottom:10px;
+    border: none;
+    background-color: rgb(255, 115, 0);
+    width: 100%;
+    height: 40px;
+    border-radius: 7px;
+    color: black;
+}

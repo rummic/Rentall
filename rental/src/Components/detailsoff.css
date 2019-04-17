@@ -1,0 +1,123 @@
+body{
+    background-color: rgba(234, 234, 234, 1);
+}
+
+.box{
+    text-align: center;
+    width: 100%;
+}
+
+.navBar{
+    background-color: rgb(148, 146, 146);
+    width: 100%;
+    height:70px;
+    text-align: center;
+    
+}
+
+
+.navBarCon{
+    width: 90%;
+    margin:auto;
+}
+
+
+
+
+.logo{
+    font-weight: bold;
+    color: rgb(243, 177, 53);
+}
+
+.options{
+    float:right;
+
+}
+.titleOffer{
+    font-size: 25px;
+    float: left;
+    display: block;
+    margin-left: 10px;
+}
+.offertbox{
+    background-color: white;
+    width: 90%;
+    margin: auto;
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 20px;
+}
+
+.offertitle{
+    text-align: left;
+    font-size: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 10px;
+    border-bottom: 1px black solid;
+}
+
+.offerttop{
+    border-bottom: 1px lightgray solid;
+}
+
+
+.offerfoto{
+    width:50%;
+    float:left;
+    margin-bottom: 10px;
+
+}
+.offerfoto img{
+    width:50%;
+}
+
+.offerdesc{
+    width:50%;
+    float:left;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.offerdesc .offerinfo{
+    text-align: left;
+    padding: 20px;
+    color:gray;
+}
+
+.offerdesc .offerprice{
+    font-size: 30px;
+    padding: 20px;
+    margin-bottom: 10px;
+    color: rgb(87, 87, 87);
+}
+
+.offerdesc button{
+    margin-bottom:10px;
+    border: none;
+    background-color: orange;
+    width: 60%;
+    height: 40px;
+    border-radius: 7px;
+    color: white;
+}
+
+.offerdesc button:hover{
+    margin-bottom:10px;
+    border: none;
+    background-color: rgb(255, 115, 0);
+    width: 60%;
+    height: 40px;
+    border-radius: 7px;
+    color: black;
+}
+.offerdet{
+    margin-top: 30px;
+    float: left;
+    width: 100%;
+    text-align: center;
+}
+
+.offerdet img{
+    width:40%;
+}
