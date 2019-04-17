@@ -28,6 +28,7 @@ class offerts extends Component {
       offerType: []
     }
     this.onChange = this.onChange.bind(this);
+    this.logout = this.logout.bind(this);
   };
 
   componentDidMount() {
@@ -64,6 +65,12 @@ class offerts extends Component {
     this.state.files[index] = e.target.files[0];
     this.setState({ files: this.state.files });
   }
+
+  logout() {
+    sessionStorage.setItem("value", '');
+    sessionStorage.clear();
+    this.setState({ redirect: true });
+}
 
   addOffer() {
     fetch('https://localhost:44359/api/Offers', {

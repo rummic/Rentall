@@ -24,7 +24,7 @@ class App extends Component {
       <Route path="/index" component={Index}/>
       <Route path="/addOffer" component={Offer}/>
       <Route path="/alloff" component={Alloff}/>
-      <Route path="/detailsoff" component={Detailsoff}/>
+      <Route path={"/detailsoff/:id"} component={Detailsoff}/>
 
       </div>
       </BrowserRouter>

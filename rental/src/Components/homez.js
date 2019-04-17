@@ -23,18 +23,16 @@ class homez extends Component {
             this.setState({ redirect: true });
         }
 
-        fetch('https://localhost:44359/api/Offers/user/' + sessionStorage.getItem('login'))
-            .then(response => response.json())
-            .then(parseJSON => {
-                this.setState({
-                    offerts: parseJSON.value
+        if (sessionStorage.getItem('login') != null) {
+            fetch('https://localhost:44359/api/Offers/user/' + sessionStorage.getItem('login'))
+                .then(response => response.json())
+                .then(parseJSON => {
+                    this.setState({
+                        offerts: parseJSON.value
+                    })
                 })
-            })
 
-
-
-
-
+        }
     }
 
     logout() {

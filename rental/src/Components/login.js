@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './login.css';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col, FormGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { PostData } from "./postData";
 import {Redirect} from 'react-router-dom';
@@ -27,7 +27,8 @@ class login extends Component {
           sessionStorage.setItem('login',responseJSON.value.login);
           this.setState({redirect: true});  
         } else {
-          console.log("Login error");
+          document.getElementById("badLogin").innerHTML = "Błędny login lub hasło";
+          document.getElementById("badLogin").style.color = "red";
         }
       });
     }
@@ -74,6 +75,9 @@ class login extends Component {
             <Form.Label>Hasło</Form.Label>
             <Form.Control type="password" required placeholder="Hasło" name="password" onChange={this.onChange} />
           </Form.Group>
+          <FormGroup>
+            <p id="badLogin"></p>
+          </FormGroup>
           <Button variant="primary" size="md" type="submit" block onClick={this.login}>
             Zaloguj
                     </Button>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './alloff.css';
 import logo from '../fotos/back.jpg'
 import { Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link,Redirect } from 'react-router-dom';
 
 class alloff extends Component {
     constructor(props) {
@@ -37,6 +37,12 @@ class alloff extends Component {
     }
 
     render() {
+        if (this.state.redirect) {
+            return (<Redirect to={'/index'} />)
+          }
+          if(!sessionStorage.getItem("value")){
+            return(<Redirect to={'/index'}/>) 
+          }
         return (
             <div className="box">
                 <div className="navBar">
@@ -64,7 +70,7 @@ class alloff extends Component {
                                     <div className="ofprice"> {item.price}
                                     </div>
                                 </div>
-                                <div className="ofbutton"><button><Link to="/detailsoff">Details</Link></button></div>
+                                <div className="ofbutton"><button><Link to={"/detailsoff/"+i}>Details</Link></button></div>
                                 <div className="clearfix"></div>
                             </div>
                         ))
