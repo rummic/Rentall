@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 
 namespace Rentall.Services.ModelServices.OfferService
 {
@@ -90,6 +92,71 @@ namespace Rentall.Services.ModelServices.OfferService
                 Console.Error.WriteLine(e); // TODO proper logging 
             }
 
+            return response;
+        }
+
+        public async Task<ResponseDto<bool>> ChangeOfferActivity(int id)
+        {
+            var response = new ResponseDto<bool>();
+            var offerFromDb = await _offersRepository.GetOfferById(id);
+            if (offerFromDb != null)
+            {
+                var result = await _offersRepository.ChangeOfferActivity(id);
+                response.Value = result;
+                return response;
+            }
+            response.AddError(OfferErrors.NotFoundById);
+            return response;
+        }
+
+        public async Task<ResponseDto<bool>> DeleteOffer(ClaimsPrincipal userIdentity, int id)
+        {
+            var response = new ResponseDto<bool>();
+            var offerFromDb = await _offersRepository.GetOfferById(id);
+            if (offerFromDb == null)
+            {
+                response.AddError(OfferErrors.NotFoundById);
+                return response;
+            }
+
+            if (userIdentity.Identity.Name != offerFromDb.User.Login)
+            {
+                response.AddError(OfferErrors.CannotDeleteOffer);
+                return response;
+            }
+
+            var result = await _offersRepository.DeleteOffer(offerFromDb);
+            response.Value = result;
+            return response;
+        }
+
+        public async Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersByUser(string userLogin)
+        {
+            var response = new ResponseDto<List<GetOfferByIdDto>>();
+            var userFromDb = await _usersRepository.GetUserByLogin(userLogin);
+            if (userFromDb == null)
+            {
+                response.AddError(UserErrors.NotFoundByLogin);
+                return response;
+            }
+
+            var offersFromDb = await _offersRepository.GetOffersByUser(userFromDb);
+            if (!offersFromDb.Any())
+            {
+                response.AddError(OfferErrors.NotFoundOffersByUser);
+                return response;
+            }
+
+            var mappedOffers = Mapper.Map<List<GetOfferByIdDto>>(offersFromDb);
+            foreach (var mappedOffer in mappedOffers)
+            {
+                for (int i = 0; i < mappedOffer.Photos.Count; i++)
+                {
+                    var split = mappedOffer.Photos[i].Split('\\');
+                    mappedOffer.Photos[i] = string.Join('/', split.Skip(split.Length - 2));
+                }
+            }
+            response.Value = mappedOffers;
             return response;
         }
     }

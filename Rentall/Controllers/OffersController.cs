@@ -1,4 +1,6 @@
-﻿namespace Rentall.Controllers
+﻿using Rentall.Commons.Enumerables;
+
+namespace Rentall.Controllers
 {
     using System.Collections.Generic;
     using System.IO;
@@ -46,6 +48,19 @@
         }
 
         [AllowAnonymous]
+        [HttpGet("user/{userLogin}")]
+        public async Task<ActionResult<ResponseDto<List<GetOfferByIdDto>>>> GetOffersByUser(string userLogin)
+        {
+            var result = await _offersService.GetOffersByUser(userLogin);
+            if (result.HasErrors)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<ResponseDto<int>>> AddOffer([FromBody] AddOfferDto offer)
         {
@@ -60,6 +75,30 @@
                 return BadRequest(result);
             }
 
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpPut("{id}")]
+        public async Task<ActionResult<ResponseDto<bool>>> ChangeOfferActivity(int id)
+        {
+            var result = await _offersService.ChangeOfferActivity(id);
+            if (result.HasErrors)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = Role.User + ", " + Role.SuperAdmin)]
+        public async Task<ActionResult> DeleteOffer(int id)
+        {
+            var result = await _offersService.DeleteOffer(User, id);
+            if (result.HasErrors)
+            {
+                return BadRequest(result);
+            }
             return Ok(result);
         }
     }

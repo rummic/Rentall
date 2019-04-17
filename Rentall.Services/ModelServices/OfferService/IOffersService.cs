@@ -1,4 +1,7 @@
-﻿namespace Rentall.Services.ModelServices.OfferService
+﻿using System.Collections.Generic;
+using System.Security.Claims;
+
+namespace Rentall.Services.ModelServices.OfferService
 {
     using System.Threading.Tasks;
 
@@ -9,5 +12,8 @@
     {
         Task<ResponseDto<GetOfferByIdDto>> GetOfferById(int id);
         Task<ResponseDto<int>> AddOffer(AddOfferDto offer);
+        Task<ResponseDto<bool>> ChangeOfferActivity(int id);
+        Task<ResponseDto<bool>> DeleteOffer(ClaimsPrincipal userIdentity, int id);
+        Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersByUser(string userLogin);
     }
 }

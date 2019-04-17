@@ -1,4 +1,7 @@
-﻿namespace Rentall.Services.ModelServices.PhotoService
+﻿using Rentall.DAL.Model;
+using Rentall.Services.Dtos.PhotoDto;
+
+namespace Rentall.Services.ModelServices.PhotoService
 {
     using System.Threading.Tasks;
 
@@ -9,6 +12,9 @@
 
     public interface IPhotoService
     {
-        Task<ResponseDto<string>> AddPhoto(IFormFile photo, int offerId, bool mainPhoto);
+
+        Task<ResponseDto<string>> AddPhoto(IFormFile photo, int offerId);
+        Task<ResponseDto<bool>> ChangePhotoActivity(string photoPath);
+        Task<ResponseDto<GetPhotoByPathDto>> GetPhotoByPath(string photoPath);
     }
 }
