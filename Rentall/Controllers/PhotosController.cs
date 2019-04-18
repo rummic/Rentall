@@ -43,9 +43,9 @@ namespace Rentall.Controllers
 
         [HttpPost("{offerId}")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResponseDto<string>>> UploadPhoto(IFormFile photo, int offerId, [FromQuery]bool mainPhoto) //TODO flage na fotke która główna
+        public async Task<ActionResult<ResponseDto<string>>> UploadPhoto(IFormFile photo, int offerId)
         {
-            var result = await _photoService.AddPhoto(photo, offerId, mainPhoto);
+            var result = await _photoService.AddPhoto(photo, offerId);
             if (result.HasErrors)
             {
                 return BadRequest(result);

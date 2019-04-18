@@ -42,7 +42,7 @@ namespace Rentall.Services.ModelServices.PhotoService
             }
         }
 
-        public async Task<ResponseDto<string>> AddPhoto(IFormFile photo, int offerId, bool mainPhoto)
+        public async Task<ResponseDto<string>> AddPhoto(IFormFile photo, int offerId)
         {
             var result = new ResponseDto<string>();
             if (photo.Length <= 0)
@@ -63,12 +63,6 @@ namespace Rentall.Services.ModelServices.PhotoService
                 result.AddError(OfferErrors.NotFoundById);
                 return result;
             }
-
-            if (mainPhoto && offerFromDb.Photos.Any(x => x.IsMain))
-            {
-                result.AddError(OfferErrors.OneMainPhoto);
-                return result;
-            }
             string filePath = GetAvailablePath(_photosFolderPath, photo.FileName);
             Photo photoToAdd =
                 new Photo
@@ -76,7 +70,6 @@ namespace Rentall.Services.ModelServices.PhotoService
                     Path = filePath,
                     Active = true,
                     Offer = offerFromDb,
-                    IsMain = mainPhoto
                 };
 
             try

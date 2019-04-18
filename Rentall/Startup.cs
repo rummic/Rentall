@@ -1,6 +1,4 @@
-﻿using Rentall.Services.Dtos.PhotoDto;
-
-namespace Rentall
+﻿namespace Rentall
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -22,6 +20,7 @@ namespace Rentall
     using Rentall.DAL.Repositories;
     using Rentall.DAL.Repositories.IRepositories;
     using Rentall.Services.Dtos.OfferDto;
+    using Rentall.Services.Dtos.PhotoDto;
     using Rentall.Services.Dtos.UserDto;
     using Rentall.Services.ModelServices.CategoryService;
     using Rentall.Services.ModelServices.OfferService;

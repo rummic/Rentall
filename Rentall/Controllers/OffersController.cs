@@ -3,20 +3,15 @@
 namespace Rentall.Controllers
 {
     using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
-    using Rentall.Commons.ErrorMessages;
     using Rentall.Services.Dtos;
     using Rentall.Services.Dtos.OfferDto;
-    using Rentall.Services.Dtos.UserDto;
     using Rentall.Services.ModelServices.OfferService;
 
     [Route("api/[controller]")]
