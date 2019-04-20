@@ -35,10 +35,9 @@ class detailsoff extends Component {
   }
 
   logout() {
-    sessionStorage.setItem("value", '');
     sessionStorage.clear();
-    this.setState({ redirect: true });
-  }
+    this.props.history.push("/home")
+}
 
   wyswietlanie() {
     const obj = this.state.offerts[this.props.match.params.id];
@@ -53,12 +52,10 @@ class detailsoff extends Component {
 
 
   render() {
-    if (this.state.redirect) {
-      return (<Redirect to={'/index'} />)
+    if(!sessionStorage.getItem("token")){
+      return(<Redirect to={'/home'}/>) 
     }
-    if (!sessionStorage.getItem("value")) {
-      return (<Redirect to={'/index'} />)
-    }
+    
     return (
       <div className="box">
         {

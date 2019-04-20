@@ -7,42 +7,56 @@ class alloff extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirect: false,
-            login: "",
             offerts: []
-
         }
         this.logout = this.logout.bind(this);
     }
 
     componentWillMount() {
-        if (!sessionStorage.getItem("value")) {
-            this.setState({ redirect: true });
-        }
-
+        
         fetch('https://localhost:44359/api/Offers/user/' + sessionStorage.getItem('login'))
             .then(response => response.json())
             .then(parseJSON => {
                 this.setState({
-                    offerts: parseJSON.value
+                    offerts: parseJSON.value || []
                 })
             })
+
+
     }
 
     logout() {
-        sessionStorage.setItem("value", '');
         sessionStorage.clear();
-        this.setState({ redirect: true });
+        this.props.history.push("/home")
     }
 
+    componentDidUpdate() {
+        if (this.state.offerts.length === 0) {
+            document.getElementById("empyOffer").innerHTML = "Brak ofert";
+        }
+    }
+    delete(i) {
+        const token = sessionStorage.getItem("token");
+        fetch('https://localhost:44359/api/Offers/'+(i+1), {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization" : `bearer ${token}`
+        }
+        })
+        .then(parseJSON => {
+            console.log(parseJSON);
+        })
+        
+    }
     render() {
-        if (this.state.redirect) {
-            return (<Redirect to={'/index'} />)
+
+        if (!sessionStorage.getItem("token")) {
+            return (<Redirect to={'/home'} />)
         }
-        if (!sessionStorage.getItem("value")) {
-            return (<Redirect to={'/index'} />)
-        }
+
         return (
+
             <div className="box">
                 <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                     <Navbar.Brand href="/index">RentAll</Navbar.Brand>
@@ -58,35 +72,33 @@ class alloff extends Component {
                     </Navbar.Collapse>
                     <Form inline>
                         <Navbar.Text className=" mr-sm-2">
-                        Zalogowany jako : <b className="login"> {sessionStorage.getItem('login')} </b>
+                            Zalogowany jako : <b className="login"> {sessionStorage.getItem('login')} </b>
                         </Navbar.Text>
                         <Button className="logout" variant="outline-light" size="sm" onClick={this.logout}>Logout</Button>
                     </Form>
                 </Navbar>
+
                 <div className="clearfix"></div>
                 <div className="ofbox">
-
+                    <div id="empyOffer"></div>
                     {
+
                         this.state.offerts.map((item, i) => (
                             <div className="offcon" key={i}>
-                            <a  className="close"></a>
+                                <a className="close" onClick={()=>this.delete(i)}></a>
                                 <div className="offoto"><img src={"https://localhost:44359/" + item.photos[0]} alt="as" /></div>
-                                <div className="ofdesc">{item.title}<hr/>
-                                <div className="ofinf">
-                                <div className="localization"> {item.city}, {item.street}</div>
-                                <ul>
-                                    <li>Powierzchnia : {item.area} m²</li>
-                                    <li>Piętro : {item.level}</li>
-                                    <li>Liczba pokoi : {item.roomCount}</li>
-                                    <li>Kategoria : {item.categoryName}</li>
-                                    <li>Rodzaj ogłoszenia : {item.offerTypeType}</li>
-                                </ul>
-                               
-                                
-                                
-                                
-                               
-                                </div>
+                                <div className="ofdesc">{item.title}<hr />
+                                    <div className="ofinf">
+                                        <div className="localization"> {item.city}, {item.street}</div>
+                                        <ul>
+                                            <li>Powierzchnia : {item.area} m²</li>
+                                            <li>Piętro : {item.level}</li>
+                                            <li>Liczba pokoi : {item.roomCount}</li>
+                                            <li>Kategoria : {item.categoryName}</li>
+                                            <li>Rodzaj ogłoszenia : {item.offerTypeType}</li>
+                                        </ul>
+
+                                    </div>
                                 </div>
                                 <div className="ofdes">
                                     <div className="ofprice">{item.price} zł</div>
@@ -94,7 +106,7 @@ class alloff extends Component {
                                 </div>
                                 <div className="clearfix"></div>
                             </div>
-                            
+
                         ))
 
                     }

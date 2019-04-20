@@ -11,7 +11,6 @@ class login extends Component {
     this.state = {
       login: "",
       password: "",
-      redirect: false
     }
     this.login = this.login.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -23,9 +22,10 @@ class login extends Component {
         let responseJSON = result;
         
         if (responseJSON.value) {
-          sessionStorage.setItem('value',responseJSON);
           sessionStorage.setItem('login',responseJSON.value.login);
-          this.setState({redirect: true});  
+          sessionStorage.setItem('token',responseJSON.value.token);
+          this.props.history.push("/index")
+
         } else {
           document.getElementById("badLogin").innerHTML = "Błędne dane logowania";
           document.getElementById("badLogin").style.color = "red";
@@ -40,11 +40,7 @@ class login extends Component {
   }
 
   render() {
-    if(this.state.redirect){
-      return(<Redirect to={'/index'}/>)
-    }
-
-    if(sessionStorage.getItem("value")){
+    if(sessionStorage.getItem("token")){
       return(<Redirect to={'/index'}/>) 
     }
 

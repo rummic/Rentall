@@ -9,43 +9,22 @@ class homez extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirect: false,
             login: "",
-            offerts: []
-
         }
         this.logout = this.logout.bind(this);
     }
 
-    componentWillMount() {
-        if (!sessionStorage.getItem("value")) {
-            this.setState({ redirect: true });
-        }
-
-        if (sessionStorage.getItem('login') != null) {
-            fetch('https://localhost:44359/api/Offers/user/' + sessionStorage.getItem('login'))
-                .then(response => response.json())
-                .then(parseJSON => {
-                    this.setState({
-                        offerts: parseJSON.value
-                    })
-                })
-
-        }
-    }
 
     logout() {
-        sessionStorage.setItem("value", '');
         sessionStorage.clear();
-        this.setState({ redirect: true });
+        this.props.history.push("/home")
     }
-
 
 
     render() {
 
 
-        if (this.state.redirect) {
+        if (!sessionStorage.getItem("token")) {
             return (<Redirect to={'/home'} />)
         }
         return (
