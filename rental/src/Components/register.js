@@ -106,7 +106,7 @@ class register extends Component {
           "phoneNumber": this.state.phoneNumber,
           "role": this.state.role
         })
-      });
+      }).then(this.props.history.push("/index"))
     }
   }
 
