@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './home.css';
 import logo from '../fotos/back.jpg'
-import { Button, Navbar, Form,ButtonGroup } from 'react-bootstrap';
+import { Button,Nav,FormControl, Navbar, Form,ButtonGroup } from 'react-bootstrap';
 
 class home extends Component {
     render() {
       return (
-          <div className="box">
+          <div className="box">  
            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
           <Navbar.Brand href="/index">RentAll</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />

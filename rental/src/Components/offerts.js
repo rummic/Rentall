@@ -75,9 +75,11 @@ class offerts extends Component {
 
 
   addOffer() {
+    const token = sessionStorage.getItem("token");
     fetch('https://localhost:44359/api/Offers', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json',
+      "Authorization" : `bearer ${token}` },
       body: JSON.stringify({
 
         "title": this.state.title,
@@ -99,7 +101,7 @@ class offerts extends Component {
       .then(data => {
         if (this.state.files.length > 0) {
           var filesArray = this.state.files;
-
+          
           for (let i = 0; i < this.state.files.length; i++) {
 
             let formData = new FormData();
@@ -109,13 +111,15 @@ class offerts extends Component {
             axios({
               url: 'https://localhost:44359/api/Photos/' + data.value,
               method: 'POST',
-              headers: { 'Content-Type': 'multipart/form-data' },
+              headers: { 'Content-Type': 'multipart/form-data',
+              "Authorization" : `bearer ${token}` },
               data: formData
             })
 
             //console.log("dodano " + (i+1)+" zdjecie");
           }
           alert("Oferta dodana poprawnie");
+          this.props.history.push("/index")
         }
         else {
           alert("Proszę wybrać zdjęcie");
@@ -258,11 +262,11 @@ class offerts extends Component {
                       <input className="inputImage" type="file" name="photo" onChange={(e) => this.handleChange(e, index)} value={this.state.file} />
                       </label>
                     </div>
+                     
                   )
                 })
 
               }
-              
                 <div className="addButton">
                   <button type="button" id="add" onClick={(e) => this.addFile(e)} className="btn btn-success btn-number" data-type="plus" data-field="quant[2]">
                     <span className="glyphicon glyphicon-plus"></span>
