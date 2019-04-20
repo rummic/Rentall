@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Security.Claims;
-
-namespace Rentall.Services.ModelServices.OfferService
+﻿namespace Rentall.Services.ModelServices.OfferService
 {
+    using System.Collections.Generic;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Rentall.Services.Dtos;
@@ -15,6 +14,8 @@ namespace Rentall.Services.ModelServices.OfferService
         Task<ResponseDto<bool>> ChangeOfferActivity(int id);
         Task<ResponseDto<bool>> DeleteOffer(ClaimsPrincipal userIdentity, int id);
         Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersByUser(string userLogin);
+
+        Task<ResponseDto<List<GetOfferByIdDto>>> GetRandomOffers();
 
         Task<ResponseDto<int>> UpdateOffer(ClaimsPrincipal user, UpdateOfferDto offer);
     }

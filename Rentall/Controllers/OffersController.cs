@@ -44,7 +44,19 @@ namespace Rentall.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("user/{userLogin}")]
+        [HttpGet("Main")]
+        public async Task<ActionResult<ResponseDto<List<GetOfferByIdDto>>>> GetRandomOffers()
+        {
+            var result = await _offersService.GetRandomOffers();
+            if (result.HasErrors)
+            {
+                return BadRequest(result);
+            }
+            return result;
+        }
+
+        [AllowAnonymous]
+        [HttpGet("User/{userLogin}")]
         public async Task<ActionResult<ResponseDto<List<GetOfferByIdDto>>>> GetOffersByUser(string userLogin)
         {
             var result = await _offersService.GetOffersByUser(userLogin);

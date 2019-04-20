@@ -136,6 +136,16 @@ namespace Rentall.Services.ModelServices.OfferService
             return response;
         }
 
+        public async Task<ResponseDto<List<GetOfferByIdDto>>> GetRandomOffers()
+        {
+            var response = new ResponseDto<List<GetOfferByIdDto>>();
+            var offersFromDb = await _offersRepository.GetOffers();
+            var randomOffers = offersFromDb.OrderBy(x => Guid.NewGuid()).Take(10).ToList();
+            var mappedRandomOffers = Mapper.Map<List<GetOfferByIdDto>>(randomOffers);
+            response.Value = mappedRandomOffers;
+            return response;
+        }
+
         public async Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersByUser(string userLogin)
         {
             var response = new ResponseDto<List<GetOfferByIdDto>>();

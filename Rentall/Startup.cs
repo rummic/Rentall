@@ -42,26 +42,17 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>();
-            services.AddSwaggerGen(c =>
-                {
-                    c.SwaggerDoc("v1", new Info { Title = "Rentall API", Version = "v1" });
-                    c.AddSecurityDefinition(
-                        "Bearer",
-                        new ApiKeyScheme
-                        {
-                            Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: bearer {token}\"",
-                            Name = "Authorization",
-                            In = "header",
-                            Type = "apiKey"
-                        });
-                    c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
-                                                 {
-                                                     { "Bearer", Enumerable.Empty<string>() }
-                                                 });
-                });
+            ConfigureSwagger(services);
+            Bootstrap(services);
+            ConfigureToken(services);
+            ConfigureMapper();
+        }
 
+        private static void Bootstrap(IServiceCollection services)
+        {
+            services.AddCors(opt => opt.AddPolicy("policy", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddDbContext<ApplicationDbContext>();
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IOffersRepository, OffersRepository>();
@@ -72,44 +63,72 @@
             services.AddScoped<IOfferTypesService, OfferTypesService>();
             services.AddScoped<IPhotosRepository, PhotosRepository>();
             services.AddScoped<IPhotoService, PhotoService>();
-            services.AddCors(opt => opt.AddPolicy("policy", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+        }
 
+        private static void ConfigureSwagger(IServiceCollection services)
+        {
+            services.AddSwaggerGen(
+                c =>
+                    {
+                        c.SwaggerDoc("v1", new Info { Title = "Rentall API", Version = "v1" });
+                        c.AddSecurityDefinition(
+                            "Bearer",
+                            new ApiKeyScheme
+                                {
+                                    Description =
+                                        "JWT Authorization header using the Bearer scheme. Example: \"Authorization: bearer {token}\"",
+                                    Name = "Authorization",
+                                    In = "header",
+                                    Type = "apiKey"
+                                });
+                        c.AddSecurityRequirement(
+                            new Dictionary<string, IEnumerable<string>> { { "Bearer", Enumerable.Empty<string>() } });
+                    });
+        }
+
+        private void ConfigureToken(IServiceCollection services)
+        {
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
 
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+            services.AddAuthentication(
+                x =>
+                    {
+                        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    }).AddJwtBearer(
+                x =>
+                    {
+                        x.RequireHttpsMetadata = false;
+                        x.SaveToken = true;
+                        x.TokenValidationParameters = new TokenValidationParameters()
+                                                          {
+                                                              ValidateIssuerSigningKey = true,
+                                                              IssuerSigningKey = new SymmetricSecurityKey(key),
+                                                              ValidateIssuer = false,
+                                                              ValidateAudience = false
+                                                          };
+                    });
+        }
 
-            Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<User, GetUserByIdDto>();
-                cfg.CreateMap<User, GetUsersDto>();
-                cfg.CreateMap<AddUserDto, User>();
-                cfg.CreateMap<Offer, GetOfferByIdDto>()
-                    .ForMember(x => x.Photos, o => o.MapFrom(s => s.Photos.Where(a => a.Active).Select(p => p.Path)));
-                cfg.CreateMap<AddOfferDto, Offer>()
-                    .ForMember(x => x.User, o => o.Ignore())
-                    .ForMember(x => x.Category, o => o.Ignore())
-                    .ForMember(x => x.OfferType, o => o.Ignore());
-                cfg.CreateMap<Photo, GetPhotoByPathDto>();
-                cfg.CreateMap<UpdateOfferDto, Offer>();
-            });
+        private static void ConfigureMapper()
+        {
+            Mapper.Initialize(
+                cfg =>
+                    {
+                        cfg.CreateMap<User, GetUserByIdDto>();
+                        cfg.CreateMap<User, GetUsersDto>();
+                        cfg.CreateMap<AddUserDto, User>();
+                        cfg.CreateMap<Offer, GetOfferByIdDto>().ForMember(
+                            x => x.Photos,
+                            o => o.MapFrom(s => s.Photos.Where(a => a.Active).Select(p => p.Path)));
+                        cfg.CreateMap<AddOfferDto, Offer>().ForMember(x => x.User, o => o.Ignore())
+                            .ForMember(x => x.Category, o => o.Ignore()).ForMember(x => x.OfferType, o => o.Ignore());
+                        cfg.CreateMap<Photo, GetPhotoByPathDto>();
+                        cfg.CreateMap<UpdateOfferDto, Offer>();
+                    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
