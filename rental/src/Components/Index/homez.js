@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './home.css';
-import logo from '../fotos/back.jpg'
+import '../MainPage/home.css';
+import logo from '../../fotos/back.jpg'
 import { Redirect } from 'react-router-dom';
 import { Button,Navbar, NavDropdown, Nav,Form } from 'react-bootstrap';
 

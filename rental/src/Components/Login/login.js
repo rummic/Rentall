@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './login.css';
 import { Form, Button, Row, Col, FormGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { PostData } from "./postData";
+import { PostData } from "../Helpers/postData";
 import {Redirect} from 'react-router-dom';
 
 class login extends Component {
