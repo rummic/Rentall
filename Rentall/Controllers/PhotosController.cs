@@ -29,7 +29,7 @@ namespace Rentall.Controllers
         }
 
         [HttpGet("{photoPath}")]
-        [AllowAnonymous]
+        //[AllowAnonymous] // PO CO TO? xDDD
         public async Task<ActionResult<ResponseDto<GetPhotoByPathDto>>> GetPhotoByPath(string photoPath)
         {
             var result = await _photoService.GetPhotoByPath(photoPath);
@@ -42,10 +42,10 @@ namespace Rentall.Controllers
         }
 
         [HttpPost("{offerId}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<ActionResult<ResponseDto<string>>> UploadPhoto(IFormFile photo, int offerId)
         {
-            var result = await _photoService.AddPhoto(photo, offerId);
+            var result = await _photoService.AddPhoto(User, photo, offerId);
             if (result.HasErrors)
             {
                 return BadRequest(result);
@@ -55,7 +55,7 @@ namespace Rentall.Controllers
         }
 
         [HttpPut("{photoPath}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<ActionResult<ResponseDto<bool>>> ChangePhotoActivity(string photoPath)
         {
             var result = await _photoService.ChangePhotoActivity(photoPath);

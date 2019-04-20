@@ -45,9 +45,8 @@ namespace Rentall.DAL.Repositories
             return offer.Id;
         }
 
-        public async Task<int> UpdateOffer(Offer offer)
+        public async Task<int> UpdateOffer(Offer offerFromDb, Offer offer)
         {
-            var offerFromDb = await GetOfferById(offer.Id);
             offerFromDb.Title = offer.Title;
             offerFromDb.Description = offer.Description;
             offerFromDb.Price = offer.Price;
@@ -60,7 +59,6 @@ namespace Rentall.DAL.Repositories
             offerFromDb.ZipCode = offer.ZipCode;
             offerFromDb.Active = offer.Active;
             offerFromDb.CreateDate = offer.CreateDate;
-
             offerFromDb.Category = offer.Category;
             offerFromDb.OfferType = offer.OfferType;
             offerFromDb.User = offer.User;

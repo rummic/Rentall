@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using Microsoft.EntityFrameworkCore;
-
-namespace Rentall.DAL.Repositories
+﻿namespace Rentall.DAL.Repositories
 {
+    using System.Linq;
     using System.Threading.Tasks;
+
+    using Microsoft.EntityFrameworkCore;
 
     using Rentall.DAL.Config;
     using Rentall.DAL.Model;

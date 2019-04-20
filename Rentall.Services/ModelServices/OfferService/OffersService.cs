@@ -54,26 +54,32 @@ namespace Rentall.Services.ModelServices.OfferService
             return response;
         }
 
-        public async Task<ResponseDto<int>> AddOffer(AddOfferDto offer)
+        public async Task<ResponseDto<int>> AddOffer(ClaimsPrincipal user, AddOfferDto offer) // TODO to lower invariant porównywanie w szukaniu
         {
             var response = new ResponseDto<int>();
             var offerToDb = Mapper.Map<Offer>(offer);
-            var userFromDb = await _usersRepository.GetUserByLogin(offer.UserLogin);
+            var userFromDb = await _usersRepository.GetUserByLogin(user.Identity.Name);
             if (userFromDb == null)
             {
                 response.AddError(UserErrors.NotFoundByLogin);
+                return response;
+
             }
 
             var categoryFromDb = await _categoriesRepository.GetCategoryById(offer.CategoryId);
             if (categoryFromDb == null)
             {
                 response.AddError(CategoryErrors.NotFoundById);
+                return response;
+
             }
 
             var offerTypeFromDb = await _offerTypesRepository.GetOfferTypeById(offer.OfferTypeId);
             if (offerTypeFromDb == null)
             {
                 response.AddError(OfferTypeErrors.NotFoundById);
+                return response;
+
             }
 
             offerToDb.Active = true;
@@ -157,6 +163,59 @@ namespace Rentall.Services.ModelServices.OfferService
                 }
             }
             response.Value = mappedOffers;
+            return response;
+        }
+
+        public async Task<ResponseDto<int>> UpdateOffer(ClaimsPrincipal user, UpdateOfferDto offer)
+        {
+            var response = new ResponseDto<int>();
+            var offerToDb = Mapper.Map<Offer>(offer);
+            var offerFromDb = await _offersRepository.GetOfferById(offer.Id);
+            if (offerFromDb == null)
+            {
+                response.AddError(OfferErrors.NotFoundById);
+                return response;
+            }
+            var userFromDb = await _usersRepository.GetUserByLogin(user.Identity.Name);
+            if (userFromDb == null)
+            {
+                response.AddError(UserErrors.NotFoundByLogin);
+                return response;
+            }
+            if (userFromDb.Login != offerFromDb.User.Login)
+            {
+                response.AddError(UserErrors.NotAllowed);
+                return response;
+            }
+            var categoryFromDb = await _categoriesRepository.GetCategoryById(offer.CategoryId);
+            if (categoryFromDb == null)
+            {
+                response.AddError(CategoryErrors.NotFoundById);
+                return response;
+            }
+            var offerTypeFromDb = await _offerTypesRepository.GetOfferTypeById(offer.OfferTypeId);
+            if (offerTypeFromDb == null)
+            {
+                response.AddError(OfferTypeErrors.NotFoundById);
+                return response;
+            }
+
+            offerToDb.Active = true;
+            offerToDb.CreateDate = DateTime.Now;
+            offerToDb.User = userFromDb;
+            offerToDb.Category = categoryFromDb;
+            offerToDb.OfferType = offerTypeFromDb;
+
+            try
+            {
+                response.Value = await _offersRepository.UpdateOffer(offerFromDb, offerToDb);
+            }
+            catch (Exception e)
+            {
+                response.AddError(OfferErrors.AddingError);
+                Console.Error.WriteLine(e); // TODO proper logging 
+            }
+
             return response;
         }
     }

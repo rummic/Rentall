@@ -108,6 +108,7 @@
                     .ForMember(x => x.Category, o => o.Ignore())
                     .ForMember(x => x.OfferType, o => o.Ignore());
                 cfg.CreateMap<Photo, GetPhotoByPathDto>();
+                cfg.CreateMap<UpdateOfferDto, Offer>();
             });
         }
 

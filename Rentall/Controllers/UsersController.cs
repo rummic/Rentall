@@ -91,7 +91,7 @@
                 return BadRequest();
             }
 
-            var result = await _usersService.UpdateUser(userToUpdate);
+            var result = await _usersService.UpdateUser(User, userToUpdate);
 
             if (result.HasErrors)
             {

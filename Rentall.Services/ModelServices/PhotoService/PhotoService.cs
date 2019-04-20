@@ -13,6 +13,7 @@ namespace Rentall.Services.ModelServices.PhotoService
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     public class PhotoService : IPhotoService
@@ -42,7 +43,7 @@ namespace Rentall.Services.ModelServices.PhotoService
             }
         }
 
-        public async Task<ResponseDto<string>> AddPhoto(IFormFile photo, int offerId)
+        public async Task<ResponseDto<string>> AddPhoto(ClaimsPrincipal user, IFormFile photo, int offerId)
         {
             var result = new ResponseDto<string>();
             if (photo.Length <= 0)
@@ -61,6 +62,12 @@ namespace Rentall.Services.ModelServices.PhotoService
             if (offerFromDb == null)
             {
                 result.AddError(OfferErrors.NotFoundById);
+                return result;
+            }
+
+            if (user.Identity.Name != offerFromDb.User.Login)
+            {
+                result.AddError(UserErrors.NotAllowed);
                 return result;
             }
             string filePath = GetAvailablePath(_photosFolderPath, photo.FileName);

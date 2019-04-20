@@ -5,7 +5,6 @@
     using System.IdentityModel.Tokens.Jwt;
     using System.Linq;
     using System.Security.Claims;
-    using System.Security.Cryptography;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -78,7 +77,7 @@
             return response;
         }
 
-        public async Task<ResponseDto<int>> UpdateUser(AddUserDto userToUpdate)
+        public async Task<ResponseDto<int>> UpdateUser(ClaimsPrincipal loggedInUser, AddUserDto userToUpdate) // TODO sprawdzic czy user edytuje sam siebie a jak nie to won
         {
             var response = new ResponseDto<int>();
             var userFromDb = await _usersRepository.GetUserByLogin(userToUpdate.Login);

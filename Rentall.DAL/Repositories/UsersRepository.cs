@@ -11,7 +11,7 @@
 
     public class UsersRepository : IUsersRepository
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public UsersRepository(ApplicationDbContext context)
         {

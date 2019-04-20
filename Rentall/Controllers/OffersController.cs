@@ -2,6 +2,7 @@
 
 namespace Rentall.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -64,7 +65,19 @@ namespace Rentall.Controllers
                 return BadRequest();
             }
 
-            ResponseDto<int> result = await _offersService.AddOffer(offer);
+            ResponseDto<int> result = await _offersService.AddOffer(User, offer);
+            if (result.HasErrors)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPatch]
+        public async Task<ActionResult<ResponseDto<bool>>> UpdateOffer([FromBody] UpdateOfferDto offer)
+        {
+            var result = await _offersService.UpdateOffer(User, offer);
             if (result.HasErrors)
             {
                 return BadRequest(result);

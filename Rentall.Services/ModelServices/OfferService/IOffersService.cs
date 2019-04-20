@@ -11,9 +11,11 @@ namespace Rentall.Services.ModelServices.OfferService
     public interface IOffersService
     {
         Task<ResponseDto<GetOfferByIdDto>> GetOfferById(int id);
-        Task<ResponseDto<int>> AddOffer(AddOfferDto offer);
+        Task<ResponseDto<int>> AddOffer(ClaimsPrincipal user, AddOfferDto offer);
         Task<ResponseDto<bool>> ChangeOfferActivity(int id);
         Task<ResponseDto<bool>> DeleteOffer(ClaimsPrincipal userIdentity, int id);
         Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersByUser(string userLogin);
+
+        Task<ResponseDto<int>> UpdateOffer(ClaimsPrincipal user, UpdateOfferDto offer);
     }
 }
