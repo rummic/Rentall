@@ -26,7 +26,7 @@
 
         public async Task<User> GetUserByLogin(string login)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Login == login);
+            var user = await _context.Users.FirstOrDefaultAsync(x => string.CompareOrdinal(x.Login, login) == 0);
             return user;
         }
 
