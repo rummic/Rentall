@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import './offerts.css';
-import { Button,Navbar, NavDropdown, Nav,Form } from 'react-bootstrap';
+import { Button, Navbar, NavDropdown, Nav, Form } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 class offerts extends Component {
+
   constructor(props) {
     super(props);
 
@@ -22,8 +23,7 @@ class offerts extends Component {
       categoryId: 1,
       offerTypeId: 1,
       userLogin: sessionStorage.getItem('login'),
-      redirect: false,
-      files: [],
+      files: [1],
       category: [],
       offerType: []
     }
@@ -54,9 +54,11 @@ class offerts extends Component {
   }
 
   addFile() {
-    if (this.state.files.length < 5) {
+    const imageCount = 5;
+    if (this.state.files.length < imageCount) {
       this.setState({ files: [...this.state.files, ''] });
-    } else {
+    }
+    if (this.state.files.length === imageCount - 1) {
       document.getElementById("add").style.display = "none";
     }
   }
@@ -67,10 +69,10 @@ class offerts extends Component {
   }
 
   logout() {
-    sessionStorage.setItem("value", '');
     sessionStorage.clear();
-    this.setState({ redirect: true });
+    this.props.history.push("/home")
   }
+
 
   addOffer() {
     fetch('https://localhost:44359/api/Offers', {
@@ -113,22 +115,19 @@ class offerts extends Component {
 
             //console.log("dodano " + (i+1)+" zdjecie");
           }
-          alert("Offer upload completed");
+          alert("Oferta dodana poprawnie");
         }
         else {
-          alert("Please select photos first");
+          alert("Proszę wybrać zdjęcie");
         }
       })
-    this.setState({ redirect: true });
 
   }
 
   render() {
-    if (this.state.redirect) {
-      return (<Redirect to={'/index'} />)
-    }
-    if (!sessionStorage.getItem("value")) {
-      return (<Redirect to={'/index'} />)
+
+    if (!sessionStorage.getItem("token")) {
+      return (<Redirect to={'/home'} />)
     }
 
     return (
@@ -147,7 +146,7 @@ class offerts extends Component {
           </Navbar.Collapse>
           <Form inline>
             <Navbar.Text className=" mr-sm-2">
-            Zalogowany jako : <b className="login"> {sessionStorage.getItem('login')} </b>
+              Zalogowany jako : <b className="login"> {sessionStorage.getItem('login')} </b>
             </Navbar.Text>
             <Button className="logout" variant="outline-light" size="sm" onClick={this.logout}>Logout</Button>
           </Form>
@@ -238,7 +237,7 @@ class offerts extends Component {
                 <input type="text" name="street" onChange={this.onChange} />
               </div>
             </div>
-            
+
             <div className="subsection">
               <label>Kod pocztowy</label>
               <div>
@@ -254,24 +253,30 @@ class offerts extends Component {
               {
                 this.state.files.map((file, index) => {
                   return (
-                    <div key={index}>
-                      <input type="file" name="photo" onChange={(e) => this.handleChange(e, index)} value={this.state.file} />
+                    <div key={index} className="addImage">
+                    <label className="btn btn-primary">Wybierz&hellip;
+                      <input className="inputImage" type="file" name="photo" onChange={(e) => this.handleChange(e, index)} value={this.state.file} />
+                      </label>
                     </div>
                   )
                 })
-              }
-              <hr />
 
-              <button id="add" onClick={(e) => this.addFile(e)}>Dodaj</button>
-              <hr />
+              }
+              
+                <div className="addButton">
+                  <button type="button" id="add" onClick={(e) => this.addFile(e)} className="btn btn-success btn-number" data-type="plus" data-field="quant[2]">
+                    <span className="glyphicon glyphicon-plus"></span>
+                  </button>
+                </div>
+      
             </div>
-            <div className="but"><button onClick={this.addOffer.bind(this)}>Dodaj</button></div>
-            <div className="clearfix"></div>
+              <div className="but"><button onClick={this.addOffer.bind(this)}>Dodaj</button></div>
+              <div className="clearfix"></div>
+            </div>
           </div>
         </div>
-      </div>
 
-    );
-  }
-}
+        );
+      }
+    }
 export default offerts;

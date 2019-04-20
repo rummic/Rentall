@@ -45,7 +45,6 @@ class register extends Component {
         email: "",
         phoneNumber: "",
       },
-      redirect : false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -108,16 +107,14 @@ class register extends Component {
           "role": this.state.role
         })
       });
-      this.setState({redirect: true});  
     }
   }
 
   render() {
     const { formErrors } = this.state;
-    if(this.state.redirect){
-      return(<Redirect to={'/login'}/>)
-    }
-    if(sessionStorage.getItem("value")){
+    
+
+    if(sessionStorage.getItem("token")){
       return(<Redirect to={'/index'}/>) 
     }
 
