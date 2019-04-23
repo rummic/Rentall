@@ -11,7 +11,7 @@ class detailsoff extends Component {
       redirect: false,
       login: "",
       offerts: [],
-      zdjecia : []
+      images : []
 
     }
     this.logout = this.logout.bind(this);
@@ -27,7 +27,7 @@ class detailsoff extends Component {
       .then(parseJSON => {
         this.setState({
           offerts: parseJSON.value,
-          zdjecia: parseJSON.value[this.props.match.params.id].photos
+          images: parseJSON.value[this.props.match.params.id].photos
         })
       })
 
@@ -88,7 +88,7 @@ class detailsoff extends Component {
             
             <Carousel>
            {
-             this.state.zdjecia.map(function(item, i){
+             this.state.images.map(function(item, i){
               return <Carousel.Item key={i}>
               <img 
                 className="d-block w-100"

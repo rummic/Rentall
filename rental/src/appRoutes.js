@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import './App.css';
 import {BrowserRouter,Route} from 'react-router-dom';
 
-import Home from "./Components/home";
-import Login from "./Components/login";
-import Register from "./Components/register";
-import Index from "./Components/homez";
-import Offer from "./Components/offerts";
-import Alloff from "./Components/alloff";
-import Detailsoff from "./Components/detailsoff";
+import Home from "./Components/MainPage/home";
+import Login from "./Components/Login/login";
+import Register from "./Components/Register/register";
+import Index from "./Components/Index/homez";
+import Offer from "./Components/Offerts/offerts";
+import Alloff from "./Components/Offerts/alloff";
+import Detailsoff from "./Components/Offerts/detailsoff";
 
 
 class App extends Component {

@@ -14,15 +14,13 @@ class alloff extends Component {
 
     componentWillMount() {
         
-        fetch('https://localhost:44359/api/Offers/user/' + sessionStorage.getItem('login'))
+        fetch('https://localhost:44359/api/Offers/User/' + sessionStorage.getItem('login'))
             .then(response => response.json())
             .then(parseJSON => {
                 this.setState({
                     offerts: parseJSON.value || []
                 })
             })
-
-
     }
 
     logout() {
@@ -102,7 +100,7 @@ class alloff extends Component {
                                 </div>
                                 <div className="ofdes">
                                     <div className="ofprice">{item.price} zł</div>
-                                    <div className="ofbutton"><button><a href={"/detailsoff/" + i}>Details</a></button></div>
+                                    <div className="ofbutton"><Button href={"/detailsoff/" + i}>Szczegóły</Button></div>
                                 </div>
                                 <div className="clearfix"></div>
                             </div>
