@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './home.css';
 import logo from '../../fotos/back.jpg'
-import { Button,Nav,FormControl, Navbar, Form,ButtonGroup } from 'react-bootstrap';
+import { Button, Navbar, Form,ButtonGroup } from 'react-bootstrap';
 
 class home extends Component {
     render() {

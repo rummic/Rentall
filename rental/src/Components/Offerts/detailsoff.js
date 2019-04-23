@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './detailsoff.css';
-import { Button, Navbar, NavDropdown, Nav, Form,Carousel } from 'react-bootstrap';
+import {Col,Row,Breadcrumb,Container, Button, Navbar, NavDropdown, Nav, Form, Carousel } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
-
+import NumberFormat from 'react-number-format';
 class detailsoff extends Component {
 
   constructor(props) {
@@ -11,7 +11,7 @@ class detailsoff extends Component {
       redirect: false,
       login: "",
       offerts: [],
-      images : []
+      images: []
 
     }
     this.logout = this.logout.bind(this);
@@ -37,30 +37,90 @@ class detailsoff extends Component {
   logout() {
     sessionStorage.clear();
     this.props.history.push("/home")
-}
+  }
 
-  wyswietlanie() {
-    const obj = this.state.offerts[this.props.match.params.id];
-    const path = "https://localhost:44359/"
-    if (obj != null) {
-      document.getElementsByClassName("offertitle")[0].innerHTML = obj.title;
-      document.getElementsByClassName("offerprice")[0].innerHTML = obj.price +" zł";
-      document.getElementsByClassName("opis")[0].innerHTML = obj.description; 
-      document.getElementsByClassName("offerinfo")[0].innerHTML = "<b>"+obj.city+", "+obj.street+", "+"</b>"+"</br>"+"Powierzchnia : "+obj.area +" m²"+"</br>"+"Piętro : "+obj.level +"</br>" +"Liczba pokoi : "+obj.roomCount +"</br>"+"Kategoria : "+obj.categoryName +"</br>" +"Rodzaj ogłoszenia : " + obj.offerTypeType 
+  showOffer() {
+    if (this.state.offerts.length != 0) {
+      const obj = this.state.offerts[this.props.match.params.id];
+      return (
+        <Container>
+          <Row className="headerOffer">
+            <Col className="titleOffer" md={8}><b>{obj.title}</b></Col>
+            <Col className="priceOffer" md={4}><NumberFormat value={obj.price} displayType={'text'} thousandSeparator={' '} /> zł</Col>
+            <Col className="localisationOffer" md={4}><span className="glyphicon glyphicon-map-marker"></span>{obj.city}, {obj.street}</Col>
+          </Row>
+          <hr />
+          <Row className="sliderUser">
+            <Col sm={8}><Carousel>
+              {
+                this.state.images.map(function (item, i) {
+                  return <Carousel.Item key={i}>
+                    <img
+                      className="d-block w-100"
+                      src={"https://localhost:44359/" + item}
+                      alt="First slide"
+                    />
+                  </Carousel.Item>
+
+                })
+
+              }
+            </Carousel></Col>
+
+            <Col sm={4}>
+              <Col className="nameUser"><span className="glyphicon glyphicon-user"> </span>{obj.user.login}</Col>
+              <Col className="phoneUser"><span className="glyphicon glyphicon-earphone"></span>{obj.user.phoneNumber}</Col>
+
+              <form>
+                <Form.Group controlId="formBasicName">
+
+                  <Form.Control type="text" required placeholder="Imie" name="firstName" />
+                </Form.Group>
+                <Form.Group controlId="formBasicEmail">
+
+                  <Form.Control type="email" required placeholder="Adres email" name="email" />
+                </Form.Group>
+                <Form.Group controlId="formBasicPhone">
+
+                  <Form.Control type="text" required placeholder="Numer telefonu" name="phoneNumber" />
+
+                </Form.Group>
+                <textarea rows="10" cols="50"></textarea>
+                <button type="submit">Wyslij</button>
+              </form>
+            </Col>
+
+          </Row>
+          <hr />
+          <Row>
+            <Col className="detailsOffer">Kategoria : {obj.categoryName}</Col>
+            <Col className="detailsOffer">Rodzaj ogłoszenia : {obj.offerTypeType}</Col>
+            <Col className="detailsOffer">Powierzchnia : {obj.area}</Col>
+            <Col className="detailsOffer">Piętro : {obj.level}</Col>
+            <Col className="detailsOffer">Liczba pokoi : {obj.roomCount}</Col>
+          </Row>
+          <hr />
+          <Row>
+            <Col className="titleOffer">Opis ogłoszenia</Col>
+
+          </Row>
+          <hr />
+          <Row className="descriptionOffer">
+            <Col>{obj.description}</Col>
+          </Row>
+        </Container>
+      )
     }
   }
 
 
   render() {
-    if(!sessionStorage.getItem("token")){
-      return(<Redirect to={'/home'}/>) 
+    if (!sessionStorage.getItem("token")) {
+      return (<Redirect to={'/home'} />)
     }
-    
+
     return (
       <div className="box">
-        {
-          this.wyswietlanie()
-        }
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
           <Navbar.Brand href="/index">RentAll</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -75,56 +135,21 @@ class detailsoff extends Component {
           </Navbar.Collapse>
           <Form inline>
             <Navbar.Text className=" mr-sm-2">
-            Zalogowany jako : <b className="login"> {sessionStorage.getItem('login')} </b>
+              Zalogowany jako : <b className="login"> {sessionStorage.getItem('login')} </b>
             </Navbar.Text>
             <Button className="logout" variant="outline-light" size="sm" onClick={this.logout}>Logout</Button>
           </Form>
         </Navbar>
         <div className="clearfix"></div>
         <div className="offertbox">
-          <div className="offerttop">
-            <div className="offertitle">Tytuł wpisany w formularzu</div>
-            <div className="offerfoto">
-            
-            <Carousel>
-           {
-             this.state.images.map(function(item, i){
-              return <Carousel.Item key={i}>
-              <img 
-                className="d-block w-100"
-                src={"https://localhost:44359/"+item}
-                alt="First slide"
-              />
-            </Carousel.Item>
-
-             })
-
-
-           }
-            </Carousel>
-            </div>
-            <div className="titleOffer">Podstawowe informacje<hr/></div>
-            <div className="offerdesc">
-            
-            <div className="offerinfo">
-            
-            </div>
-            <div className="offerinfo">
-            
-            </div>
-              <div className="offerprice">Cena</div>
-              
-              <button >Wynajmij</button>
-            </div>
-            <div className="clearfix"></div>
-          </div>
-          <div className="titleOffer">Opis ogłoszenia<hr/></div>
-          <div className="offerdet">
-          
-            <div className="opis"></div>
-            
-          </div>
-          <div className="clearfix"></div>
+        <Breadcrumb>
+                        <Breadcrumb.Item href="/index">RentAll</Breadcrumb.Item>
+                        <Breadcrumb.Item href="/alloff" >Oferty</Breadcrumb.Item>
+                        <Breadcrumb.Item active>Szczegóły</Breadcrumb.Item>
+                    </Breadcrumb>
+          {
+            this.showOffer()
+          }
         </div>
       </div>
     );
