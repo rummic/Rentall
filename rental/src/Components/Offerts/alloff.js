@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './alloff.css';
-import { Button, Navbar, NavDropdown, Nav, Form } from 'react-bootstrap';
+import { Button, Navbar, NavDropdown, Nav, Form,Breadcrumb } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
-
+import NumberFormat from 'react-number-format';
 class alloff extends Component {
     constructor(props) {
         super(props);
@@ -13,7 +13,7 @@ class alloff extends Component {
     }
 
     componentWillMount() {
-        
+
         fetch('https://localhost:44359/api/Offers/User/' + sessionStorage.getItem('login'))
             .then(response => response.json())
             .then(parseJSON => {
@@ -35,17 +35,17 @@ class alloff extends Component {
     }
     delete(i) {
         const token = sessionStorage.getItem("token");
-        fetch('https://localhost:44359/api/Offers/'+(i+1), {
+        fetch('https://localhost:44359/api/Offers/' + (i + 1), {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                "Authorization" : `bearer ${token}`
-        }
+                "Authorization": `bearer ${token}`
+            }
         })
-        .then(parseJSON => {
-            console.log(parseJSON);
-        })
-        
+            .then(parseJSON => {
+                console.log(parseJSON);
+            })
+
     }
     render() {
 
@@ -75,15 +75,19 @@ class alloff extends Component {
                         <Button className="logout" variant="outline-light" size="sm" onClick={this.logout}>Logout</Button>
                     </Form>
                 </Navbar>
-
+                
                 <div className="clearfix"></div>
                 <div className="ofbox">
+                <Breadcrumb>
+                        <Breadcrumb.Item href="/index">RentAll</Breadcrumb.Item>
+                        <Breadcrumb.Item active>Oferty</Breadcrumb.Item>
+                    </Breadcrumb>
                     <div id="empyOffer"></div>
                     {
 
                         this.state.offerts.map((item, i) => (
                             <div className="offcon" key={i}>
-                                <a className="close" onClick={()=>this.delete(i)}></a>
+                                <a className="close" onClick={() => this.delete(i)}></a>
                                 <div className="offoto"><img src={"https://localhost:44359/" + item.photos[0]} alt="as" /></div>
                                 <div className="ofdesc">{item.title}<hr />
                                     <div className="ofinf">
@@ -99,7 +103,7 @@ class alloff extends Component {
                                     </div>
                                 </div>
                                 <div className="ofdes">
-                                    <div className="ofprice">{item.price} zł</div>
+                                    <div className="ofprice"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} /> zł</div>
                                     <div className="ofbutton"><Button href={"/detailsoff/" + i}>Szczegóły</Button></div>
                                 </div>
                                 <div className="clearfix"></div>

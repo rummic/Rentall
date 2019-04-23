@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './offerts.css';
-import { Button, Navbar, NavDropdown, Nav, Form } from 'react-bootstrap';
+import { Button, Navbar, NavDropdown, Nav, Form,Breadcrumb } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
@@ -157,8 +157,12 @@ class offerts extends Component {
         </Navbar>
         <div className="clearfix"></div>
         <div className="contentbox1">
-
+        
           <div className="offerts1">
+          <Breadcrumb>
+                        <Breadcrumb.Item href="/index">RentAll</Breadcrumb.Item>
+                        <Breadcrumb.Item active>Dodaj ofertę</Breadcrumb.Item>
+                    </Breadcrumb>
             <div className="title">RentAll - dodaj nowe ogłoszenie </div>
             <div className="section1">
               <label>Tytuł</label>

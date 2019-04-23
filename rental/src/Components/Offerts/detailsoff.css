@@ -1,3 +1,4 @@
+@import "../Helpers/glyphicon.css";
 body{
     background-color: rgba(234, 234, 234, 1);
 }
@@ -35,9 +36,23 @@ body{
 }
 .titleOffer{
     font-size: 25px;
-    float: left;
-    display: block;
-    margin-left: 10px;
+    text-align: left;
+}
+.headerOffer{
+    padding: 10px;
+    text-align: left;
+}
+.priceOffer{
+    text-align: right;
+    font-size: 20px;
+    font-weight: 600;
+}
+.detailsOffer{
+    border-right: 1px solid;
+    border-left: 1px solid;
+}
+.descriptionOffer{
+    text-align: left;
 }
 .offertbox{
     background-color: white;
@@ -120,4 +135,16 @@ body{
 
 .offerdet img{
     width:40%;
+}
+.nameUser{
+    text-align: right;
+    padding: 10px;
+    padding-right: 50px;
+    font-weight: 600;
+    font-size: 20px;
+}
+.phoneUser{
+    text-align: right;
+    padding: 10px;
+    padding-right: 50px;
 }
