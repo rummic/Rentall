@@ -34,7 +34,7 @@ namespace Rentall.DAL.Repositories
 
         public async Task<IEnumerable<Offer>> GetOffers()
         {
-            var offers = await _context.Offers.ToListAsync();
+            var offers = await _context.Offers.Include(x => x.Photos).Include(x => x.User).Include(x => x.Category).Include(x => x.OfferType).ToListAsync();
             return offers;
         }
 

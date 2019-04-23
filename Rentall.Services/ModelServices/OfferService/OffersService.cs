@@ -141,7 +141,16 @@ namespace Rentall.Services.ModelServices.OfferService
             var response = new ResponseDto<List<GetOfferByIdDto>>();
             var offersFromDb = await _offersRepository.GetOffers();
             var randomOffers = offersFromDb.OrderBy(x => Guid.NewGuid()).Take(10).ToList();
+            
             var mappedRandomOffers = Mapper.Map<List<GetOfferByIdDto>>(randomOffers);
+            foreach (var mappedOffer in mappedRandomOffers)
+            {
+                for (int i = 0; i < mappedOffer.Photos.Count; i++)
+                {
+                    var split = mappedOffer.Photos[i].Split('\\');
+                    mappedOffer.Photos[i] = string.Join('/', split.Skip(split.Length - 2));
+                }
+            }
             response.Value = mappedRandomOffers;
             return response;
         }
