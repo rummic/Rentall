@@ -162,6 +162,14 @@
                 return response;
             }
             var mappedOffers = Mapper.Map<List<GetOfferByIdDto>>(offersToMap);
+            foreach (var mappedOffer in mappedOffers)
+            {
+                for (int i = 0; i < mappedOffer.Photos.Count; i++)
+                {
+                    var split = mappedOffer.Photos[i].Split('\\');
+                    mappedOffer.Photos[i] = string.Join('/', split.Skip(split.Length - 2));
+                }
+            }
             response.Value = mappedOffers;
             return response;
         }
