@@ -155,7 +155,7 @@
             var response = new ResponseDto<List<GetOfferByIdDto>>();
             var querySplit = query.Split(" ");
             var offersFromDb = await _offersRepository.GetOffers();
-            var offersToMap = offersFromDb.Where(x => querySplit.All(y => x.ToString().Contains(y)));
+            var offersToMap = offersFromDb.Where(x => querySplit.All(y => x.ToString().Contains(y.ToLowerInvariant())));
             if (!offersToMap.Any())
             {
                 response.AddError(OfferErrors.NotFoundByQuery);
