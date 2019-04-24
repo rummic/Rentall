@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './alloff.css';
-import { Button, Navbar, NavDropdown, Nav, Form,Breadcrumb } from 'react-bootstrap';
+import { Button, Navbar, NavDropdown, Nav, Form, Breadcrumb } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 class alloff extends Component {
@@ -35,7 +35,7 @@ class alloff extends Component {
     }
     delete(i) {
         const token = sessionStorage.getItem("token");
-        fetch('https://localhost:44359/api/Offers/' + (i + 1), {
+        fetch('https://localhost:44359/api/Offers/' + this.state.offerts[i].id, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -54,7 +54,6 @@ class alloff extends Component {
         }
 
         return (
-
             <div className="box">
                 <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                     <Navbar.Brand href="/index">RentAll</Navbar.Brand>
@@ -75,10 +74,10 @@ class alloff extends Component {
                         <Button className="logout" variant="outline-light" size="sm" onClick={this.logout}>Logout</Button>
                     </Form>
                 </Navbar>
-                
+
                 <div className="clearfix"></div>
                 <div className="ofbox">
-                <Breadcrumb>
+                    <Breadcrumb>
                         <Breadcrumb.Item href="/index">RentAll</Breadcrumb.Item>
                         <Breadcrumb.Item active>Oferty</Breadcrumb.Item>
                     </Breadcrumb>
