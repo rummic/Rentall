@@ -36,7 +36,7 @@ class register extends Component {
       lastName: null,
       email: null,
       phoneNumber: "",
-      role: "user",
+      role: "User",
       formErrors: {
         login: "",
         password: "",

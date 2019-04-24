@@ -40,7 +40,7 @@ class detailsoff extends Component {
   }
 
   showOffer() {
-    if (this.state.offerts.length != 0) {
+    if (this.state.offerts.length !== 0) {
       const obj = this.state.offerts[this.props.match.params.id];
       return (
         <Container>
@@ -68,8 +68,8 @@ class detailsoff extends Component {
             </Carousel></Col>
 
             <Col sm={4}>
-              <Col className="nameUser"><span className="glyphicon glyphicon-user"> </span>{obj.user.login}</Col>
-              <Col className="phoneUser"><span className="glyphicon glyphicon-earphone"></span>{obj.user.phoneNumber}</Col>
+              <Col className="nameUser"><span className="glyphicon glyphicon-user"> </span> {obj.user.login}</Col>
+              <Col className="phoneUser"><span className="glyphicon glyphicon-earphone"></span> {obj.user.phoneNumber}</Col>
 
               <form>
                 <Form.Group controlId="formBasicName">
