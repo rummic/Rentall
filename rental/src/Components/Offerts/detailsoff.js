@@ -121,25 +121,31 @@ class detailsoff extends Component {
 
     return (
       <div className="box">
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-          <Navbar.Brand href="/index">RentAll</Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="mr-auto">
-              <NavDropdown title="Menu" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="/addOffer">Dodaj oferte</NavDropdown.Item>
-                <NavDropdown.Item href="/alloff">Oferty</NavDropdown.Item>
-                <NavDropdown.Item href="#">Ustawienia</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-          </Navbar.Collapse>
-          <Form inline>
-            <Navbar.Text className=" mr-sm-2">
-              Zalogowany jako : <b className="login"> {sessionStorage.getItem('login')} </b>
-            </Navbar.Text>
-            <Button className="logout" variant="outline-light" size="sm" onClick={this.logout}>Logout</Button>
-          </Form>
-        </Navbar>
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" >
+                    <Navbar.Brand href="/index">RentAll</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    <Navbar.Collapse id="responsive-navbar-nav">
+                    <Button className="addOffer" variant="outline-light" size="sm" href="/addOffer" >Dodaj oferte</Button>
+                    </Navbar.Collapse>
+                    <Form inline>
+                        <Navbar.Text className=" mr-sm-2">
+                            Zalogowany jako : 
+                        </Navbar.Text>
+                        <Navbar.Collapse id="responsive-navbar-nav">
+                        <Nav className="mr-auto">
+                            <NavDropdown title={sessionStorage.getItem('login')} id="collasible-nav-dropdown">
+                                <NavDropdown.Item href="/alloff"><span className="glyphicon glyphicon-picture"></span> Oferty</NavDropdown.Item>
+                                <NavDropdown.Item href="#"><span className="glyphicon glyphicon-envelope"></span> Wiadomosci</NavDropdown.Item>
+                                <NavDropdown.Item href="#"><span className="glyphicon glyphicon-wrench"></span> Ustawienia</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item className="logout" onClick={this.logout} ><span className="glyphicon glyphicon-log-in"></span> Wyloguj</NavDropdown.Item>
+                                   
+                            </NavDropdown>
+                        </Nav>
+                    </Navbar.Collapse>
+                                    
+                    </Form>
+                </Navbar>
         <div className="clearfix"></div>
         <div className="offertbox">
         <Breadcrumb>

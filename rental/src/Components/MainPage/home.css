@@ -1,3 +1,4 @@
+@import "../Helpers/glyphicon.css";
 body{
     background-color: rgba(234, 234, 234, 1);
 }
@@ -101,7 +102,7 @@ body{
 
 }
 .searchbox input{
-    width:30%;
+    width:70%;
     padding: 10px;
     margin: 20px;
     border-radius: 5px;
@@ -191,5 +192,17 @@ body{
 }
 
 .login{
+    color: white;
+}
+
+.dropdown-menu{
+    left: -90px;
+}
+
+a{
+    font-size: 16px !important;
+    font-weight: 600;
+}
+.navbar-dark .navbar-nav .nav-link {
     color: white;
 }
