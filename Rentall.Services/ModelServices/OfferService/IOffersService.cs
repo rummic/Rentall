@@ -15,8 +15,9 @@
         Task<ResponseDto<bool>> DeleteOffer(ClaimsPrincipal userIdentity, int id);
         Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersByUser(string userLogin);
 
-        Task<ResponseDto<List<GetOfferByIdDto>>> GetRandomOffers();
+        Task<ResponseDto<List<GetOfferByIdDto>>> GetRandomOffers(int count);
 
+        Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersByQuery(string query);
         Task<ResponseDto<int>> UpdateOffer(ClaimsPrincipal user, UpdateOfferDto offer);
     }
 }

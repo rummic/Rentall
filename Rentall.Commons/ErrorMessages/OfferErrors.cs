@@ -7,5 +7,7 @@
         public static readonly string CannotDeleteOffer = "Cannot delete offer with provided id.";
         public static readonly string NotFoundOffersByUser = "User has not created any offers.";
         public static readonly string OneMainPhoto = "Offer must have only one main photo.";
+
+        public static readonly string NotFoundByQuery = "Query has not found any offers.";
     }
 }

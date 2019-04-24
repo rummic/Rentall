@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Rentall.Services.Dtos.OfferDto
+﻿namespace Rentall.Services.Dtos.OfferDto
 {
     using System;
+    using System.Collections.Generic;
 
     using Rentall.Services.Dtos.UserDto;
 

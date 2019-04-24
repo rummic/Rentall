@@ -1,19 +1,15 @@
-﻿using Rentall.Commons.Enumerables;
-
-namespace Rentall.Controllers
+﻿namespace Rentall.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
-
+    using Rentall.Commons.Enumerables;
     using Rentall.Services.Dtos;
     using Rentall.Services.Dtos.OfferDto;
     using Rentall.Services.ModelServices.OfferService;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -44,15 +40,28 @@ namespace Rentall.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("Main")]
-        public async Task<ActionResult<ResponseDto<List<GetOfferByIdDto>>>> GetRandomOffers()
+        [HttpGet("Main/{count}")]
+        public async Task<ActionResult<ResponseDto<List<GetOfferByIdDto>>>> GetRandomOffers(int count = 1)
         {
-            var result = await _offersService.GetRandomOffers();
+            var result = await _offersService.GetRandomOffers(count);
             if (result.HasErrors)
             {
                 return BadRequest(result);
             }
-            return result;
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("Query/{query}")]
+        public async Task<ActionResult<ResponseDto<List<GetOfferByIdDto>>>> GetOffersByQuery(string query)
+        {
+            var result = await _offersService.GetOffersByQuery(query);
+            if (result.HasErrors)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
 
         [AllowAnonymous]

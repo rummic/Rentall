@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-
-namespace Rentall.Services.ModelServices.OfferService
+﻿namespace Rentall.Services.ModelServices.OfferService
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using AutoMapper;
@@ -45,16 +44,12 @@ namespace Rentall.Services.ModelServices.OfferService
             }
 
             var mappedOffer = Mapper.Map<GetOfferByIdDto>(offerFromDb);
-            for (int i = 0; i < mappedOffer.Photos.Count; i++)
-            {
-                var split = mappedOffer.Photos[i].Split('\\');
-                mappedOffer.Photos[i] = string.Join('/', split.Skip(split.Length - 2));
-            }
+            GetPhotosPaths(mappedOffer);
             response.Value = mappedOffer;
             return response;
         }
 
-        public async Task<ResponseDto<int>> AddOffer(ClaimsPrincipal user, AddOfferDto offer) // TODO to lower invariant porównywanie w szukaniu
+        public async Task<ResponseDto<int>> AddOffer(ClaimsPrincipal user, AddOfferDto offer) 
         {
             var response = new ResponseDto<int>();
             var offerToDb = Mapper.Map<Offer>(offer);
@@ -136,11 +131,11 @@ namespace Rentall.Services.ModelServices.OfferService
             return response;
         }
 
-        public async Task<ResponseDto<List<GetOfferByIdDto>>> GetRandomOffers()
+        public async Task<ResponseDto<List<GetOfferByIdDto>>> GetRandomOffers(int count)
         {
             var response = new ResponseDto<List<GetOfferByIdDto>>();
             var offersFromDb = await _offersRepository.GetOffers();
-            var randomOffers = offersFromDb.OrderBy(x => Guid.NewGuid()).Take(10).ToList();
+            var randomOffers = offersFromDb.OrderBy(x => Guid.NewGuid()).Take(count).ToList();
             
             var mappedRandomOffers = Mapper.Map<List<GetOfferByIdDto>>(randomOffers);
             foreach (var mappedOffer in mappedRandomOffers)
@@ -154,6 +149,23 @@ namespace Rentall.Services.ModelServices.OfferService
             response.Value = mappedRandomOffers;
             return response;
         }
+
+        public async Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersByQuery(string query)
+        {
+            var response = new ResponseDto<List<GetOfferByIdDto>>();
+            var querySplit = query.Split(" ");
+            var offersFromDb = await _offersRepository.GetOffers();
+            var offersToMap = offersFromDb.Where(x => querySplit.All(y => x.ToString().Contains(y)));
+            if (!offersToMap.Any())
+            {
+                response.AddError(OfferErrors.NotFoundByQuery);
+                return response;
+            }
+            var mappedOffers = Mapper.Map<List<GetOfferByIdDto>>(offersToMap);
+            response.Value = mappedOffers;
+            return response;
+        }
+
 
         public async Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersByUser(string userLogin)
         {
@@ -175,15 +187,12 @@ namespace Rentall.Services.ModelServices.OfferService
             var mappedOffers = Mapper.Map<List<GetOfferByIdDto>>(offersFromDb);
             foreach (var mappedOffer in mappedOffers)
             {
-                for (int i = 0; i < mappedOffer.Photos.Count; i++)
-                {
-                    var split = mappedOffer.Photos[i].Split('\\');
-                    mappedOffer.Photos[i] = string.Join('/', split.Skip(split.Length - 2));
-                }
+                GetPhotosPaths(mappedOffer);
             }
             response.Value = mappedOffers;
             return response;
         }
+
 
         public async Task<ResponseDto<int>> UpdateOffer(ClaimsPrincipal user, UpdateOfferDto offer)
         {
@@ -236,6 +245,15 @@ namespace Rentall.Services.ModelServices.OfferService
             }
 
             return response;
+        }
+
+        private static void GetPhotosPaths(GetOfferByIdDto mappedOffer)
+        {
+            for (int i = 0; i < mappedOffer.Photos.Count; i++)
+            {
+                var split = mappedOffer.Photos[i].Split('\\');
+                mappedOffer.Photos[i] = string.Join('/', split.Skip(split.Length - 2));
+            }
         }
     }
 }

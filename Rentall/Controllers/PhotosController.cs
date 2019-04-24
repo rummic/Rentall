@@ -1,7 +1,4 @@
-﻿using Rentall.DAL.Model;
-using Rentall.Services.Dtos.PhotoDto;
-
-namespace Rentall.Controllers
+﻿namespace Rentall.Controllers
 {
     using System.Threading.Tasks;
 
@@ -11,9 +8,8 @@ namespace Rentall.Controllers
     using Microsoft.AspNetCore.Mvc;
 
     using Rentall.Services.Dtos;
+    using Rentall.Services.Dtos.PhotoDto;
     using Rentall.Services.ModelServices.PhotoService;
-
-    using Swashbuckle.AspNetCore.Swagger;
 
     [Route("api/[controller]")]
     [ApiController]

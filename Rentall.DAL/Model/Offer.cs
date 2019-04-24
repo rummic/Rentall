@@ -29,5 +29,13 @@
         public OfferType OfferType { get; set; }
         public User User { get; set; }
         public ICollection<Photo> Photos { get; set; }
+
+        public override string ToString()
+        {
+            string result = Id + Title + Description + Price + Area + Level + RoomCount + City + Street + ZipCode + Category
+                      + OfferType;
+            result = result.Trim().ToLowerInvariant();
+            return result;
+        }
     }
 }
