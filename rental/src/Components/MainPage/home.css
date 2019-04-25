@@ -206,3 +206,119 @@ a{
 .navbar-dark .navbar-nav .nav-link {
     color: white;
 }
+
+@media screen and (max-width: 800px)
+{
+    .searchbox{
+        clear:both;
+        width: 90%;
+        height: 100px;
+        margin: auto;
+        margin-bottom: 30px;
+        border-radius: 5px;
+        background-color:   rgba(234, 234, 234, 1);
+        display: block;
+       
+    }
+    
+    .searchbox select{
+        width:70%;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 5px;
+        border: none;
+        appearance: none;
+    
+    }
+    .searchbox input{
+        width:65%;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 5px;
+        border: none;
+    
+    }
+    
+    .searchbox button{
+        background-color: rgb(243, 177, 53);
+        color: white;
+        border:none;
+        border-radius: 5px;
+        height: 35px;
+        width: 30%;
+        font-size: 14px;
+        padding: 10px;
+    
+    
+    }
+
+
+    .offert{
+        float: left;
+        width: 100%;
+        margin: 10px;
+        border: solid 1px  rgb(160, 158, 158);
+        border-radius: 5px;
+        
+    }
+
+    .offert img{
+        float: left;
+        width: 40%;
+        padding: 3px;
+    
+    }
+    
+    .offert p{
+        float:left;
+        width: 50%;
+        margin-left: 5%;
+        font-size: 18px;
+        font-family: 'Times New Roman', Times, serif;
+        float: left;
+    }
+
+    .offert .opis{
+        text-align: left;
+    }
+    
+    .offert .cost {
+        font-size: 20px;
+        color: red;
+        font-weight: bold;
+        text-align: right;
+    }
+
+    
+    .offert button{
+        float: right;
+        margin-right: 5%;
+        margin-bottom:10px;
+        border: none;
+        background-color: orange;
+        width: 30%;
+        height: 40px;
+        border-radius: 7px;
+        color: white;
+    }
+    
+    .offerdet{
+        width: 80%;
+        text-align: left;
+    }
+}
+
+@media screen and (max-width: 490px)
+{
+    .searchbox{
+        clear:both;
+        width: 90%;
+        height: 150px;
+        margin: auto;
+        margin-bottom: 30px;
+        border-radius: 5px;
+        background-color:   rgba(234, 234, 234, 1);
+        display: block;
+       
+    }
+}
