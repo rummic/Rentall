@@ -1,14 +1,5 @@
-﻿using AutoMapper;
-using Rentall.Services.Dtos.PhotoDto;
-
-namespace Rentall.Services.ModelServices.PhotoService
+﻿namespace Rentall.Services.ModelServices.PhotoService
 {
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
-    using Rentall.Commons.ErrorMessages;
-    using Rentall.DAL.Model;
-    using Rentall.DAL.Repositories.IRepositories;
-    using Rentall.Services.Dtos;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -16,28 +7,36 @@ namespace Rentall.Services.ModelServices.PhotoService
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using AutoMapper;
+
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+
+    using Rentall.Commons.ErrorMessages;
+    using Rentall.DAL.Model;
+    using Rentall.DAL.Repositories.IRepositories;
+    using Rentall.Services.Dtos;
+    using Rentall.Services.Dtos.PhotoDto;
+
     public class PhotoService : IPhotoService
     {
         private readonly IOffersRepository _offersRepository;
 
         private readonly IPhotosRepository _photosRepository;
 
-        private readonly IHostingEnvironment _hostingEnvironment;
-
         private readonly List<string> _allowedExtensions = new List<string> { ".jpeg", ".jpg", ".png" };
 
         private readonly string _photosFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Photos");
         public PhotoService(IHostingEnvironment hostingEnvironment, IOffersRepository offersRepository, IPhotosRepository photosRepository)
         {
-            _hostingEnvironment = hostingEnvironment;
             _offersRepository = offersRepository;
             _photosRepository = photosRepository;
-            if (string.IsNullOrWhiteSpace(_hostingEnvironment.WebRootPath))
+            if (string.IsNullOrWhiteSpace(hostingEnvironment.WebRootPath))
             {
-                _hostingEnvironment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                hostingEnvironment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
             }
 
-            if (!Directory.Exists(_hostingEnvironment.WebRootPath) || !Directory.Exists(_photosFolderPath))
+            if (!Directory.Exists(hostingEnvironment.WebRootPath) || !Directory.Exists(_photosFolderPath))
             {
                 Directory.CreateDirectory(_photosFolderPath);
             }
@@ -70,6 +69,7 @@ namespace Rentall.Services.ModelServices.PhotoService
                 result.AddError(UserErrors.NotAllowed);
                 return result;
             }
+
             string filePath = GetAvailablePath(_photosFolderPath, photo.FileName);
             Photo photoToAdd =
                 new Photo
@@ -86,7 +86,7 @@ namespace Rentall.Services.ModelServices.PhotoService
                     await photo.CopyToAsync(fs);
                 }
             }
-            catch (Exception e)
+            catch
             {
                 result.AddError(PhotoErrors.CannotSave);
                 return result;
@@ -99,7 +99,7 @@ namespace Rentall.Services.ModelServices.PhotoService
                 result.Value = string.Join('/', split.Skip(split.Length - 2));
                 return result;
             }
-            catch (Exception e)
+            catch
             {
                 File.Delete(filePath);
                 result.AddError(PhotoErrors.InfoSaveFailed);
@@ -117,6 +117,7 @@ namespace Rentall.Services.ModelServices.PhotoService
                 response.Value = result;
                 return response;
             }
+
             response.AddError(PhotoErrors.NotFoundByPath);
             return response;
         }
@@ -129,7 +130,6 @@ namespace Rentall.Services.ModelServices.PhotoService
             {
                 response.AddError(PhotoErrors.NotFoundByPath);
                 return response;
-                
             }
 
             var mappedPhoto = Mapper.Map<GetPhotoByPathDto>(photoFromDb);

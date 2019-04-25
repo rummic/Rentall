@@ -10,7 +10,6 @@
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
         public string Title { get; set; }
         public string Description { get; set; }
         public string Price { get; set; }
@@ -22,9 +21,7 @@
         public string Street { get; set; }
         public string ZipCode { get; set; }
         public bool Active { get; set; }
-
         public DateTime CreateDate { get; set; }
-
         public Category Category { get; set; }
         public OfferType OfferType { get; set; }
         public User User { get; set; }

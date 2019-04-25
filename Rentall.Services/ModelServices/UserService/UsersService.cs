@@ -13,6 +13,7 @@
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
 
+    using Rentall.Commons.Enumerables;
     using Rentall.Commons.ErrorMessages;
     using Rentall.Commons.ExtensionMethods;
     using Rentall.Commons.Helpers;
@@ -77,10 +78,16 @@
             return response;
         }
 
-        public async Task<ResponseDto<int>> UpdateUser(ClaimsPrincipal loggedInUser, AddUserDto userToUpdate) // TODO sprawdzic czy user edytuje sam siebie a jak nie to won
+        public async Task<ResponseDto<int>> UpdateUser(ClaimsPrincipal loggedInUser, AddUserDto userToUpdate)
         {
             var response = new ResponseDto<int>();
             var userFromDb = await _usersRepository.GetUserByLogin(userToUpdate.Login);
+            if (loggedInUser.Identity.Name != userToUpdate.Login || !loggedInUser.IsInRole(Role.Admin) || !loggedInUser.IsInRole(Role.SuperAdmin))
+            {
+                response.AddError(UserErrors.NotAllowed);
+                return response;
+            }
+
             if (userFromDb != null)
             {
                 var mappedUser = Mapper.Map<User>(userToUpdate);

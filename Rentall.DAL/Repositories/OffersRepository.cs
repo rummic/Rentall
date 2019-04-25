@@ -82,7 +82,11 @@
 
         public async Task<IEnumerable<Offer>> GetOffersByUser(User userFromDb)
         {
-            var offers = await _context.Offers.Include(x => x.Category).Include(x=>x.OfferType).Include(x=>x.Photos).Where(x => x.User == userFromDb).ToListAsync();
+            var offers = await _context.Offers.Where(x => x.User == userFromDb)
+                                              .Include(x => x.Category)
+                                              .Include(x => x.OfferType)
+                                              .Include(x => x.Photos)
+                                              .ToListAsync();
             return offers;
         }
     }

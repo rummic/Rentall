@@ -23,8 +23,8 @@
         {
 
             var salt = SaltCreator.CreateSalt();
-            var user = new User()
-            {
+            var user = new User
+                           {
                 Email = "asd@asd.com",
                 FirstName = "Adam",
                 IsDeleted = false,
@@ -36,35 +36,16 @@
                 Role = "SuperAdmin",
                 Id = 1
             };
-            var offerType = new OfferType()
-            {
+            var offerType = new OfferType
+                                {
                 Id = 1,
                 Type = "Wynajem"
             };
-            var category = new Category()
-            {
+            var category = new Category
+                               {
                 Id = 1,
                 Name = "Mieszkania"
             };
-            //var offer = new Offer
-            //{
-            //    Id = 1,
-            //    OfferType = offerType,
-            //    Category = category,
-            //    User = user,
-            //    Active = true,
-            //    Area = 50,
-            //    City = "Olsztyn",
-            //    CreateDate = DateTime.UtcNow,
-            //    Description = "Fajnie mieszkanko elo dajcie $$$",
-            //    Level = 2,
-            //    MapLink = "http://niewiemjaktobedziedzialacxD.com",
-            //    Price = "1000",
-            //    RoomCount = 2,
-            //    Street = "Prosta",
-            //    Title = "Mieszkanie na wynajem",
-            //    ZipCode = "10-123"
-            //};
             modelBuilder.Entity<User>().HasData(user);
             modelBuilder.Entity<Category>().HasData(category);
             modelBuilder.Entity<OfferType>().HasData(offerType);

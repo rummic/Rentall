@@ -9,11 +9,11 @@
 
     public interface IUsersService
     {
+        Task<ResponseDto<int>> AddUser(AddUserDto userToAdd);
+        Task<ResponseDto<LoggedInUserDto>> Authenticate(LoginUserDto loginUserDto);
         Task<ResponseDto<GetUserByIdDto>> GetUserById(int id);
         Task<ResponseDto<List<GetUsersDto>>> GetUsers(bool allUsers = false);
-        Task<ResponseDto<int>> AddUser(AddUserDto userToAdd);
         Task<ResponseDto<int>> UpdateUser(ClaimsPrincipal loggedInUser, AddUserDto userToUpdate);
         Task<ResponseDto<bool>> DeleteUser(ClaimsPrincipal userIdentity, int id);
-        Task<ResponseDto<LoggedInUserDto>> Authenticate(LoginUserDto loginUserDto);
     }
 }

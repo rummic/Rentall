@@ -2,7 +2,6 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
-    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using Rentall.Commons.Enumerables;
     using Rentall.Services.Dtos;
@@ -19,11 +18,9 @@
     {
         private readonly IOffersService _offersService;
 
-
-        public OffersController(IOffersService offersService, IHostingEnvironment hostingEnvironment)
+        public OffersController(IOffersService offersService)
         {
             _offersService = offersService;
-           
         }
 
         [AllowAnonymous]
@@ -48,6 +45,7 @@
             {
                 return BadRequest(result);
             }
+
             return Ok(result);
         }
 
@@ -116,6 +114,7 @@
             {
                 return BadRequest(result);
             }
+
             return Ok(result);
         }
 
@@ -128,6 +127,7 @@
             {
                 return BadRequest(result);
             }
+
             return Ok(result);
         }
     }

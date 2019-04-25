@@ -11,7 +11,7 @@
     public interface IPhotoService
     {
         Task<ResponseDto<string>> AddPhoto(ClaimsPrincipal user, IFormFile photo, int offerId);
-        Task<ResponseDto<bool>> ChangePhotoActivity(string photoPath);
         Task<ResponseDto<GetPhotoByPathDto>> GetPhotoByPath(string photoPath);
+        Task<ResponseDto<bool>> ChangePhotoActivity(string photoPath);
     }
 }
