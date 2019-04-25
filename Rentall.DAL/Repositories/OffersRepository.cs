@@ -21,7 +21,11 @@
 
         public async Task<Offer> GetOfferById(int id)
         {
-            var offer = await _context.Offers.Include(x => x.User).Include(x => x.Category).Include(x => x.OfferType).Include(x => x.Photos).FirstOrDefaultAsync(x => x.Id == id);
+            var offer = await _context.Offers.Include(x => x.User)
+                                             .Include(x => x.Category)
+                                             .Include(x => x.OfferType)
+                                             .Include(x => x.Photos)
+                                             .FirstOrDefaultAsync(x => x.Id == id);
             return offer;
         }
 

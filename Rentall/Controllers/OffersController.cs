@@ -27,7 +27,7 @@
         [HttpGet("{id}")]
         public async Task<ActionResult<ResponseDto<GetOfferByIdDto>>> GetOfferById(int id)
         {
-            var offerResponse = await _offersService.GetOfferById(id);
+            ResponseDto<GetOfferByIdDto> offerResponse = await _offersService.GetOfferById(id);
             if (offerResponse.HasErrors)
             {
                 return BadRequest(offerResponse);
@@ -40,7 +40,7 @@
         [HttpGet("Main/{count}")]
         public async Task<ActionResult<ResponseDto<List<GetOfferByIdDto>>>> GetRandomOffers(int count = 1)
         {
-            var result = await _offersService.GetRandomOffers(count);
+            ResponseDto<List<GetOfferByIdDto>> result = await _offersService.GetRandomOffers(count);
             if (result.HasErrors)
             {
                 return BadRequest(result);
@@ -53,7 +53,7 @@
         [HttpGet("Query/{query}")]
         public async Task<ActionResult<ResponseDto<List<GetOfferByIdDto>>>> GetOffersByQuery(string query)
         {
-            var result = await _offersService.GetOffersByQuery(query);
+            ResponseDto<List<GetOfferByIdDto>> result = await _offersService.GetOffersByQuery(query);
             if (result.HasErrors)
             {
                 return BadRequest(result);
@@ -66,7 +66,7 @@
         [HttpGet("User/{userLogin}")]
         public async Task<ActionResult<ResponseDto<List<GetOfferByIdDto>>>> GetOffersByUser(string userLogin)
         {
-            var result = await _offersService.GetOffersByUser(userLogin);
+            ResponseDto<List<GetOfferByIdDto>> result = await _offersService.GetOffersByUser(userLogin);
             if (result.HasErrors)
             {
                 return BadRequest(result);
@@ -96,7 +96,7 @@
         [HttpPatch]
         public async Task<ActionResult<ResponseDto<bool>>> UpdateOffer([FromBody] UpdateOfferDto offer)
         {
-            var result = await _offersService.UpdateOffer(User, offer);
+            ResponseDto<int> result = await _offersService.UpdateOffer(User, offer);
             if (result.HasErrors)
             {
                 return BadRequest(result);
@@ -109,7 +109,7 @@
         [HttpPut("{id}")]
         public async Task<ActionResult<ResponseDto<bool>>> ChangeOfferActivity(int id)
         {
-            var result = await _offersService.ChangeOfferActivity(id);
+            ResponseDto<bool> result = await _offersService.ChangeOfferActivity(id);
             if (result.HasErrors)
             {
                 return BadRequest(result);
@@ -122,7 +122,7 @@
         [Authorize(Roles = Role.User + ", " + Role.SuperAdmin)]
         public async Task<ActionResult> DeleteOffer(int id)
         {
-            var result = await _offersService.DeleteOffer(User, id);
+            ResponseDto<bool> result = await _offersService.DeleteOffer(User, id);
             if (result.HasErrors)
             {
                 return BadRequest(result);

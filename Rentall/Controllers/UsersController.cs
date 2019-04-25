@@ -29,7 +29,7 @@
         [HttpPost("Authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] LoginUserDto userParam)
         {
-            var userResult = await _usersService.Authenticate(userParam);
+            ResponseDto<LoggedInUserDto> userResult = await _usersService.Authenticate(userParam);
 
             if (userResult.HasErrors)
             {
@@ -42,7 +42,7 @@
         [HttpGet("{id}")]
         public async Task<ActionResult<ResponseDto<GetUserByIdDto>>> GetUserById(int id)
         {
-            var userResponse = await _usersService.GetUserById(id);
+            ResponseDto<GetUserByIdDto> userResponse = await _usersService.GetUserById(id);
             if (userResponse.HasErrors)
             {
                 return BadRequest(userResponse);
@@ -55,7 +55,7 @@
         [Authorize(Roles = Role.Admin + ", " + Role.SuperAdmin)]
         public async Task<ActionResult<ResponseDto<List<GetUsersDto>>>> GetUsers()
         {
-            var usersResponse = await _usersService.GetUsers();
+            ResponseDto<List<GetUsersDto>> usersResponse = await _usersService.GetUsers();
             if (usersResponse.HasErrors)
             {
                 return BadRequest(usersResponse);
@@ -73,7 +73,7 @@
                 return BadRequest();
             }
 
-            var result = await _usersService.AddUser(userToAdd);
+            ResponseDto<int> result = await _usersService.AddUser(userToAdd);
 
             if (result.HasErrors)
             {
@@ -91,7 +91,7 @@
                 return BadRequest();
             }
 
-            var result = await _usersService.UpdateUser(User, userToUpdate);
+            ResponseDto<int> result = await _usersService.UpdateUser(User, userToUpdate);
 
             if (result.HasErrors)
             {
@@ -105,7 +105,7 @@
         [Authorize(Roles = Role.User + ", " + Role.SuperAdmin)]
         public async Task<ActionResult> DeleteUser(int id)
         {
-            var result = await _usersService.DeleteUser(User, id);
+            ResponseDto<bool> result = await _usersService.DeleteUser(User, id);
             if (result.Value)
             {
                 return Ok(result);

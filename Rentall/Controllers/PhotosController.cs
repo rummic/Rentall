@@ -25,10 +25,9 @@
         }
 
         [HttpGet("{photoPath}")]
-        //[AllowAnonymous] // PO CO TO? xDDD
-        public async Task<ActionResult<ResponseDto<GetPhotoByPathDto>>> GetPhotoByPath(string photoPath)
+        public async Task<ActionResult<ResponseDto<GetPhotoByPathDto>>> GetPhotoByPath(string photoPath) // TODO PO CO TA METODA
         {
-            var result = await _photoService.GetPhotoByPath(photoPath);
+            ResponseDto<GetPhotoByPathDto> result = await _photoService.GetPhotoByPath(photoPath);
             if (result.HasErrors)
             {
                 return BadRequest(result);
@@ -38,10 +37,9 @@
         }
 
         [HttpPost("{offerId}")]
-        //[AllowAnonymous]
         public async Task<ActionResult<ResponseDto<string>>> UploadPhoto(IFormFile photo, int offerId)
         {
-            var result = await _photoService.AddPhoto(User, photo, offerId);
+            ResponseDto<string> result = await _photoService.AddPhoto(User, photo, offerId);
             if (result.HasErrors)
             {
                 return BadRequest(result);
@@ -51,15 +49,15 @@
         }
 
         [HttpPut("{photoPath}")]
-        //[AllowAnonymous]
         public async Task<ActionResult<ResponseDto<bool>>> ChangePhotoActivity(string photoPath)
         {
-            var result = await _photoService.ChangePhotoActivity(photoPath);
+            ResponseDto<bool> result = await _photoService.ChangePhotoActivity(photoPath);
             if (result.HasErrors)
             {
                 return BadRequest(result);
             }
-            return  Ok(result);
+
+            return Ok(result);
         }
     }
 }

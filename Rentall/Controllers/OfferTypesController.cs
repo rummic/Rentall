@@ -28,7 +28,7 @@
         [HttpGet]
         public async Task<ActionResult<ResponseDto<List<OfferType>>>> GetOfferTypes()
         {
-            var offerTypesResponse = await _offerTypesService.GetOfferTypes();
+            ResponseDto<List<OfferType>> offerTypesResponse = await _offerTypesService.GetOfferTypes();
             if (offerTypesResponse.HasErrors)
             {
                 return BadRequest(offerTypesResponse);

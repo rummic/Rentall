@@ -48,6 +48,26 @@
             ConfigureMapper();
         }
 
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+            }
+
+            app.UseCors("policy");
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Rentall API"));
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseAuthentication();
+            app.UseMvc();
+        }
+
         private static void Bootstrap(IServiceCollection services)
         {
             services.AddCors(opt => opt.AddPolicy("policy", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
@@ -74,42 +94,15 @@
                         c.AddSecurityDefinition(
                             "Bearer",
                             new ApiKeyScheme
-                                {
-                                    Description =
+                            {
+                                Description =
                                         "JWT Authorization header using the Bearer scheme. Example: \"Authorization: bearer {token}\"",
-                                    Name = "Authorization",
-                                    In = "header",
-                                    Type = "apiKey"
-                                });
+                                Name = "Authorization",
+                                In = "header",
+                                Type = "apiKey"
+                            });
                         c.AddSecurityRequirement(
                             new Dictionary<string, IEnumerable<string>> { { "Bearer", Enumerable.Empty<string>() } });
-                    });
-        }
-
-        private void ConfigureToken(IServiceCollection services)
-        {
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
-
-            var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            services.AddAuthentication(
-                x =>
-                    {
-                        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                    }).AddJwtBearer(
-                x =>
-                    {
-                        x.RequireHttpsMetadata = false;
-                        x.SaveToken = true;
-                        x.TokenValidationParameters = new TokenValidationParameters()
-                                                          {
-                                                              ValidateIssuerSigningKey = true,
-                                                              IssuerSigningKey = new SymmetricSecurityKey(key),
-                                                              ValidateIssuer = false,
-                                                              ValidateAudience = false
-                                                          };
                     });
         }
 
@@ -131,26 +124,31 @@
                     });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        private void ConfigureToken(IServiceCollection services)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            IConfigurationSection appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
 
-            app.UseCors("policy");
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Rentall API"));
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseAuthentication();
-            app.UseMvc();
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(
+                x =>
+                    {
+                        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    }).AddJwtBearer(
+                x =>
+                    {
+                        x.RequireHttpsMetadata = false;
+                        x.SaveToken = true;
+                        x.TokenValidationParameters = new TokenValidationParameters()
+                        {
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(key),
+                            ValidateIssuer = false,
+                            ValidateAudience = false
+                        };
+                    });
         }
     }
 }

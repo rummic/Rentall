@@ -20,7 +20,7 @@
         public async Task<ResponseDto<List<Category>>> GetCategories()
         {
             var response = new ResponseDto<List<Category>>();
-            var categoriesFromDb = await _categoriesRepository.GetCategories();
+            IEnumerable<Category> categoriesFromDb = await _categoriesRepository.GetCategories();
             response.Value = categoriesFromDb.ToList();
             return response;
         }

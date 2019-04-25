@@ -58,7 +58,6 @@
             {
                 response.AddError(UserErrors.NotFoundByLogin);
                 return response;
-
             }
 
             var categoryFromDb = await _categoriesRepository.GetCategoryById(offer.CategoryId);
@@ -66,7 +65,6 @@
             {
                 response.AddError(CategoryErrors.NotFoundById);
                 return response;
-
             }
 
             var offerTypeFromDb = await _offerTypesRepository.GetOfferTypeById(offer.OfferTypeId);
@@ -74,7 +72,6 @@
             {
                 response.AddError(OfferTypeErrors.NotFoundById);
                 return response;
-
             }
 
             offerToDb.Active = true;
@@ -87,10 +84,9 @@
             {
                 response.Value = await _offersRepository.AddOffer(offerToDb);
             }
-            catch (Exception e)
+            catch
             {
                 response.AddError(OfferErrors.AddingError);
-                Console.Error.WriteLine(e); // TODO proper logging 
             }
 
             return response;
@@ -106,6 +102,7 @@
                 response.Value = result;
                 return response;
             }
+
             response.AddError(OfferErrors.NotFoundById);
             return response;
         }
@@ -142,6 +139,7 @@
             {
                 GetPhotosPaths(mappedOffer);
             }
+
             response.Value = mappedRandomOffers;
             return response;
         }
@@ -157,15 +155,16 @@
                 response.AddError(OfferErrors.NotFoundByQuery);
                 return response;
             }
+
             var mappedOffers = Mapper.Map<List<GetOfferByIdDto>>(offersToMap);
             foreach (var mappedOffer in mappedOffers)
             {
                 GetPhotosPaths(mappedOffer);
             }
+
             response.Value = mappedOffers;
             return response;
         }
-
 
         public async Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersByUser(string userLogin)
         {
@@ -189,10 +188,10 @@
             {
                 GetPhotosPaths(mappedOffer);
             }
+
             response.Value = mappedOffers;
             return response;
         }
-
 
         public async Task<ResponseDto<int>> UpdateOffer(ClaimsPrincipal user, UpdateOfferDto offer)
         {
@@ -204,23 +203,27 @@
                 response.AddError(OfferErrors.NotFoundById);
                 return response;
             }
+
             var userFromDb = await _usersRepository.GetUserByLogin(user.Identity.Name);
             if (userFromDb == null)
             {
                 response.AddError(UserErrors.NotFoundByLogin);
                 return response;
             }
+
             if (userFromDb.Login != offerFromDb.User.Login)
             {
                 response.AddError(UserErrors.NotAllowed);
                 return response;
             }
+
             var categoryFromDb = await _categoriesRepository.GetCategoryById(offer.CategoryId);
             if (categoryFromDb == null)
             {
                 response.AddError(CategoryErrors.NotFoundById);
                 return response;
             }
+
             var offerTypeFromDb = await _offerTypesRepository.GetOfferTypeById(offer.OfferTypeId);
             if (offerTypeFromDb == null)
             {
@@ -238,10 +241,9 @@
             {
                 response.Value = await _offersRepository.UpdateOffer(offerFromDb, offerToDb);
             }
-            catch (Exception e)
+            catch
             {
                 response.AddError(OfferErrors.AddingError);
-                Console.Error.WriteLine(e); // TODO proper logging 
             }
 
             return response;

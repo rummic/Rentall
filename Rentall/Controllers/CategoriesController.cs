@@ -28,7 +28,7 @@
         [HttpGet]
         public async Task<ActionResult<ResponseDto<List<Category>>>> GetCategories()
         {
-            var categoriesResponse = await _categoriesService.GetCategories();
+            ResponseDto<List<Category>> categoriesResponse = await _categoriesService.GetCategories();
             if (categoriesResponse.HasErrors)
             {
                 return BadRequest(categoriesResponse);
