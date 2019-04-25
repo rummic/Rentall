@@ -25,9 +25,9 @@
 
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<ActionResult<ResponseDto<GetOfferByIdDto>>> GetOfferById(int id)
+        public async Task<ActionResult<ResponseDto<GetOfferDto>>> GetOfferById(int id)
         {
-            ResponseDto<GetOfferByIdDto> offerResponse = await _offersService.GetOfferById(id);
+            ResponseDto<GetOfferDto> offerResponse = await _offersService.GetOfferById(id);
             if (offerResponse.HasErrors)
             {
                 return BadRequest(offerResponse);
@@ -38,9 +38,9 @@
 
         [AllowAnonymous]
         [HttpGet("Main/{count}")]
-        public async Task<ActionResult<ResponseDto<List<GetOfferByIdDto>>>> GetRandomOffers(int count = 1)
+        public async Task<ActionResult<ResponseDto<List<GetOfferDto>>>> GetRandomOffers(int count = 1)
         {
-            ResponseDto<List<GetOfferByIdDto>> result = await _offersService.GetRandomOffers(count);
+            ResponseDto<List<GetOfferDto>> result = await _offersService.GetRandomOffers(count);
             if (result.HasErrors)
             {
                 return BadRequest(result);
@@ -51,9 +51,9 @@
 
         [AllowAnonymous]
         [HttpGet("Query/{query}")]
-        public async Task<ActionResult<ResponseDto<List<GetOfferByIdDto>>>> GetOffersByQuery(string query)
+        public async Task<ActionResult<ResponseDto<List<GetOfferDto>>>> GetOffersByQuery(string query)
         {
-            ResponseDto<List<GetOfferByIdDto>> result = await _offersService.GetOffersByQuery(query);
+            ResponseDto<List<GetOfferDto>> result = await _offersService.GetOffersByQuery(query);
             if (result.HasErrors)
             {
                 return BadRequest(result);
@@ -64,9 +64,9 @@
 
         [AllowAnonymous]
         [HttpGet("User/{userLogin}")]
-        public async Task<ActionResult<ResponseDto<List<GetOfferByIdDto>>>> GetOffersByUser(string userLogin)
+        public async Task<ActionResult<ResponseDto<List<GetOfferDto>>>> GetOffersByUser(string userLogin)
         {
-            ResponseDto<List<GetOfferByIdDto>> result = await _offersService.GetOffersByUser(userLogin);
+            ResponseDto<List<GetOfferDto>> result = await _offersService.GetOffersByUser(userLogin);
             if (result.HasErrors)
             {
                 return BadRequest(result);

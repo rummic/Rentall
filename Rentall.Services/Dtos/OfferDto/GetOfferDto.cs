@@ -5,7 +5,7 @@
 
     using Rentall.Services.Dtos.UserDto;
 
-    public class GetOfferByIdDto
+    public class GetOfferDto
     {
         public int Id { get; set; }
         public string Title { get; set; }

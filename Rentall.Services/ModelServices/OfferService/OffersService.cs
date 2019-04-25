@@ -33,9 +33,9 @@
             _offerTypesRepository = offerTypesRepository;
         }
 
-        public async Task<ResponseDto<GetOfferByIdDto>> GetOfferById(int id)
+        public async Task<ResponseDto<GetOfferDto>> GetOfferById(int id)
         {
-            var response = new ResponseDto<GetOfferByIdDto>();
+            var response = new ResponseDto<GetOfferDto>();
             var offerFromDb = await _offersRepository.GetOfferById(id);
             if (offerFromDb == null)
             {
@@ -43,7 +43,7 @@
                 return response;
             }
 
-            var mappedOffer = Mapper.Map<GetOfferByIdDto>(offerFromDb);
+            var mappedOffer = Mapper.Map<GetOfferDto>(offerFromDb);
             GetPhotosPaths(mappedOffer);
             response.Value = mappedOffer;
             return response;
@@ -128,13 +128,13 @@
             return response;
         }
 
-        public async Task<ResponseDto<List<GetOfferByIdDto>>> GetRandomOffers(int count)
+        public async Task<ResponseDto<List<GetOfferDto>>> GetRandomOffers(int count)
         {
-            var response = new ResponseDto<List<GetOfferByIdDto>>();
+            var response = new ResponseDto<List<GetOfferDto>>();
             var offersFromDb = await _offersRepository.GetOffers();
             var randomOffers = offersFromDb.OrderBy(x => Guid.NewGuid()).Take(count).ToList();
             
-            var mappedRandomOffers = Mapper.Map<List<GetOfferByIdDto>>(randomOffers);
+            var mappedRandomOffers = Mapper.Map<List<GetOfferDto>>(randomOffers);
             foreach (var mappedOffer in mappedRandomOffers)
             {
                 GetPhotosPaths(mappedOffer);
@@ -144,9 +144,9 @@
             return response;
         }
 
-        public async Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersByQuery(string query)
+        public async Task<ResponseDto<List<GetOfferDto>>> GetOffersByQuery(string query)
         {
-            var response = new ResponseDto<List<GetOfferByIdDto>>();
+            var response = new ResponseDto<List<GetOfferDto>>();
             var querySplit = query.Split(" ");
             var offersFromDb = await _offersRepository.GetOffers();
             var offersToMap = offersFromDb.Where(x => querySplit.All(y => x.ToString().Contains(y.ToLowerInvariant())));
@@ -156,7 +156,7 @@
                 return response;
             }
 
-            var mappedOffers = Mapper.Map<List<GetOfferByIdDto>>(offersToMap);
+            var mappedOffers = Mapper.Map<List<GetOfferDto>>(offersToMap);
             foreach (var mappedOffer in mappedOffers)
             {
                 GetPhotosPaths(mappedOffer);
@@ -166,9 +166,9 @@
             return response;
         }
 
-        public async Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersByUser(string userLogin)
+        public async Task<ResponseDto<List<GetOfferDto>>> GetOffersByUser(string userLogin)
         {
-            var response = new ResponseDto<List<GetOfferByIdDto>>();
+            var response = new ResponseDto<List<GetOfferDto>>();
             var userFromDb = await _usersRepository.GetUserByLogin(userLogin);
             if (userFromDb == null)
             {
@@ -183,7 +183,7 @@
                 return response;
             }
 
-            var mappedOffers = Mapper.Map<List<GetOfferByIdDto>>(offersFromDb);
+            var mappedOffers = Mapper.Map<List<GetOfferDto>>(offersFromDb);
             foreach (var mappedOffer in mappedOffers)
             {
                 GetPhotosPaths(mappedOffer);
@@ -249,7 +249,7 @@
             return response;
         }
 
-        private static void GetPhotosPaths(GetOfferByIdDto mappedOffer)
+        private static void GetPhotosPaths(GetOfferDto mappedOffer)
         {
             for (int i = 0; i < mappedOffer.Photos.Count; i++)
             {

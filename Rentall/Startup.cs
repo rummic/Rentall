@@ -114,7 +114,7 @@
                         cfg.CreateMap<User, GetUserByIdDto>();
                         cfg.CreateMap<User, GetUsersDto>();
                         cfg.CreateMap<AddUserDto, User>();
-                        cfg.CreateMap<Offer, GetOfferByIdDto>().ForMember(
+                        cfg.CreateMap<Offer, GetOfferDto>().ForMember(
                             x => x.Photos,
                             o => o.MapFrom(s => s.Photos.Where(a => a.Active).Select(p => p.Path)));
                         cfg.CreateMap<AddOfferDto, Offer>().ForMember(x => x.User, o => o.Ignore())
