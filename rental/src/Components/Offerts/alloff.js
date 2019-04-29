@@ -1,19 +1,30 @@
 import React, { Component } from 'react';
 import './alloff.css';
-import { Button, Navbar, NavDropdown, Nav, Form, Breadcrumb } from 'react-bootstrap';
+import { Button, Breadcrumb, Modal } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
+import NavbarIndex from '../Navbar/indexNav';
+
 class alloff extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            offerts: []
+            offerts: [],
+            show: false
         }
-        this.logout = this.logout.bind(this);
+        this.handleShow = this.handleShow.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+    }
+
+    handleClose() {
+        this.setState({ show: false });
+    }
+
+    handleShow() {
+        this.setState({ show: true });
     }
 
     componentWillMount() {
-
         fetch('https://localhost:44359/api/Offers/User/' + sessionStorage.getItem('login'))
             .then(response => response.json())
             .then(parseJSON => {
@@ -21,11 +32,6 @@ class alloff extends Component {
                     offerts: parseJSON.value || []
                 })
             })
-    }
-
-    logout() {
-        sessionStorage.clear();
-        this.props.history.push("/home")
     }
 
     componentDidUpdate() {
@@ -45,42 +51,16 @@ class alloff extends Component {
             .then(parseJSON => {
                 console.log(parseJSON);
             })
-
+        this.setState({ show: false });
+        window.location.reload();
     }
     render() {
-
         if (!sessionStorage.getItem("token")) {
             return (<Redirect to={'/home'} />)
         }
-
         return (
             <div className="box">
-                <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" >
-                    <Navbar.Brand href="/index">RentAll</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                    <Navbar.Collapse id="responsive-navbar-nav">
-                    <Button className="addOffer" variant="outline-light" size="sm" href="/addOffer" >Dodaj oferte</Button>
-                    </Navbar.Collapse>
-                    <Form inline>
-                        <Navbar.Text className=" mr-sm-2">
-                            Zalogowany jako : 
-                        </Navbar.Text>
-                        <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="mr-auto">
-                            <NavDropdown title={sessionStorage.getItem('login')} id="collasible-nav-dropdown">
-                                <NavDropdown.Item href="/alloff"><span className="glyphicon glyphicon-picture"></span> Oferty</NavDropdown.Item>
-                                <NavDropdown.Item href="#"><span className="glyphicon glyphicon-envelope"></span> Wiadomosci</NavDropdown.Item>
-                                <NavDropdown.Item href="#"><span className="glyphicon glyphicon-wrench"></span> Ustawienia</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item className="logout" onClick={this.logout} ><span className="glyphicon glyphicon-log-in"></span> Wyloguj</NavDropdown.Item>
-                                   
-                            </NavDropdown>
-                        </Nav>
-                    </Navbar.Collapse>
-                                    
-                    </Form>
-                </Navbar>
-
+                <NavbarIndex history={this.props.history} />
                 <div className="clearfix"></div>
                 <div className="ofbox">
                     <Breadcrumb>
@@ -89,10 +69,9 @@ class alloff extends Component {
                     </Breadcrumb>
                     <div id="empyOffer"></div>
                     {
-
                         this.state.offerts.map((item, i) => (
                             <div className="offcon" key={i}>
-                                <a className="close" onClick={() => this.delete(i)}></a>
+                                <a className="close" onClick={() => this.handleShow()}></a>
                                 <div className="offoto"><img src={"https://localhost:44359/" + item.photos[0]} alt="as" /></div>
                                 <div className="ofdesc">{item.title}<hr />
                                     <div className="ofinf">
@@ -104,20 +83,30 @@ class alloff extends Component {
                                             <li>Kategoria : {item.categoryName}</li>
                                             <li>Rodzaj ogłoszenia : {item.offerTypeType}</li>
                                         </ul>
-
                                     </div>
                                 </div>
                                 <div className="ofdes">
                                     <div className="ofprice"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} /> zł</div>
-                                    <div className="ofbutton"><Button href={"/detailsoff/" + i}>Szczegóły</Button></div>
+                                    <div className="ofbutton"><Button href={"/detailsoff/" + item.id}>Szczegóły</Button></div>
                                 </div>
                                 <div className="clearfix"></div>
+                                <Modal show={this.state.show} onHide={this.handleClose}>
+                                    <Modal.Header>
+                                        <Modal.Title>Usuwanie ogłoszenia</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>Czy chcesz usunąć wybrane ogłoszenie ?</Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="danger" onClick={() => this.delete(i)}>
+                                            Tak
+                                        </Button>
+                                        <Button variant="dark" onClick={this.handleClose}>
+                                            Nie
+                                         </Button>
+                                    </Modal.Footer>
+                                </Modal>
                             </div>
-
                         ))
-
                     }
-
                 </div>
             </div>
         );

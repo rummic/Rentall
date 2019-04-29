@@ -132,8 +132,34 @@ body{
     background-color:  rgba(234, 234, 234, 1);
     width: 90%;
     margin: auto;
+    padding-top: 100px;
 }
-
+.offerts1{
+    width: 80%;
+    background-color: white;
+    margin: auto;
+    margin-top: 10px;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+    padding: 20px;
+    text-align: left;
+}
+.emptyOffer{
+    width: 80%;
+    background-color: white;
+    margin: auto;
+    margin-top: 10px;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    display: none;
+    font-weight: 600;
+    font-size: 20px;
+}
+.searchFoto img {
+    width: 85% !important;
+}
 .random{
     margin-top: 20px;
     font-size: 40px;
