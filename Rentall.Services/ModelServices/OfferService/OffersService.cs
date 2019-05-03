@@ -128,6 +128,49 @@
             return response;
         }
 
+        public async Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersAdvancedSearch(string title, string priceMin, string priceMax, int? areaMin, int? areaMax, int? level, int? roomCount,
+            string city, string categoryName, string offerType)
+        {
+            var response = new ResponseDto<List<GetOfferByIdDto>>();
+            var query = await _offersRepository.GetOffers();
+
+            if (!string.IsNullOrWhiteSpace(title))
+                query = query.Where(x => x.Title.ToLowerInvariant().Contains(title.ToLowerInvariant()));
+            if (!string.IsNullOrWhiteSpace(priceMin))
+                query = query.Where(x => Convert.ToDouble(x.Price) >= Convert.ToDouble(priceMin));
+            if (!string.IsNullOrWhiteSpace(priceMax))
+                query = query.Where(x => Convert.ToDouble(x.Price) <= Convert.ToDouble(priceMax));
+            if (areaMin.HasValue)
+                query = query.Where(x => x.Area >= areaMin);
+            if (areaMax.HasValue)
+                query = query.Where(x => x.Area <= areaMax);
+            if (level.HasValue)
+                query = query.Where(x => x.Level == level);
+            if (roomCount.HasValue)
+                query = query.Where(x => x.RoomCount == roomCount);
+            if (!string.IsNullOrWhiteSpace(city))
+                query = query.Where(x => x.City.ToLowerInvariant() == city.ToLowerInvariant());
+            if (!string.IsNullOrWhiteSpace(categoryName))
+                query = query.Where(x => x.Category.Name == categoryName);
+            if (!string.IsNullOrWhiteSpace(offerType))
+                query = query.Where(x => x.OfferType.Type == offerType);
+
+            if (!query.Any())
+            {
+                response.AddError(OfferErrors.NotFoundByQuery);
+                return response;
+            }
+
+            var mappedOffers = Mapper.Map<List<GetOfferByIdDto>>(query);
+            foreach (var mappedOffer in mappedOffers)
+            {
+                GetPhotosPaths(mappedOffer);
+            }
+
+            response.Value = mappedOffers;
+            return response;
+        }
+
         public async Task<ResponseDto<List<GetOfferByIdDto>>> GetRandomOffers(int count)
         {
             var response = new ResponseDto<List<GetOfferByIdDto>>();
