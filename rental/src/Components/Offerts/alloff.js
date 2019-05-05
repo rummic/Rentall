@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './alloff.css';
 import { Button, Breadcrumb, Modal } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
+import { Redirect,Link } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import NavbarIndex from '../Navbar/indexNav';
 
@@ -87,7 +87,7 @@ class alloff extends Component {
                                 </div>
                                 <div className="ofdes">
                                     <div className="ofprice"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} /> zł</div>
-                                    <div className="ofbutton"><Button href={"/detailsoff/" + item.id}>Szczegóły</Button></div>
+                                    <div className="ofbutton"><Link to={{pathname: '/detailsoff',state:item}}><Button>Szczegóły</Button></Link></div>
                                 </div>
                                 <div className="clearfix"></div>
                                 <Modal show={this.state.show} onHide={this.handleClose}>
