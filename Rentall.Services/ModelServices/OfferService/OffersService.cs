@@ -1,4 +1,6 @@
-﻿namespace Rentall.Services.ModelServices.OfferService
+﻿using System.Globalization;
+
+namespace Rentall.Services.ModelServices.OfferService
 {
     using System;
     using System.Collections.Generic;
@@ -129,17 +131,17 @@
         }
 
         public async Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersAdvancedSearch(string title, string priceMin, string priceMax, int? areaMin, int? areaMax, int? level, int? roomCount,
-            string city, string categoryName, string offerType)
+            string city, string categoryName, string offerType, int? page, int limit)
         {
             var response = new ResponseDto<List<GetOfferByIdDto>>();
             var query = await _offersRepository.GetOffers();
-
+            query = query.Where(x => x.Active);
             if (!string.IsNullOrWhiteSpace(title))
                 query = query.Where(x => x.Title.ToLowerInvariant().Contains(title.ToLowerInvariant()));
             if (!string.IsNullOrWhiteSpace(priceMin))
-                query = query.Where(x => Convert.ToDouble(x.Price) >= Convert.ToDouble(priceMin));
+                query = query.Where(x => Double.Parse(x.Price,CultureInfo.InvariantCulture) >= Double.Parse(priceMin, CultureInfo.InvariantCulture));
             if (!string.IsNullOrWhiteSpace(priceMax))
-                query = query.Where(x => Convert.ToDouble(x.Price) <= Convert.ToDouble(priceMax));
+                query = query.Where(x => Double.Parse(x.Price, CultureInfo.InvariantCulture) <= Double.Parse(priceMax, CultureInfo.InvariantCulture));
             if (areaMin.HasValue)
                 query = query.Where(x => x.Area >= areaMin);
             if (areaMax.HasValue)
@@ -154,19 +156,19 @@
                 query = query.Where(x => x.Category.Name == categoryName);
             if (!string.IsNullOrWhiteSpace(offerType))
                 query = query.Where(x => x.OfferType.Type == offerType);
-
+            if (page.HasValue)
+                query = query.Skip((page.Value-1) * limit);
+            query = query.Take(limit);
             if (!query.Any())
             {
                 response.AddError(OfferErrors.NotFoundByQuery);
                 return response;
             }
-
             var mappedOffers = Mapper.Map<List<GetOfferByIdDto>>(query);
             foreach (var mappedOffer in mappedOffers)
             {
                 GetPhotosPaths(mappedOffer);
             }
-
             response.Value = mappedOffers;
             return response;
         }
