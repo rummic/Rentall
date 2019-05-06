@@ -131,40 +131,45 @@ namespace Rentall.Services.ModelServices.OfferService
         }
 
         public async Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersAdvancedSearch(string title, string priceMin, string priceMax, int? areaMin, int? areaMax, int? level, int? roomCount,
-            string city, string categoryName, string offerType, int? page, int limit)
+            string city, string categoryId, string offerTypeId, int? page, int limit)
         {
             var response = new ResponseDto<List<GetOfferByIdDto>>();
-            var query = await _offersRepository.GetOffers();
-            query = query.Where(x => x.Active);
+            var query = $"SELECT * FROM Offers WHERE Active = 1";
             if (!string.IsNullOrWhiteSpace(title))
-                query = query.Where(x => x.Title.ToLowerInvariant().Contains(title.ToLowerInvariant()));
+                query += $" AND LOWER(Title) LIKE '%{title}%'";
             if (!string.IsNullOrWhiteSpace(priceMin))
-                query = query.Where(x => Double.Parse(x.Price,CultureInfo.InvariantCulture) >= Double.Parse(priceMin, CultureInfo.InvariantCulture));
+            {
+                query += $" AND CAST(Price as DECIMAL(9,2)) >= '{Double.Parse(priceMin, CultureInfo.InvariantCulture).ToString().Replace(',','.')}'";
+            }
             if (!string.IsNullOrWhiteSpace(priceMax))
-                query = query.Where(x => Double.Parse(x.Price, CultureInfo.InvariantCulture) <= Double.Parse(priceMax, CultureInfo.InvariantCulture));
+            {
+                query += $" AND CAST(Price as DECIMAL(9,2)) <= '{Double.Parse(priceMax, CultureInfo.InvariantCulture).ToString().Replace(',', '.')}'";
+            }
             if (areaMin.HasValue)
-                query = query.Where(x => x.Area >= areaMin);
+                query += $" AND Area >= {areaMin}";
             if (areaMax.HasValue)
-                query = query.Where(x => x.Area <= areaMax);
+                query += $" AND Area <= {areaMax}";
             if (level.HasValue)
-                query = query.Where(x => x.Level == level);
+                query += $" AND Level = {level}";
             if (roomCount.HasValue)
-                query = query.Where(x => x.RoomCount == roomCount);
+                query += $" AND RoomCount = {roomCount}";
             if (!string.IsNullOrWhiteSpace(city))
-                query = query.Where(x => x.City.ToLowerInvariant() == city.ToLowerInvariant());
-            if (!string.IsNullOrWhiteSpace(categoryName))
-                query = query.Where(x => x.Category.Name == categoryName);
-            if (!string.IsNullOrWhiteSpace(offerType))
-                query = query.Where(x => x.OfferType.Type == offerType);
-            if (page.HasValue)
-                query = query.Skip((page.Value-1) * limit);
-            query = query.Take(limit);
-            if (!query.Any())
+                query += $" AND LOWER(City) = '{city}'";
+            if (!string.IsNullOrWhiteSpace(categoryId))
+                query += $" AND CategoryId = {categoryId}";
+            if (!string.IsNullOrWhiteSpace(offerTypeId))
+                query += $" AND OfferTypeId = {offerTypeId}";
+            if (!page.HasValue)
+                page = 1;
+            query += $" ORDER BY Id OFFSET {limit * (page-1)} ROWS FETCH NEXT {limit} ROWS ONLY";
+
+            var offersToMap = await _offersRepository.GetOffersByQuery(query);
+            if (!offersToMap.Any())
             {
                 response.AddError(OfferErrors.NotFoundByQuery);
                 return response;
             }
-            var mappedOffers = Mapper.Map<List<GetOfferByIdDto>>(query);
+            var mappedOffers = Mapper.Map<List<GetOfferByIdDto>>(offersToMap);
             foreach (var mappedOffer in mappedOffers)
             {
                 GetPhotosPaths(mappedOffer);

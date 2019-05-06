@@ -86,13 +86,13 @@
             int? level,
             int? roomCount,
             string city,
-            string categoryName,
-            string offerType,
+            string categoryId,
+            string offerTypeId,
             int? page,
             int limit)
         {
             ResponseDto<List<GetOfferByIdDto>> result = await _offersService.GetOffersAdvancedSearch(title,
-                priceMin,priceMax, areaMin, areaMax, level, roomCount, city, categoryName, offerType, page, limit);
+                priceMin,priceMax, areaMin, areaMax, level, roomCount, city, categoryId, offerTypeId, page, limit);
             if (result.HasErrors)
             {
                 return BadRequest(result);
