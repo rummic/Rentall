@@ -16,13 +16,13 @@ class NavbarIndex extends Component {
                     <Navbar.Brand href="/index">RentAll</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav className="mr-auto">
                     <Button className="addOffer" variant="outline-light" size="sm" href="/addOffer" >Dodaj oferte</Button>
-                    </Navbar.Collapse>
+                    </Nav>
                     <Form inline>
                         <Navbar.Text className=" mr-sm-2">
                             Zalogowany jako : 
                         </Navbar.Text>
-                        <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="mr-auto">
                             <NavDropdown title={sessionStorage.getItem('login')} id="collasible-nav-dropdown">
                                 <NavDropdown.Item href="/alloff"><span className="glyphicon glyphicon-picture"></span> Oferty</NavDropdown.Item>
@@ -32,9 +32,8 @@ class NavbarIndex extends Component {
                                 <NavDropdown.Item className="logout" onClick={this.logout} ><span className="glyphicon glyphicon-log-in"></span> Wyloguj</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
-                    </Navbar.Collapse>
-                                    
                     </Form>
+                    </Navbar.Collapse>
                 </Navbar>
       )
     }

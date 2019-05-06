@@ -163,7 +163,7 @@ class offerts extends Component {
             <div className="subsection">
               <label>Rodzaj ogłoszenia</label>
               <div>
-                <select name="offerTypeId" onChange={this.onChange} >
+                <select name="offerTypeId" value={this.state.offerTypeId} onChange={this.onChange} >
                   {
                     this.state.offerType.map(item => (
                       <option key={item.type} value={item.id}>{item.type}</option>
