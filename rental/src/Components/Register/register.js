@@ -3,8 +3,6 @@ import './register.css';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { Link,Redirect} from 'react-router-dom';
 
-
-
 const emailRegex = RegExp(/^[a-z\d]+[\w\d.-]*@(?:[a-z\d]+[a-z\d-]+\.){1,5}[a-z]{2,6}$/);
 const phoneRedex = RegExp(/(?<!\w)(\(?(\+|00)?48\)?)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}(?!\w)/);
 const passwordRedex = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}/)
@@ -28,7 +26,6 @@ class register extends Component {
   constructor(props) {
     super(props);
 
-
     this.state = {
       login: null,
       password: null,
@@ -48,7 +45,6 @@ class register extends Component {
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
-
   }
 
   handleSubmit = e => {
@@ -59,14 +55,11 @@ class register extends Component {
     }
   };
 
-
-
   handleChange = e => {
     e.preventDefault();
 
     const { name, value } = e.target;
     let formErrors = this.state.formErrors;
-
 
     switch (name) {
       case 'firstName':
@@ -117,8 +110,6 @@ class register extends Component {
     if(sessionStorage.getItem("token")){
       return(<Redirect to={'/index'}/>) 
     }
-
-
     return (
       <div className="fomrconatiner">
         <div className="formbox">
@@ -131,9 +122,7 @@ class register extends Component {
                 <p>RentAll &ensp; Rejestracja</p>
               </Col>
             </Row>
-
             <p className="log">Zarejestruj się</p>
-
           </div>
           <Form onSubmit={this.handleSubmit}>
             <Row>
@@ -145,7 +134,6 @@ class register extends Component {
                     <span className="errorMessage">{formErrors.firstName}</span>
                   )}
                 </Form.Group>
-
               </Col>
               <Col lg={6}>
                 <Form.Group controlId="formBasicLastName">
@@ -155,15 +143,12 @@ class register extends Component {
                     <span className="errorMessage">{formErrors.lastName}</span>
                   )}
                 </Form.Group>
-
               </Col>
             </Row>
             <Form.Group controlId="formBasicNick">
               <Form.Label>Login</Form.Label>
               <Form.Control type="text" required placeholder="Login" name="login" onChange={this.handleChange} />
-
             </Form.Group>
-
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Adres Email</Form.Label>
               <Form.Control type="email" required placeholder="Adres email" name="email" className={formErrors.email.length > 0 ? "error" : null} onChange={this.handleChange} />
@@ -171,7 +156,6 @@ class register extends Component {
                     <span className="errorMessage">{formErrors.email}</span>
                   )}
             </Form.Group>
-
             <Form.Group controlId="formBasicPhone">
               <Form.Label>Numer telefonu</Form.Label>
               <Form.Control type="text" required placeholder="Numer telefonu" name="phoneNumber" className={formErrors.phoneNumber.length > 0 ? "error" : null} onChange={this.handleChange} />
@@ -179,7 +163,6 @@ class register extends Component {
                     <span className="errorMessage">{formErrors.phoneNumber}</span>
                   )}
             </Form.Group>
-
             <Form.Group controlId="formBasicPassowrd">
               <Form.Label>Hasło</Form.Label>
               <Form.Control type="password" required placeholder="Hasło" name="password" className={formErrors.password.length > 0 ? "error" : null} onChange={this.handleChange} />
@@ -187,7 +170,6 @@ class register extends Component {
                     <span className="errorMessage">{formErrors.password}</span>
                   )}
             </Form.Group>
-
             <Button variant="primary" size="md" type="submit" block onClick={this.addUser.bind(this)}>Zarejestruj</Button>
           </Form>
           <p className="rej1">Masz już konto?</p>

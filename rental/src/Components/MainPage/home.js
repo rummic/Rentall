@@ -24,6 +24,7 @@ class home extends Component {
             level: "",
             roomCount: "",
             city: "",
+            limit : 10,
             open: false,
         }
         this.onChange = this.onChange.bind(this);
@@ -89,7 +90,7 @@ class home extends Component {
             `city=${this.state.city}&title=${this.state.title}&priceMin=${this.state.priceMin}
                 &priceMax=${this.state.priceMax}&areaMin=${this.state.areaMin}&areaMax=${this.state.areaMax}&
                 level=${this.state.level}&roomCount=${this.state.roomCount}
-                &categoryName=${this.state.categoryName}&offerType=${this.state.offerTypeName}`)
+                &categoryName=${this.state.categoryName}&offerType=${this.state.offerTypeName}&limit=${this.state.limit}`)
             .then(response => response.json())
             .then(parseJSON => {
                 if (parseJSON.value != null) {
@@ -143,7 +144,7 @@ class home extends Component {
                                                 }
                                                 {
                                                     this.state.category.map(item => (
-                                                        <option key={item.id} value={item.name}>{item.name}</option>
+                                                        <option key={item.name} value={item.id}>{item.name}</option>
                                                     ))
                                                 }
                                             </select>
@@ -155,7 +156,7 @@ class home extends Component {
                                                 }
                                                 {
                                                     this.state.offerType.map(item => (
-                                                        <option key={item.id} value={item.type}>{item.type}</option>
+                                                        <option key={item.type} value={item.id}>{item.type}</option>
                                                     ))
                                                 }
                                             </select>

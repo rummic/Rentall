@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './offerts.css';
-import {Breadcrumb } from 'react-bootstrap';
+import { Breadcrumb } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import NavbarIndex from '../Navbar/indexNav';
@@ -47,7 +47,6 @@ class offerts extends Component {
           offerType: parseJSON.value
         })
       })
-
   }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
@@ -64,16 +63,31 @@ class offerts extends Component {
   }
 
   handleChange(e, index) {
+
     this.state.files[index] = e.target.files[0];
     this.setState({ files: this.state.files });
+
+    var preview = document.querySelector(`.image${index}`);
+    var file = document.querySelector(`#inputImage${index}`).files[0];
+    var reader = new FileReader();
+
+    reader.addEventListener("load", function () {
+      preview.src = reader.result;
+    }, false);
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   }
 
   addOffer() {
     const token = sessionStorage.getItem("token");
     fetch('https://localhost:44359/api/Offers', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json',
-      "Authorization" : `bearer ${token}` },
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": `bearer ${token}`
+      },
       body: JSON.stringify({
 
         "title": this.state.title,
@@ -95,22 +109,18 @@ class offerts extends Component {
       .then(data => {
         if (this.state.files.length > 0) {
           var filesArray = this.state.files;
-          
           for (let i = 0; i < this.state.files.length; i++) {
-
             let formData = new FormData();
-
             formData.append('photo', filesArray[i]);
-
             axios({
               url: 'https://localhost:44359/api/Photos/' + data.value,
               method: 'POST',
-              headers: { 'Content-Type': 'multipart/form-data',
-              "Authorization" : `bearer ${token}` },
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                "Authorization": `bearer ${token}`
+              },
               data: formData
             })
-
-            //console.log("dodano " + (i+1)+" zdjecie");
           }
           alert("Oferta dodana poprawnie");
           this.props.history.push("/index")
@@ -119,26 +129,23 @@ class offerts extends Component {
           alert("Proszę wybrać zdjęcie");
         }
       })
-
   }
 
   render() {
-
     if (!sessionStorage.getItem("token")) {
       return (<Redirect to={'/home'} />)
     }
-
     return (
       <div className="box">
-       <NavbarIndex history={this.props.history}/>
+        <NavbarIndex history={this.props.history} />
         <div className="clearfix"></div>
         <div className="contentbox1">
-        
+
           <div className="offerts1">
-          <Breadcrumb>
-                        <Breadcrumb.Item href="/index">RentAll</Breadcrumb.Item>
-                        <Breadcrumb.Item active>Dodaj ofertę</Breadcrumb.Item>
-                    </Breadcrumb>
+            <Breadcrumb>
+              <Breadcrumb.Item href="/index">RentAll</Breadcrumb.Item>
+              <Breadcrumb.Item active>Dodaj ofertę</Breadcrumb.Item>
+            </Breadcrumb>
             <div className="title">RentAll - dodaj nowe ogłoszenie </div>
             <div className="section1">
               <label>Tytuł</label>
@@ -151,7 +158,6 @@ class offerts extends Component {
                 {
                   this.state.category.map(item => (
                     <option key={item.name} value={item.id}>{item.name}</option>
-
                   ))
                 }
               </select>
@@ -167,7 +173,6 @@ class offerts extends Component {
                   {
                     this.state.offerType.map(item => (
                       <option key={item.type} value={item.id}>{item.type}</option>
-
                     ))
                   }
                 </select>
@@ -204,7 +209,6 @@ class offerts extends Component {
                 <textarea rows="8" name="description" onChange={this.onChange} ></textarea>
               </div>
             </div>
-
             <div className="clearfix"></div>
           </div>
           <div className="offerts1">
@@ -221,7 +225,6 @@ class offerts extends Component {
                 <input type="text" name="street" onChange={this.onChange} />
               </div>
             </div>
-
             <div className="subsection">
               <label>Kod pocztowy</label>
               <div>
@@ -230,7 +233,6 @@ class offerts extends Component {
             </div>
             <div className="clearfix"></div>
           </div>
-
           <div className="offerts1">
             <div className="subtitle">Dodaj zdjęcia</div>
             <div>
@@ -238,29 +240,26 @@ class offerts extends Component {
                 this.state.files.map((file, index) => {
                   return (
                     <div key={index} className="addImage">
-                    <label className="btn btn-primary">Wybierz&hellip;
-                      <input className="inputImage" type="file" name="photo" onChange={(e) => this.handleChange(e, index)} value={this.state.file} />
+                      <label className="btn btn-primary">Wybierz&hellip;
+                      <input className="inputImage" id={"inputImage" + index} type="file" name="photo" onChange={(e) => this.handleChange(e, index)} value={this.state.file} />
                       </label>
+                      <img src="" className={"image" + index} height="100" alt="Image" />
                     </div>
-                     
                   )
                 })
-
               }
-                <div className="addButton">
-                  <button type="button" id="add" onClick={(e) => this.addFile(e)} className="btn btn-success btn-number" data-type="plus" data-field="quant[2]">
-                    <span className="glyphicon glyphicon-plus"></span>
-                  </button>
-                </div>
-      
+              <div className="addButton">
+                <button type="button" id="add" onClick={(e) => this.addFile(e)} className="btn btn-success btn-number" data-type="plus" data-field="quant[2]">
+                  <span className="glyphicon glyphicon-plus"></span>
+                </button>
+              </div>
             </div>
-              <div className="but"><button onClick={this.addOffer.bind(this)}>Dodaj</button></div>
-              <div className="clearfix"></div>
-            </div>
+            <div className="but"><button onClick={this.addOffer.bind(this)}>Dodaj</button></div>
+            <div className="clearfix"></div>
           </div>
         </div>
-
-        );
-      }
-    }
+      </div>
+    );
+  }
+}
 export default offerts;

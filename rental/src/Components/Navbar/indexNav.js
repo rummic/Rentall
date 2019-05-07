@@ -27,7 +27,7 @@ class NavbarIndex extends Component {
                             <NavDropdown title={sessionStorage.getItem('login')} id="collasible-nav-dropdown">
                                 <NavDropdown.Item href="/alloff"><span className="glyphicon glyphicon-picture"></span> Oferty</NavDropdown.Item>
                                 <NavDropdown.Item href="#" disabled><span className="glyphicon glyphicon-envelope"></span> Wiadomosci</NavDropdown.Item>
-                                <NavDropdown.Item href="/settings" disabled><span className="glyphicon glyphicon-wrench"></span> Ustawienia</NavDropdown.Item>
+                                <NavDropdown.Item href="/settings"><span className="glyphicon glyphicon-wrench"></span> Ustawienia</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item className="logout" onClick={this.logout} ><span className="glyphicon glyphicon-log-in"></span> Wyloguj</NavDropdown.Item>
                             </NavDropdown>
