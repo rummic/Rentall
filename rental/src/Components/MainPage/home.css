@@ -102,12 +102,28 @@ body{
 
 }
 .searchbox input{
-    width:70%;
+    width:97%;
+    float: left;
     padding: 10px;
     margin: 20px;
     border-radius: 5px;
     border: none;
 
+}
+.searchbox input::-webkit-input-placeholder {
+text-align: center;
+}
+
+.searchbox input:-moz-placeholder { 
+   text-align: center;  
+}
+
+.searchbox input::-moz-placeholder { 
+   text-align: center;  
+}
+
+.searchbox input:-ms-input-placeholder {  
+   text-align: center; 
 }
 
 .searchbox button{
@@ -116,9 +132,11 @@ body{
     border:none;
     border-radius: 5px;
     height: 50px;
-    width: 150px;
+    width: 300px;
     font-size: 20px;
     padding: 10px;
+    margin-right:50px;
+    margin-left: 50px;
 
 
 }

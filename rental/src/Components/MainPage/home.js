@@ -131,13 +131,13 @@ class home extends Component {
                     <div className="subdescription">wyszukaj interesujących cię ofert</div>
                     <div className="searchbox arrow">
                         <input type="text" placeholder="Tytuł" name="title" onChange={this.onChange} />             
-                        <button value="wyszukaj" onClick={this.searchOffer}>Wyszukaj</button>
-                        <button
+                        <button value="wyszukaj" onClick={this.searchOffer} >Wyszukaj</button>
+                        <Button
                             onClick={() => this.setState({ open: !open })}
                             aria-controls="example-collapse-text"
-                            aria-expanded={open}           
+                           aria-expanded={open}
                         >
-                        </button>
+                        </Button>
                         <Collapse in={this.state.open}>
                             <div id="example-collapse-text">
                                 <Container>
