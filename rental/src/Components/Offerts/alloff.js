@@ -72,7 +72,7 @@ class alloff extends Component {
                         this.state.offerts.map((item, i) => (
                             <div className="offcon" key={i}>
                                 <a className="close" onClick={() => this.handleShow()}></a>
-                                <div className="offoto"><img src={"https://localhost:44359/" + item.photos[0]} alt="as" /></div>
+                                <div className="offoto"><img src={(item.photos[0]===undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0] )}  alt="as" /></div>
                                 <div className="ofdesc">{item.title}<hr />
                                     <div className="ofinf">
                                         <div className="localization"> {item.city}, {item.street}</div>

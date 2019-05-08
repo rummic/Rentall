@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './home.css';
 import logo from '../../fotos/back.jpg'
-import { Button, Row, Container, Col,Collapse } from 'react-bootstrap';
+import { Button, Row, Container, Col, Collapse } from 'react-bootstrap';
 import NumberFormat from 'react-number-format';
 import NavbarMainPage from '../Navbar/mainPageNav';
 import { Redirect, Link } from 'react-router-dom';
@@ -24,8 +24,9 @@ class home extends Component {
             level: "",
             roomCount: "",
             city: "",
-            limit : 10,
+            limit: 10,
             open: false,
+            featuredOffers: [],
         }
         this.onChange = this.onChange.bind(this);
         this.searchOffer = this.searchOffer.bind(this);
@@ -50,6 +51,14 @@ class home extends Component {
                     offerType: parseJSON.value
                 })
             })
+
+        fetch('https://localhost:44359/api/Offers/Main/4')
+            .then(response => response.json())
+            .then(parseJSON => {
+                this.setState({
+                    featuredOffers: parseJSON.value
+                })
+            })
     }
 
     showOfferts() {
@@ -58,7 +67,7 @@ class home extends Component {
                 this.state.offerts.map((item, i) => (
                     <div className="offerts1 searchFoto" key={i}>
                         <div className="offcon" >
-                            <div className="offoto"><img src={"https://localhost:44359/" + item.photos[0]} alt="foto" /></div>
+                            <div className="offoto"><img src={(item.photos[0]==undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0] )} alt="foto" /></div>
                             <div className="ofdesc">{item.title}<hr />
                                 <div className="ofinf">
                                     <div className="localization"> {item.city}, {item.street}</div>
@@ -121,7 +130,7 @@ class home extends Component {
                     <div className="description">U nas możesz wynająć nawet budę</div>
                     <div className="subdescription">wyszukaj interesujących cię ofert</div>
                     <div className="searchbox arrow">
-                        <input type="text" placeholder="Tytuł" name="title" onChange={this.onChange} />             
+                        <input type="text" placeholder="Tytuł" name="title" onChange={this.onChange} />
                         <button value="wyszukaj" onClick={this.searchOffer}>Wyszukaj</button>
                         <Button
                             onClick={() => this.setState({ open: !open })}

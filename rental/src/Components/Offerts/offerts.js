@@ -24,7 +24,7 @@ class offerts extends Component {
       categoryId: 1,
       offerTypeId: 1,
       userLogin: sessionStorage.getItem('login'),
-      files: [1],
+      files: [],
       category: [],
       offerType: []
     }
