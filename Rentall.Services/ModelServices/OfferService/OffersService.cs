@@ -133,6 +133,7 @@ namespace Rentall.Services.ModelServices.OfferService
         public async Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersAdvancedSearch(string title, string priceMin, string priceMax, int? areaMin, int? areaMax, int? level, int? roomCount,
             string city, string categoryId, string offerTypeId, int? page, int limit)
         {
+            var defaultLimit = 10;
             var response = new ResponseDto<List<GetOfferByIdDto>>();
             var query = $"SELECT * FROM Offers WHERE Active = 1";
             if (!string.IsNullOrWhiteSpace(title))
@@ -161,6 +162,8 @@ namespace Rentall.Services.ModelServices.OfferService
                 query += $" AND OfferTypeId = {offerTypeId}";
             if (!page.HasValue)
                 page = 1;
+            if (limit <= 0)
+                limit = defaultLimit;
             query += $" ORDER BY Id OFFSET {limit * (page-1)} ROWS FETCH NEXT {limit} ROWS ONLY";
 
             var offersToMap = await _offersRepository.GetOffersByQuery(query);
