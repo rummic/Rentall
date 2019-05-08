@@ -122,22 +122,24 @@ class home extends Component {
                     <div className="subdescription">wyszukaj interesujących cię ofert</div>
                     <div className="searchbox arrow">
                         <input type="text" placeholder="Tytuł" name="title" onChange={this.onChange} />             
-                        <button value="wyszukaj" onClick={this.searchOffer}>Wyszukaj</button>
-                        <Button
+                        <button value="wyszukaj" onClick={this.searchOffer} >Wyszukaj</button>
+                        <button
                             onClick={() => this.setState({ open: !open })}
                             aria-controls="example-collapse-text"
                             aria-expanded={open}
+                            
                         >
                             Zaawansowane
-                        </Button>
+                        </button>
                         <Collapse in={this.state.open}>
                             <div id="example-collapse-text">
                                 <Container>
                                     <Row>
-                                        <Col sm={4}><input type="text" placeholder="Miasto" name="city" onChange={this.onChange} /></Col>
+                                        <Col sm={12}><input type="text" placeholder="Miasto" name="city" onChange={this.onChange} /></Col>
                                     </Row>
                                     <Row>
                                         <Col>
+                                        <label>Kategoria: </label>
                                             <select className="arrow" defaultValue={'DEFAULT'} name="categoryName" onChange={this.onChange} >
                                                 {
                                                     <option disabled value="DEFAULT">Wybierz..</option>
@@ -150,6 +152,7 @@ class home extends Component {
                                             </select>
                                         </Col>
                                         <Col>
+                                        <label>Typ: </label>
                                             <select name="offerTypeName" defaultValue={'DEFAULT'} onChange={this.onChange} >
                                                 {
                                                     <option disabled value="DEFAULT" >Wybierz..</option>
