@@ -235,21 +235,21 @@ class offerts extends Component {
           </div>
           <div className="offerts1">
             <div className="subtitle">Dodaj zdjęcia</div>
-            <div>
+            <div className="fotoofert">
               {
                 this.state.files.map((file, index) => {
                   return (
                     <div key={index} className="addImage">
-                      <label className="btn btn-primary">Wybierz&hellip;
+                      <label className="btn btn-primary butadd">Wybierz&hellip;
                       <input className="inputImage" id={"inputImage" + index} type="file" name="photo" onChange={(e) => this.handleChange(e, index)} value={this.state.file} />
                       </label>
-                      <img src="" className={"image" + index} height="100" alt="Image" />
+                      <img src="" className={"image" + index} id="imaddof" height="100" alt="Image" />
                     </div>
                   )
                 })
               }
               <div className="addButton">
-                <button type="button" id="add" onClick={(e) => this.addFile(e)} className="btn btn-success btn-number" data-type="plus" data-field="quant[2]">
+                <button type="button" id="add" onClick={(e) => this.addFile(e)} className="btn btn-success btn-number plusbut" data-type="plus" data-field="quant[2]">
                   <span className="glyphicon glyphicon-plus"></span>
                 </button>
               </div>
