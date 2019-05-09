@@ -106,7 +106,7 @@ namespace Rentall.Services.ModelServices.OfferService
 
             if (userIdentity.Identity.Name != offerFromDb.User.Login)
             {
-                response.AddError(OfferErrors.CannotChangeActivity);
+                response.AddError(OfferErrors.NotAllowed);
                 return response;
             }
 
@@ -127,7 +127,7 @@ namespace Rentall.Services.ModelServices.OfferService
 
             if (userIdentity.Identity.Name != offerFromDb.User.Login)
             {
-                response.AddError(OfferErrors.CannotDeleteOffer);
+                response.AddError(OfferErrors.NotAllowed);
                 return response;
             }
 

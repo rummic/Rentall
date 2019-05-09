@@ -2,6 +2,6 @@
 {
     public static class CategoryErrors
     {
-        public static readonly string NotFoundById = "Category with provided id does not exist.";
+        public static readonly string NotFoundById = "Kategoria o podanym id nie istnieje.";
     }
 }
