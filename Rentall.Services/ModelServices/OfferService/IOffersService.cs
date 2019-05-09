@@ -18,18 +18,6 @@
         Task<ResponseDto<int>> UpdateOffer(ClaimsPrincipal user, UpdateOfferDto offer);
         Task<ResponseDto<bool>> DeleteOffer(ClaimsPrincipal userIdentity, int id);
 
-        Task<ResponseDto<List<GetOfferDto>>> GetOffersAdvancedSearch(
-            string title,
-            string priceMin,
-            string priceMax,
-            int? areaMin,
-            int? areaMax,
-            int? level,
-            int? roomCount,
-            string city,
-            string categoryId,
-            string offerTypeId,
-            int? page,
-            int limit);
+        Task<ResponseDto<List<GetOfferDto>>> GetOffersAdvancedSearch(SearchParameters searchParameters);
     }
 }

@@ -89,10 +89,25 @@
             string categoryId,
             string offerTypeId,
             int? page,
-            int limit)
+            int limit = 10)
         {
-            ResponseDto<List<GetOfferDto>> result = await _offersService.GetOffersAdvancedSearch(title,
-                priceMin,priceMax, areaMin, areaMax, level, roomCount, city, categoryId, offerTypeId, page, limit);
+            var searchParameters = new SearchParameters
+            {
+                Title = title,
+                PriceMin = priceMin,
+                PriceMax = priceMax,
+                AreaMin = areaMin,
+                AreaMax = areaMax,
+                Level = level,
+                RoomCount = roomCount,
+                City = city,
+                CategoryId = categoryId,
+                OfferTypeId = offerTypeId,
+                Page = page,
+                Limit = limit
+            };
+
+            ResponseDto<List<GetOfferDto>> result = await _offersService.GetOffersAdvancedSearch(searchParameters);
             if (result.HasErrors)
             {
                 return BadRequest(result);
