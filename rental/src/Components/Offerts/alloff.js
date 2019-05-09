@@ -72,7 +72,7 @@ class alloff extends Component {
                         this.state.offerts.map((item, i) => (
                             <div className="offcon" key={i}>
                                 <a className="close" onClick={() => this.handleShow()}></a>
-                                <div className="offoto"><img src={"https://localhost:44359/" + item.photos[0]} alt="as" /></div>
+                                <div className="offoto"><img src={(item.photos[0]===undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0] )}  alt="as" /></div>
                                 <div className="ofdesc">{item.title}<hr />
                                     <div className="ofinf">
                                         <div className="localization"> {item.city}, {item.street}</div>
@@ -86,7 +86,7 @@ class alloff extends Component {
                                     </div>
                                 </div>
                                 <div className="ofdes">
-                                    <div className="ofprice"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} /> zł</div>
+                                    <div className="ofprice"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} suffix={'zł'} /></div>
                                     <div className="ofbutton"><Link to={{pathname: '/detailsoff',state:item}}><Button>Szczegóły</Button></Link></div>
                                 </div>
                                 <div className="clearfix"></div>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './home.css';
-import logo from '../../fotos/back.jpg'
-import { Button, Row, Container, Col,Collapse } from 'react-bootstrap';
+import { Button, Row, Container, Col, Collapse } from 'react-bootstrap';
 import NumberFormat from 'react-number-format';
 import NavbarMainPage from '../Navbar/mainPageNav';
 import { Redirect, Link } from 'react-router-dom';
@@ -24,7 +23,9 @@ class home extends Component {
             level: "",
             roomCount: "",
             city: "",
+            limit: 10,
             open: false,
+            featuredOffers: [],
         }
         this.onChange = this.onChange.bind(this);
         this.searchOffer = this.searchOffer.bind(this);
@@ -49,6 +50,14 @@ class home extends Component {
                     offerType: parseJSON.value
                 })
             })
+
+        fetch('https://localhost:44359/api/Offers/Main/3')
+            .then(response => response.json())
+            .then(parseJSON => {
+                this.setState({
+                    featuredOffers: parseJSON.value
+                })
+            })
     }
 
     showOfferts() {
@@ -57,7 +66,7 @@ class home extends Component {
                 this.state.offerts.map((item, i) => (
                     <div className="offerts1 searchFoto" key={i}>
                         <div className="offcon" >
-                            <div className="offoto"><img src={"https://localhost:44359/" + item.photos[0]} alt="foto" /></div>
+                            <div className="offoto"><img src={(item.photos[0] == undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0])} alt="foto" /></div>
                             <div className="ofdesc">{item.title}<hr />
                                 <div className="ofinf">
                                     <div className="localization"> {item.city}, {item.street}</div>
@@ -89,7 +98,7 @@ class home extends Component {
             `city=${this.state.city}&title=${this.state.title}&priceMin=${this.state.priceMin}
                 &priceMax=${this.state.priceMax}&areaMin=${this.state.areaMin}&areaMax=${this.state.areaMax}&
                 level=${this.state.level}&roomCount=${this.state.roomCount}
-                &categoryName=${this.state.categoryName}&offerType=${this.state.offerTypeName}`)
+                &categoryName=${this.state.categoryName}&offerType=${this.state.offerTypeName}&limit=${this.state.limit}&page=1`)
             .then(response => response.json())
             .then(parseJSON => {
                 if (parseJSON.value != null) {
@@ -120,8 +129,8 @@ class home extends Component {
                     <div className="description">U nas możesz wynająć nawet budę</div>
                     <div className="subdescription">wyszukaj interesujących cię ofert</div>
                     <div className="searchbox arrow">
-                        <input type="text" placeholder="Tytuł" name="title" onChange={this.onChange} />             
-                        <button value="wyszukaj" onClick={this.searchOffer}>Wyszukaj</button>
+                        <input type="text" placeholder="Tytuł" name="title" onChange={this.onChange} />
+                        <button value="wyszukaj" onClick={this.searchOffer} >Wyszukaj</button>
                         <Button
                             onClick={() => this.setState({ open: !open })}
                             aria-controls="example-collapse-text"
@@ -133,29 +142,31 @@ class home extends Component {
                             <div id="example-collapse-text">
                                 <Container>
                                     <Row>
-                                        <Col sm={4}><input type="text" placeholder="Miasto" name="city" onChange={this.onChange} /></Col>
+                                        <Col sm={12}><input type="text" placeholder="Miasto" name="city" onChange={this.onChange} /></Col>
                                     </Row>
                                     <Row>
                                         <Col>
+                                            <label>Kategoria: </label>
                                             <select className="arrow" defaultValue={'DEFAULT'} name="categoryName" onChange={this.onChange} >
                                                 {
                                                     <option disabled value="DEFAULT">Wybierz..</option>
                                                 }
                                                 {
                                                     this.state.category.map(item => (
-                                                        <option key={item.id} value={item.name}>{item.name}</option>
+                                                        <option key={item.name} value={item.id}>{item.name}</option>
                                                     ))
                                                 }
                                             </select>
                                         </Col>
                                         <Col>
+                                            <label>Typ: </label>
                                             <select name="offerTypeName" defaultValue={'DEFAULT'} onChange={this.onChange} >
                                                 {
                                                     <option disabled value="DEFAULT" >Wybierz..</option>
                                                 }
                                                 {
                                                     this.state.offerType.map(item => (
-                                                        <option key={item.id} value={item.type}>{item.type}</option>
+                                                        <option key={item.type} value={item.id}>{item.type}</option>
                                                     ))
                                                 }
                                             </select>
@@ -184,18 +195,14 @@ class home extends Component {
                 }
                 <div className="offerts">
                     <p className="random">Przykładowe nasze oferty</p>
-                    <div className="offert">
-                        <div className="ofer"><img src={logo} alt="as" />jakiś tam opisik<div className="cost">144zł</div></div>
-                        <button>Szczegóły</button>
-                    </div>
-                    <div className="offert">
-                        <div className="ofer"><img src={logo} alt="as" />jakiś tam opisik<div className="cost">144zł</div></div>
-                        <button>Szczegóły</button>
-                    </div>
-                    <div className="offert">
-                        <div className="ofer"><img src={logo} alt="as" />jakiś tam opisik<div className="cost">144zł</div></div>
-                        <button>Szczegóły</button>
-                    </div>
+                    {
+                        this.state.featuredOffers.map((item) => (
+                            <div className="offert">
+                                <div className="ofer"><img src={(item.photos[0]===undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0] )} alt="as" />jakiś tam opisik<div className="cost"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} suffix={'zł'} /></div></div>
+                                <div className="ofbutton"><Link to={{ pathname: '/search', state: item }}><Button>Szczegóły</Button></Link></div>
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
         );

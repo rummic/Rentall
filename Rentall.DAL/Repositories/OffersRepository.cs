@@ -41,6 +41,12 @@
             return offers;
         }
 
+        public async Task<IEnumerable<Offer>> GetOffersByQuery(string query)
+        {
+            var offers = await _context.Offers.FromSql(query).Include(x => x.Photos).Include(x => x.User).Include(x => x.Category).Include(x => x.OfferType).ToListAsync();
+            return offers;
+        }
+
         public async Task<int> AddOffer(Offer offer)
         {
             await _context.Offers.AddAsync(offer);

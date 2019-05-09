@@ -27,7 +27,7 @@ class search extends Component {
                                 return <Carousel.Item key={i}>
                                     <img
                                         className="d-block w-100"
-                                        src={"https://localhost:44359/" + item}
+                                        src= {(item===undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item )}
                                         alt="First slide"
                                     />
                                 </Carousel.Item>

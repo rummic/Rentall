@@ -24,6 +24,7 @@ class login extends Component {
         if (responseJSON.value) {
           sessionStorage.setItem('login',responseJSON.value.login);
           sessionStorage.setItem('token',responseJSON.value.token);
+          sessionStorage.setItem('id',responseJSON.value.id);
           this.props.history.push("/index")
 
         } else {
