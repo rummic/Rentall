@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './offerts.css';
-import { Button, Navbar, NavDropdown, Nav, Form,Breadcrumb } from 'react-bootstrap';
+import {Breadcrumb } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import NavbarIndex from '../Navbar/indexNav';
 
 class offerts extends Component {
 
@@ -28,7 +29,6 @@ class offerts extends Component {
       offerType: []
     }
     this.onChange = this.onChange.bind(this);
-    this.logout = this.logout.bind(this);
   };
 
   componentDidMount() {
@@ -67,12 +67,6 @@ class offerts extends Component {
     this.state.files[index] = e.target.files[0];
     this.setState({ files: this.state.files });
   }
-
-  logout() {
-    sessionStorage.clear();
-    this.props.history.push("/home")
-  }
-
 
   addOffer() {
     const token = sessionStorage.getItem("token");
@@ -136,31 +130,7 @@ class offerts extends Component {
 
     return (
       <div className="box">
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" >
-                    <Navbar.Brand href="/index">RentAll</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                    <Navbar.Collapse id="responsive-navbar-nav">
-                    <Button className="addOffer" variant="outline-light" size="sm" href="/addOffer" >Dodaj oferte</Button>
-                    </Navbar.Collapse>
-                    <Form inline>
-                        <Navbar.Text className=" mr-sm-2">
-                            Zalogowany jako : 
-                        </Navbar.Text>
-                        <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="mr-auto">
-                            <NavDropdown title={sessionStorage.getItem('login')} id="collasible-nav-dropdown">
-                                <NavDropdown.Item href="/alloff"><span className="glyphicon glyphicon-picture"></span> Oferty</NavDropdown.Item>
-                                <NavDropdown.Item href="#"><span className="glyphicon glyphicon-envelope"></span> Wiadomosci</NavDropdown.Item>
-                                <NavDropdown.Item href="#"><span className="glyphicon glyphicon-wrench"></span> Ustawienia</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item className="logout" onClick={this.logout} ><span className="glyphicon glyphicon-log-in"></span> Wyloguj</NavDropdown.Item>
-                                   
-                            </NavDropdown>
-                        </Nav>
-                    </Navbar.Collapse>
-                                    
-                    </Form>
-                </Navbar>
+       <NavbarIndex history={this.props.history}/>
         <div className="clearfix"></div>
         <div className="contentbox1">
         
@@ -193,7 +163,7 @@ class offerts extends Component {
             <div className="subsection">
               <label>Rodzaj ogłoszenia</label>
               <div>
-                <select name="offerTypeId" onChange={this.onChange} >
+                <select name="offerTypeId" value={this.state.offerTypeId} onChange={this.onChange} >
                   {
                     this.state.offerType.map(item => (
                       <option key={item.type} value={item.id}>{item.type}</option>

@@ -2,58 +2,17 @@ import React, { Component } from 'react';
 import '../MainPage/home.css';
 import logo from '../../fotos/back.jpg'
 import { Redirect } from 'react-router-dom';
-import { Button,Navbar, NavDropdown, Nav,Form } from 'react-bootstrap';
+import NavbarIndex from '../Navbar/indexNav';
 
 class homez extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            login: "",
-        }
-        this.logout = this.logout.bind(this);
-    }
-
-
-    logout() {
-        sessionStorage.clear();
-        this.props.history.push("/home")
-    }
-
-
     render() {
-
-
         if (!sessionStorage.getItem("token")) {
             return (<Redirect to={'/home'} />)
         }
         return (
             <div className="box">
-                <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" >
-                    <Navbar.Brand href="/index">RentAll</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                    <Navbar.Collapse id="responsive-navbar-nav">
-                    <Button className="addOffer" variant="outline-light" size="sm" href="/addOffer" >Dodaj oferte</Button>
-                    </Navbar.Collapse>
-                    <Form inline>
-                        <Navbar.Text className=" mr-sm-2">
-                            Zalogowany jako : 
-                        </Navbar.Text>
-                        <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="mr-auto">
-                            <NavDropdown title={sessionStorage.getItem('login')} id="collasible-nav-dropdown">
-                                <NavDropdown.Item href="/alloff"><span className="glyphicon glyphicon-picture"></span> Oferty</NavDropdown.Item>
-                                <NavDropdown.Item href="#"><span className="glyphicon glyphicon-envelope"></span> Wiadomosci</NavDropdown.Item>
-                                <NavDropdown.Item href="#"><span className="glyphicon glyphicon-wrench"></span> Ustawienia</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item className="logout" onClick={this.logout} ><span className="glyphicon glyphicon-log-in"></span> Wyloguj</NavDropdown.Item>
-                                   
-                            </NavDropdown>
-                        </Nav>
-                    </Navbar.Collapse>
-                                    
-                    </Form>
-                </Navbar>
+                <NavbarIndex history={this.props.history}/>
                 <div className="clearfix"></div>
 
 

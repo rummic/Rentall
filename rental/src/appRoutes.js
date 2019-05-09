@@ -9,8 +9,8 @@ import Index from "./Components/Index/homez";
 import Offer from "./Components/Offerts/offerts";
 import Alloff from "./Components/Offerts/alloff";
 import Detailsoff from "./Components/Offerts/detailsoff";
-
-
+import SettingsUser from "./Components/UserSettings/accsettings"
+import Search from './Components/MainPage/search';
 class App extends Component {
 
   render() {
@@ -24,8 +24,9 @@ class App extends Component {
       <Route path="/index" component={Index}/>
       <Route path="/addOffer" component={Offer}/>
       <Route path="/alloff" component={Alloff}/>
-      <Route path={"/detailsoff/:id"} component={Detailsoff}/>
-
+      <Route path="/detailsoff" component={Detailsoff}/>
+      <Route path="/settings" component={SettingsUser}/>
+      <Route path="/search" component={Search}/>
       </div>
       </BrowserRouter>
     );
