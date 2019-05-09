@@ -82,10 +82,9 @@
             return true;
         }
 
-        public async Task<bool> ChangeOfferActivity(int id)
+        public async Task<bool> ChangeOfferActivity(Offer offer)
         {
-            var offerFromDb = await GetOfferById(id);
-            offerFromDb.Active = !offerFromDb.Active;
+            offer.Active = !offer.Active;
             await _context.SaveChangesAsync();
             return true;
         }

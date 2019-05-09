@@ -14,7 +14,7 @@
         Task<ResponseDto<GetOfferDto>> GetOfferById(int id);
         Task<ResponseDto<List<GetOfferDto>>> GetOffersByUser(string userLogin);
         Task<ResponseDto<List<GetOfferDto>>> GetOffersByQuery(string query);
-        Task<ResponseDto<bool>> ChangeOfferActivity(int id);
+        Task<ResponseDto<bool>> ChangeOfferActivity(ClaimsPrincipal user, int id);
         Task<ResponseDto<int>> UpdateOffer(ClaimsPrincipal user, UpdateOfferDto offer);
         Task<ResponseDto<bool>> DeleteOffer(ClaimsPrincipal userIdentity, int id);
 

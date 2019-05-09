@@ -94,18 +94,24 @@ namespace Rentall.Services.ModelServices.OfferService
             return response;
         }
 
-        public async Task<ResponseDto<bool>> ChangeOfferActivity(int id)
+        public async Task<ResponseDto<bool>> ChangeOfferActivity(ClaimsPrincipal userIdentity, int id)
         {
             var response = new ResponseDto<bool>();
             var offerFromDb = await _offersRepository.GetOfferById(id);
-            if (offerFromDb != null)
+            if (offerFromDb == null)
             {
-                var result = await _offersRepository.ChangeOfferActivity(id);
-                response.Value = result;
+                response.AddError(OfferErrors.NotFoundById);
                 return response;
             }
 
-            response.AddError(OfferErrors.NotFoundById);
+            if (userIdentity.Identity.Name != offerFromDb.User.Login)
+            {
+                response.AddError(OfferErrors.CannotChangeActivity);
+                return response;
+            }
+
+            var result = await _offersRepository.ChangeOfferActivity(offerFromDb);
+            response.Value = result;
             return response;
         }
 
@@ -130,48 +136,91 @@ namespace Rentall.Services.ModelServices.OfferService
             return response;
         }
 
-        public async Task<ResponseDto<List<GetOfferDto>>> GetOffersAdvancedSearch(string title, string priceMin, string priceMax, int? areaMin, int? areaMax, int? level, int? roomCount,
-            string city, string categoryId, string offerTypeId, int? page, int limit)
+        public async Task<ResponseDto<List<GetOfferDto>>> GetOffersAdvancedSearch(
+            string title,
+            string priceMin,
+            string priceMax,
+            int? areaMin,
+            int? areaMax,
+            int? level,
+            int? roomCount,
+            string city,
+            string categoryId,
+            string offerTypeId,
+            int? page,
+            int limit)
         {
-            var defaultLimit = 10;
+            const int defaultLimit = 10;
             var response = new ResponseDto<List<GetOfferDto>>();
             var query = $"SELECT * FROM Offers WHERE Active = 1";
             if (!string.IsNullOrWhiteSpace(title))
+            {
                 query += $" AND LOWER(Title) LIKE '%{title}%'";
+            }
+
             if (!string.IsNullOrWhiteSpace(priceMin))
             {
-                query += $" AND CAST(Price as DECIMAL(9,2)) >= '{Double.Parse(priceMin, CultureInfo.InvariantCulture).ToString().Replace(',','.')}'";
+                query += $" AND CAST(Price as DECIMAL(9,2)) >= {double.Parse(priceMin, CultureInfo.InvariantCulture).ToString().Replace(',','.')}";
             }
+
             if (!string.IsNullOrWhiteSpace(priceMax))
             {
-                query += $" AND CAST(Price as DECIMAL(9,2)) <= '{Double.Parse(priceMax, CultureInfo.InvariantCulture).ToString().Replace(',', '.')}'";
+                query += $" AND CAST(Price as DECIMAL(9,2)) <= {double.Parse(priceMax, CultureInfo.InvariantCulture).ToString().Replace(',', '.')}";
             }
-            if (areaMin.HasValue)
-                query += $" AND Area >= {areaMin}";
-            if (areaMax.HasValue)
-                query += $" AND Area <= {areaMax}";
-            if (level.HasValue)
-                query += $" AND Level = {level}";
-            if (roomCount.HasValue)
-                query += $" AND RoomCount = {roomCount}";
-            if (!string.IsNullOrWhiteSpace(city))
-                query += $" AND LOWER(City) = '{city}'";
-            if (!string.IsNullOrWhiteSpace(categoryId))
-                query += $" AND CategoryId = {categoryId}";
-            if (!string.IsNullOrWhiteSpace(offerTypeId))
-                query += $" AND OfferTypeId = {offerTypeId}";
-            if (!page.HasValue)
-                page = 1;
-            if (limit <= 0)
-                limit = defaultLimit;
-            query += $" ORDER BY Id OFFSET {limit * (page-1)} ROWS FETCH NEXT {limit} ROWS ONLY";
 
+            if (areaMin.HasValue)
+            {
+                query += $" AND Area >= {areaMin}";
+            }
+
+            if (areaMax.HasValue)
+            {
+                query += $" AND Area <= {areaMax}";
+            }
+
+            if (level.HasValue)
+            {
+                query += $" AND Level = {level}";
+            }
+
+            if (roomCount.HasValue)
+            {
+                query += $" AND RoomCount = {roomCount}";
+            }
+
+            if (!string.IsNullOrWhiteSpace(city))
+            {
+                query += $" AND LOWER(City) = '{city}'";
+            }
+
+            if (!string.IsNullOrWhiteSpace(categoryId))
+            {
+                query += $" AND CategoryId = {categoryId}";
+            }
+
+            if (!string.IsNullOrWhiteSpace(offerTypeId))
+            {
+                query += $" AND OfferTypeId = {offerTypeId}";
+            }
+
+            if (!page.HasValue)
+            {
+                page = 1;
+            }
+
+            if (limit <= 0)
+            {
+                limit = defaultLimit;
+            }
+
+            query += $" ORDER BY Id OFFSET {limit * (page-1)} ROWS FETCH NEXT {limit} ROWS ONLY";
             var offersToMap = await _offersRepository.GetOffersByQuery(query);
             if (!offersToMap.Any())
             {
                 response.AddError(OfferErrors.NotFoundByQuery);
                 return response;
             }
+
             var mappedOffers = Mapper.Map<List<GetOfferDto>>(offersToMap);
             foreach (var mappedOffer in mappedOffers)
             {

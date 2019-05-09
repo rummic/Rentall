@@ -131,11 +131,11 @@
             return Ok(result);
         }
 
-        [AllowAnonymous]
         [HttpPut("{id}")]
+        [Authorize(Roles = Role.User)]
         public async Task<ActionResult<ResponseDto<bool>>> ChangeOfferActivity(int id)
         {
-            ResponseDto<bool> result = await _offersService.ChangeOfferActivity(id);
+            ResponseDto<bool> result = await _offersService.ChangeOfferActivity(User, id);
             if (result.HasErrors)
             {
                 return BadRequest(result);

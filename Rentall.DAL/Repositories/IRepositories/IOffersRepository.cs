@@ -14,7 +14,7 @@
         Task<IEnumerable<Offer>> GetOffers();
         Task<IEnumerable<Offer>> GetOffersByQuery(string query);
         Task<int> UpdateOffer(Offer offerFromDb, Offer offer);
-        Task<bool> ChangeOfferActivity(int id);
+        Task<bool> ChangeOfferActivity(Offer offer);
         Task<bool> DeleteOffer(Offer offer);
     }
 }
