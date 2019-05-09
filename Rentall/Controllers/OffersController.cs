@@ -92,7 +92,7 @@
             int limit)
         {
             ResponseDto<List<GetOfferDto>> result = await _offersService.GetOffersAdvancedSearch(title,
-                priceMin,priceMax, areaMin, areaMax, level, roomCount, city, categoryName, offerType);
+                priceMin,priceMax, areaMin, areaMax, level, roomCount, city, categoryId, offerTypeId, page, limit);
             if (result.HasErrors)
             {
                 return BadRequest(result);

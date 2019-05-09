@@ -130,11 +130,11 @@ namespace Rentall.Services.ModelServices.OfferService
             return response;
         }
 
-        public async Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersAdvancedSearch(string title, string priceMin, string priceMax, int? areaMin, int? areaMax, int? level, int? roomCount,
+        public async Task<ResponseDto<List<GetOfferDto>>> GetOffersAdvancedSearch(string title, string priceMin, string priceMax, int? areaMin, int? areaMax, int? level, int? roomCount,
             string city, string categoryId, string offerTypeId, int? page, int limit)
         {
             var defaultLimit = 10;
-            var response = new ResponseDto<List<GetOfferByIdDto>>();
+            var response = new ResponseDto<List<GetOfferDto>>();
             var query = $"SELECT * FROM Offers WHERE Active = 1";
             if (!string.IsNullOrWhiteSpace(title))
                 query += $" AND LOWER(Title) LIKE '%{title}%'";
@@ -172,7 +172,7 @@ namespace Rentall.Services.ModelServices.OfferService
                 response.AddError(OfferErrors.NotFoundByQuery);
                 return response;
             }
-            var mappedOffers = Mapper.Map<List<GetOfferByIdDto>>(offersToMap);
+            var mappedOffers = Mapper.Map<List<GetOfferDto>>(offersToMap);
             foreach (var mappedOffer in mappedOffers)
             {
                 GetPhotosPaths(mappedOffer);
