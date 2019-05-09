@@ -160,12 +160,12 @@ namespace Rentall.Services.ModelServices.OfferService
 
             if (!string.IsNullOrWhiteSpace(priceMin))
             {
-                query += $" AND CAST(Price as DECIMAL(9,2)) >= {double.Parse(priceMin, CultureInfo.InvariantCulture).ToString().Replace(',','.')}";
+                query += $" AND CAST(Price as DECIMAL(18,2)) >= {double.Parse(priceMin, CultureInfo.InvariantCulture).ToString().Replace(',','.')}";
             }
 
             if (!string.IsNullOrWhiteSpace(priceMax))
             {
-                query += $" AND CAST(Price as DECIMAL(9,2)) <= {double.Parse(priceMax, CultureInfo.InvariantCulture).ToString().Replace(',', '.')}";
+                query += $" AND CAST(Price as DECIMAL(18,2)) <= {double.Parse(priceMax, CultureInfo.InvariantCulture).ToString().Replace(',', '.')}";
             }
 
             if (areaMin.HasValue)
