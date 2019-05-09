@@ -77,7 +77,7 @@
 
         [AllowAnonymous]
         [HttpGet("Advanced")]
-        public async Task<ActionResult<ResponseDto<List<GetOfferByIdDto>>>> GetOffersAdvancedSearch(
+        public async Task<ActionResult<ResponseDto<List<GetOfferDto>>>> GetOffersAdvancedSearch(
             string title,
             string priceMin,
             string priceMax,
@@ -89,7 +89,7 @@
             string categoryName,
             string offerType)
         {
-            ResponseDto<List<GetOfferByIdDto>> result = await _offersService.GetOffersAdvancedSearch(title,
+            ResponseDto<List<GetOfferDto>> result = await _offersService.GetOffersAdvancedSearch(title,
                 priceMin,priceMax, areaMin, areaMax, level, roomCount, city, categoryName, offerType);
             if (result.HasErrors)
             {

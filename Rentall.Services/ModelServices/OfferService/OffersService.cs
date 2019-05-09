@@ -128,10 +128,10 @@
             return response;
         }
 
-        public async Task<ResponseDto<List<GetOfferByIdDto>>> GetOffersAdvancedSearch(string title, string priceMin, string priceMax, int? areaMin, int? areaMax, int? level, int? roomCount,
+        public async Task<ResponseDto<List<GetOfferDto>>> GetOffersAdvancedSearch(string title, string priceMin, string priceMax, int? areaMin, int? areaMax, int? level, int? roomCount,
             string city, string categoryName, string offerType)
         {
-            var response = new ResponseDto<List<GetOfferByIdDto>>();
+            var response = new ResponseDto<List<GetOfferDto>>();
             var query = await _offersRepository.GetOffers();
 
             if (!string.IsNullOrWhiteSpace(title))
@@ -161,7 +161,7 @@
                 return response;
             }
 
-            var mappedOffers = Mapper.Map<List<GetOfferByIdDto>>(query);
+            var mappedOffers = Mapper.Map<List<GetOfferDto>>(query);
             foreach (var mappedOffer in mappedOffers)
             {
                 GetPhotosPaths(mappedOffer);
@@ -171,7 +171,7 @@
             return response;
         }
 
-        public async Task<ResponseDto<List<GetOfferByIdDto>>> GetRandomOffers(int count)
+        public async Task<ResponseDto<List<GetOfferDto>>> GetRandomOffers(int count)
         {
             var response = new ResponseDto<List<GetOfferDto>>();
             var offersFromDb = await _offersRepository.GetOffers();
