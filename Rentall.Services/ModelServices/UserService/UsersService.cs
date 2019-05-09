@@ -82,7 +82,7 @@
         {
             var response = new ResponseDto<int>();
             var userFromDb = await _usersRepository.GetUserByLogin(userToUpdate.Login);
-            if (loggedInUser.Identity.Name != userToUpdate.Login || !loggedInUser.IsInRole(Role.Admin) || !loggedInUser.IsInRole(Role.SuperAdmin))
+            if (loggedInUser.Identity.Name != userToUpdate.Login && !loggedInUser.IsInRole(Role.Admin) && !loggedInUser.IsInRole(Role.SuperAdmin))
             {
                 response.AddError(UserErrors.NotAllowed);
                 return response;
