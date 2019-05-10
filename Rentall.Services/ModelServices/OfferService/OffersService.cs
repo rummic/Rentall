@@ -82,7 +82,7 @@
             return response;
         }
 
-        public async Task<ResponseDto<bool>> ChangeOfferActivity(int id)
+        public async Task<ResponseDto<bool>> ChangeOfferActivity(ClaimsPrincipal userIdentity, int id)
         {
             var offerFromDb = await _offersRepository.GetOfferById(id);
             ResponseDto<bool> response = OffersValidator.ValidateChangeOfferActivity(offerFromDb);
@@ -110,48 +110,73 @@
             return response;
         }
 
-        public async Task<ResponseDto<List<GetOfferDto>>> GetOffersAdvancedSearch(string title, string priceMin, string priceMax, int? areaMin, int? areaMax, int? level, int? roomCount,
-            string city, string categoryId, string offerTypeId, int? page, int limit)
+        public async Task<ResponseDto<List<GetOfferDto>>> GetOffersAdvancedSearch(SearchParameters searchParameters)
         {
-            var defaultLimit = 10;
             var response = new ResponseDto<List<GetOfferDto>>();
             var query = $"SELECT * FROM Offers WHERE Active = 1";
-            if (!string.IsNullOrWhiteSpace(title))
-                query += $" AND LOWER(Title) LIKE '%{title}%'";
-            if (!string.IsNullOrWhiteSpace(priceMin))
+            if (!string.IsNullOrWhiteSpace(searchParameters.Title))
             {
-                query += $" AND CAST(Price as DECIMAL(9,2)) >= '{Double.Parse(priceMin, CultureInfo.InvariantCulture).ToString().Replace(',', '.')}'";
+                query += $" AND LOWER(Title) LIKE '%{searchParameters.Title}%'";
             }
-            if (!string.IsNullOrWhiteSpace(priceMax))
-            {
-                query += $" AND CAST(Price as DECIMAL(9,2)) <= '{Double.Parse(priceMax, CultureInfo.InvariantCulture).ToString().Replace(',', '.')}'";
-            }
-            if (areaMin.HasValue)
-                query += $" AND Area >= {areaMin}";
-            if (areaMax.HasValue)
-                query += $" AND Area <= {areaMax}";
-            if (level.HasValue)
-                query += $" AND Level = {level}";
-            if (roomCount.HasValue)
-                query += $" AND RoomCount = {roomCount}";
-            if (!string.IsNullOrWhiteSpace(city))
-                query += $" AND LOWER(City) = '{city}'";
-            if (!string.IsNullOrWhiteSpace(categoryId))
-                query += $" AND CategoryId = {categoryId}";
-            if (!string.IsNullOrWhiteSpace(offerTypeId))
-                query += $" AND OfferTypeId = {offerTypeId}";
-            if (!page.HasValue)
-                page = 1;
-            if (limit <= 0)
-                limit = defaultLimit;
-            query += $" ORDER BY Id OFFSET {limit * (page - 1)} ROWS FETCH NEXT {limit} ROWS ONLY";
 
+            if (!string.IsNullOrWhiteSpace(searchParameters.PriceMin))
+            {
+                query += $" AND CAST(Price as DECIMAL(18,2)) >= {double.Parse(searchParameters.PriceMin, CultureInfo.InvariantCulture).ToString().Replace(',','.')}";
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchParameters.PriceMax))
+            {
+                query += $" AND CAST(Price as DECIMAL(18,2)) <= {double.Parse(searchParameters.PriceMax, CultureInfo.InvariantCulture).ToString().Replace(',', '.')}";
+            }
+
+            if (searchParameters.AreaMin.HasValue)
+            {
+                query += $" AND Area >= {searchParameters.AreaMin}";
+            }
+
+            if (searchParameters.AreaMax.HasValue)
+            {
+                query += $" AND Area <= {searchParameters.AreaMax}";
+            }
+
+            if (searchParameters.Level.HasValue)
+            {
+                query += $" AND Level = {searchParameters.Level}";
+            }
+
+            if (searchParameters.RoomCount.HasValue)
+            {
+                query += $" AND RoomCount = {searchParameters.RoomCount}";
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchParameters.City))
+            {
+                query += $" AND LOWER(City) = '{searchParameters.City}'";
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchParameters.CategoryId))
+            {
+                query += $" AND CategoryId = {searchParameters.CategoryId}";
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchParameters.OfferTypeId))
+            {
+                query += $" AND OfferTypeId = {searchParameters.OfferTypeId}";
+            }
+
+            if (!searchParameters.Page.HasValue)
+            {
+                searchParameters.Page = 1;
+            }
+
+            query += $" ORDER BY Id OFFSET {searchParameters.Limit * (searchParameters.Page - 1)} ROWS FETCH NEXT {searchParameters.Limit} ROWS ONLY";
             var offersToMap = await _offersRepository.GetOffersByQuery(query);
             if (!offersToMap.Any())
             {
                 response.AddError(OfferErrors.NotFoundByQuery);
                 return response;
             }
+
             var mappedOffers = Mapper.Map<List<GetOfferDto>>(offersToMap);
             foreach (var mappedOffer in mappedOffers)
             {

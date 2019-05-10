@@ -2,10 +2,10 @@
 {
     public static class PhotoErrors
     {
-        public static readonly string WrongExtension = "File must be a \".jpeg\" or \".png\" photo.";
-        public static readonly string EmptyFile = "File cannot be empty.";
-        public static readonly string CannotSave = "File could not be saved.";
-        public static readonly string InfoSaveFailed = "File information could not be saved.";
-        public static readonly string NotFoundByPath = "Photo with provided path does not exist.";
+        public static readonly string WrongExtension = "Plik musi być \".jpeg\" lub \".png\".";
+        public static readonly string EmptyFile = "Plik nie może być pusty.";
+        public static readonly string CannotSave = "Plik nie mógł zostać zapisany.";
+        public static readonly string InfoSaveFailed = "Informacje o pliku nie mogły być zapisane.";
+        public static readonly string NotFoundByPath = "Zdjęcie o podanej ścieżce nie istnieje.";
     }
 }

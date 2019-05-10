@@ -2,10 +2,10 @@
 {
     public static class OfferErrors
     {
-        public static readonly string NotFoundById = "Offer with provided id does not exist.";
-        public static readonly string AddingError = "Adding offer failed.";
-        public static readonly string CannotDeleteOffer = "Cannot delete offer with provided id.";
-        public static readonly string NotFoundOffersByUser = "User has not created any offers.";
-        public static readonly string NotFoundByQuery = "Query has not found any offers.";
+        public static readonly string NotFoundById = "Oferta o podanym id nie istnieje.";
+        public static readonly string AddingError = "Nie udało się dodać oferty.";
+        public static readonly string NotFoundOffersByUser = "Użytkownik nie utworzył żadnych ofert.";
+        public static readonly string NotFoundByQuery = "Nie znaleziono ofert.";
+        public static readonly string NotAllowed = "Nie możesz wykonać tej akcji.";
     }
 }

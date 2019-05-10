@@ -2,11 +2,11 @@
 {
     public static class UserErrors
     {
-        public static readonly string NotFoundById = "User with provided id does not exist.";
-        public static readonly string LoginTaken = "Provided login is already taken by another user.";
-        public static readonly string NotFoundByLogin = "User with provided login does not exist.";
-        public static readonly string InvalidPassword = "Provided password is invalid.";
-        public static readonly string CannotDeleteUser = "Cannot delete user with provided id.";
-        public static readonly string NotAllowed = "You are not allowed to perform this action.";
+        public static readonly string NotFoundById = "Użytkownik o podanym id nie istnieje.";
+        public static readonly string LoginTaken = "Podany login jest używany przez innego użytkownika.";
+        public static readonly string NotFoundByLogin = "Użytkownik o podanym loginie nie istnieje.";
+        public static readonly string InvalidPassword = "Podane hasło jest nieprawidłowe.";
+        public static readonly string CannotDeleteUser = "Nie można usunąc użytkownika o podanym id.";
+        public static readonly string NotAllowed = "Nie możesz wykonać tej akcji.";
     }
 }
