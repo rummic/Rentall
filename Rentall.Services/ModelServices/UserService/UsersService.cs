@@ -21,6 +21,7 @@
     using Rentall.DAL.Repositories.IRepositories;
     using Rentall.Services.Dtos;
     using Rentall.Services.Dtos.UserDto;
+    using Rentall.Services.Validators;
 
     public class UsersService : IUsersService
     {
@@ -36,11 +37,10 @@
 
         public async Task<ResponseDto<GetUserByIdDto>> GetUserById(int id)
         {
-            var response = new ResponseDto<GetUserByIdDto>();
             var userFromDb = await _usersRepository.GetUserById(id);
-            if (userFromDb == null)
+            ResponseDto<GetUserByIdDto> response = UsersValidator.ValidateGetUserById(userFromDb);
+            if (response.HasErrors)
             {
-                response.AddError(UserErrors.NotFoundById);
                 return response;
             }
 
@@ -62,67 +62,50 @@
 
         public async Task<ResponseDto<int>> AddUser(AddUserDto userToAdd)
         {
-            var response = new ResponseDto<int>();
             var userFromDb = await _usersRepository.GetUserByLogin(userToAdd.Login);
-            if (userFromDb == null)
-            {
-                var userToDb = Mapper.Map<User>(userToAdd);
-                userToDb.Salt = SaltCreator.CreateSalt();
-                userToDb.Password = userToAdd.Password.GenerateSaltedHash(userToDb.Salt);
-                var result = await _usersRepository.AddUser(userToDb);
-                response.Value = result;
+            var response = UsersValidator.ValidateAddUser(userToAdd, userFromDb);
+            if (response.HasErrors)
                 return response;
-            }
 
-            response.AddError(UserErrors.LoginTaken);
+            var userToDb = Mapper.Map<User>(userToAdd);
+            userToDb.Salt = SaltCreator.CreateSalt();
+            userToDb.Password = userToAdd.Password.GenerateSaltedHash(userToDb.Salt);
+            var result = await _usersRepository.AddUser(userToDb);
+            response.Value = result;
+
             return response;
         }
 
         public async Task<ResponseDto<int>> UpdateUser(ClaimsPrincipal loggedInUser, AddUserDto userToUpdate)
         {
-            var response = new ResponseDto<int>();
             var userFromDb = await _usersRepository.GetUserByLogin(userToUpdate.Login);
-            if (loggedInUser.Identity.Name != userToUpdate.Login && !loggedInUser.IsInRole(Role.Admin) && !loggedInUser.IsInRole(Role.SuperAdmin))
-            {
-                response.AddError(UserErrors.NotAllowed);
+
+            ResponseDto<int> response = UsersValidator.ValidateUpdateUser(loggedInUser, userToUpdate, userFromDb);
+            if (response.HasErrors)
                 return response;
+
+            var mappedUser = Mapper.Map<User>(userToUpdate);
+            mappedUser.Id = userFromDb.Id;
+            if (!userFromDb.Password.IsEqualTo(userToUpdate.Password.GenerateSaltedHash(userFromDb.Salt)))
+            {
+                mappedUser.Salt = SaltCreator.CreateSalt();
+                mappedUser.Password = userToUpdate.Password.GenerateSaltedHash(mappedUser.Salt);
             }
 
-            if (userFromDb != null)
-            {
-                var mappedUser = Mapper.Map<User>(userToUpdate);
-                mappedUser.Id = userFromDb.Id;
-                if (!userFromDb.Password.IsEqualTo(userToUpdate.Password.GenerateSaltedHash(userFromDb.Salt)))
-                {
-                    mappedUser.Salt = SaltCreator.CreateSalt();
-                    mappedUser.Password = userToUpdate.Password.GenerateSaltedHash(mappedUser.Salt);
-                }
+            var result = await _usersRepository.UpdateUser(mappedUser);
+            response.Value = result;
 
-                var result = await _usersRepository.UpdateUser(mappedUser);
-                response.Value = result;
-                return response;
-            }
-
-            response.AddError(UserErrors.NotFoundByLogin);
             return response;
         }
 
         public async Task<ResponseDto<bool>> DeleteUser(ClaimsPrincipal userIdentity, int id)
         {
-            var response = new ResponseDto<bool>();
             var userFromDb = await _usersRepository.GetUserById(id);
-            if (userFromDb == null || userFromDb.IsDeleted)
+            ResponseDto<bool> response = UsersValidator.ValidateDeleteUser(userIdentity, userFromDb);
+            if (response.HasErrors)
             {
-                response.AddError(UserErrors.NotFoundById);
                 return response;
             }
-
-            if (userIdentity.IsInRole("User") && userIdentity.Identity.Name != userFromDb.Login)
-            {
-                response.AddError(UserErrors.CannotDeleteUser);
-                return response;
-            }
-
             var result = await _usersRepository.DeleteUser(id);
             response.Value = result;
             return response;
@@ -130,17 +113,10 @@
 
         public async Task<ResponseDto<LoggedInUserDto>> Authenticate(LoginUserDto loginUserDto)
         {
-            var response = new ResponseDto<LoggedInUserDto>();
             var user = await _usersRepository.GetUserByLogin(loginUserDto.Login);
-            if (user == null)
+            ResponseDto<LoggedInUserDto> response = UsersValidator.ValidateAuthenticate(user, loginUserDto);
+            if (response.HasErrors)
             {
-                response.Errors.Add(UserErrors.NotFoundByLogin);
-                return response;
-            }
-
-            if (!user.Password.IsEqualTo(loginUserDto.Password.GenerateSaltedHash(user.Salt)))
-            {
-                response.Errors.Add(UserErrors.InvalidPassword);
                 return response;
             }
 
@@ -155,16 +131,18 @@
                 SecurityAlgorithms.HmacSha256Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
-                                      {
-                                          Subject = subject,
-                                          Expires = DateTime.UtcNow.AddDays(7),
-                                          SigningCredentials = signingCredentials
-                                      };
+            {
+                Subject = subject,
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = signingCredentials
+            };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             response.Value = new LoggedInUserDto()
-                                 {
-                                     Id = user.Id, Login = user.Login, Token = tokenHandler.WriteToken(token)
-                                 };
+            {
+                Id = user.Id,
+                Login = user.Login,
+                Token = tokenHandler.WriteToken(token)
+            };
             return response;
         }
     }

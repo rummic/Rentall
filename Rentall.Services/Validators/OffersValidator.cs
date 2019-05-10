@@ -61,7 +61,7 @@
             }
 
             if (userIdentity.Identity.Name != offer.User.Login)
-                response.AddError(OfferErrors.CannotDeleteOffer);
+                response.AddError(OfferErrors.NotAllowed);
 
             return response;
         }
