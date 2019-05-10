@@ -1,9 +1,8 @@
-﻿using System.Globalization;
-
-namespace Rentall.Services.ModelServices.OfferService
+﻿namespace Rentall.Services.ModelServices.OfferService
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
@@ -15,6 +14,7 @@ namespace Rentall.Services.ModelServices.OfferService
     using Rentall.DAL.Repositories.IRepositories;
     using Rentall.Services.Dtos;
     using Rentall.Services.Dtos.OfferDto;
+    using Rentall.Services.Validators;
 
     public class OffersService : IOffersService
     {
@@ -37,11 +37,11 @@ namespace Rentall.Services.ModelServices.OfferService
 
         public async Task<ResponseDto<GetOfferDto>> GetOfferById(int id)
         {
-            var response = new ResponseDto<GetOfferDto>();
             var offerFromDb = await _offersRepository.GetOfferById(id);
-            if (offerFromDb == null)
+
+            ResponseDto<GetOfferDto> response = OffersValidator.ValidateGetOfferById(offerFromDb);
+            if (response.HasErrors)
             {
-                response.AddError(OfferErrors.NotFoundById);
                 return response;
             }
 
@@ -51,28 +51,16 @@ namespace Rentall.Services.ModelServices.OfferService
             return response;
         }
 
-        public async Task<ResponseDto<int>> AddOffer(ClaimsPrincipal user, AddOfferDto offer) 
+        public async Task<ResponseDto<int>> AddOffer(ClaimsPrincipal user, AddOfferDto offer)
         {
-            var response = new ResponseDto<int>();
             var offerToDb = Mapper.Map<Offer>(offer);
             var userFromDb = await _usersRepository.GetUserByLogin(user.Identity.Name);
-            if (userFromDb == null)
-            {
-                response.AddError(UserErrors.NotFoundByLogin);
-                return response;
-            }
-
             var categoryFromDb = await _categoriesRepository.GetCategoryById(offer.CategoryId);
-            if (categoryFromDb == null)
-            {
-                response.AddError(CategoryErrors.NotFoundById);
-                return response;
-            }
-
             var offerTypeFromDb = await _offerTypesRepository.GetOfferTypeById(offer.OfferTypeId);
-            if (offerTypeFromDb == null)
+
+            ResponseDto<int> response = OffersValidator.ValidateAddOffer(userFromDb, categoryFromDb, offerTypeFromDb);
+            if (response.HasErrors)
             {
-                response.AddError(OfferTypeErrors.NotFoundById);
                 return response;
             }
 
@@ -96,32 +84,24 @@ namespace Rentall.Services.ModelServices.OfferService
 
         public async Task<ResponseDto<bool>> ChangeOfferActivity(int id)
         {
-            var response = new ResponseDto<bool>();
             var offerFromDb = await _offersRepository.GetOfferById(id);
-            if (offerFromDb != null)
+            ResponseDto<bool> response = OffersValidator.ValidateChangeOfferActivity(offerFromDb);
+            if (response.HasErrors)
             {
-                var result = await _offersRepository.ChangeOfferActivity(id);
-                response.Value = result;
                 return response;
             }
 
-            response.AddError(OfferErrors.NotFoundById);
+            var result = await _offersRepository.ChangeOfferActivity(id);
+            response.Value = result;
             return response;
         }
 
         public async Task<ResponseDto<bool>> DeleteOffer(ClaimsPrincipal userIdentity, int id)
         {
-            var response = new ResponseDto<bool>();
             var offerFromDb = await _offersRepository.GetOfferById(id);
-            if (offerFromDb == null)
+            ResponseDto<bool> response = OffersValidator.ValidateDeleteOffer(offerFromDb, userIdentity);
+            if (response.HasErrors)
             {
-                response.AddError(OfferErrors.NotFoundById);
-                return response;
-            }
-
-            if (userIdentity.Identity.Name != offerFromDb.User.Login)
-            {
-                response.AddError(OfferErrors.CannotDeleteOffer);
                 return response;
             }
 
@@ -140,7 +120,7 @@ namespace Rentall.Services.ModelServices.OfferService
                 query += $" AND LOWER(Title) LIKE '%{title}%'";
             if (!string.IsNullOrWhiteSpace(priceMin))
             {
-                query += $" AND CAST(Price as DECIMAL(9,2)) >= '{Double.Parse(priceMin, CultureInfo.InvariantCulture).ToString().Replace(',','.')}'";
+                query += $" AND CAST(Price as DECIMAL(9,2)) >= '{Double.Parse(priceMin, CultureInfo.InvariantCulture).ToString().Replace(',', '.')}'";
             }
             if (!string.IsNullOrWhiteSpace(priceMax))
             {
@@ -164,7 +144,7 @@ namespace Rentall.Services.ModelServices.OfferService
                 page = 1;
             if (limit <= 0)
                 limit = defaultLimit;
-            query += $" ORDER BY Id OFFSET {limit * (page-1)} ROWS FETCH NEXT {limit} ROWS ONLY";
+            query += $" ORDER BY Id OFFSET {limit * (page - 1)} ROWS FETCH NEXT {limit} ROWS ONLY";
 
             var offersToMap = await _offersRepository.GetOffersByQuery(query);
             if (!offersToMap.Any())
@@ -186,7 +166,7 @@ namespace Rentall.Services.ModelServices.OfferService
             var response = new ResponseDto<List<GetOfferDto>>();
             var offersFromDb = await _offersRepository.GetOffers();
             var randomOffers = offersFromDb.OrderBy(x => Guid.NewGuid()).Take(count).ToList();
-            
+
             var mappedRandomOffers = Mapper.Map<List<GetOfferDto>>(randomOffers);
             foreach (var mappedOffer in mappedRandomOffers)
             {
@@ -221,18 +201,12 @@ namespace Rentall.Services.ModelServices.OfferService
 
         public async Task<ResponseDto<List<GetOfferDto>>> GetOffersByUser(string userLogin)
         {
-            var response = new ResponseDto<List<GetOfferDto>>();
             var userFromDb = await _usersRepository.GetUserByLogin(userLogin);
-            if (userFromDb == null)
-            {
-                response.AddError(UserErrors.NotFoundByLogin);
-                return response;
-            }
-
             var offersFromDb = await _offersRepository.GetOffersByUser(userFromDb);
-            if (!offersFromDb.Any())
+
+            ResponseDto<List<GetOfferDto>> response = OffersValidator.ValidateGetOffersByUser(userFromDb, offersFromDb);
+            if (response.HasErrors)
             {
-                response.AddError(OfferErrors.NotFoundOffersByUser);
                 return response;
             }
 
@@ -248,39 +222,15 @@ namespace Rentall.Services.ModelServices.OfferService
 
         public async Task<ResponseDto<int>> UpdateOffer(ClaimsPrincipal user, UpdateOfferDto offer)
         {
-            var response = new ResponseDto<int>();
             var offerToDb = Mapper.Map<Offer>(offer);
             var offerFromDb = await _offersRepository.GetOfferById(offer.Id);
-            if (offerFromDb == null)
-            {
-                response.AddError(OfferErrors.NotFoundById);
-                return response;
-            }
-
             var userFromDb = await _usersRepository.GetUserByLogin(user.Identity.Name);
-            if (userFromDb == null)
-            {
-                response.AddError(UserErrors.NotFoundByLogin);
-                return response;
-            }
-
-            if (userFromDb.Login != offerFromDb.User.Login)
-            {
-                response.AddError(UserErrors.NotAllowed);
-                return response;
-            }
-
             var categoryFromDb = await _categoriesRepository.GetCategoryById(offer.CategoryId);
-            if (categoryFromDb == null)
-            {
-                response.AddError(CategoryErrors.NotFoundById);
-                return response;
-            }
-
             var offerTypeFromDb = await _offerTypesRepository.GetOfferTypeById(offer.OfferTypeId);
-            if (offerTypeFromDb == null)
+
+            var response = OffersValidator.ValidateUpdateOffer(offerFromDb, userFromDb, categoryFromDb, offerTypeFromDb);
+            if (response.HasErrors)
             {
-                response.AddError(OfferTypeErrors.NotFoundById);
                 return response;
             }
 
