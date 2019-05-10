@@ -91,7 +91,7 @@
                 return response;
             }
 
-            var result = await _offersRepository.ChangeOfferActivity(id);
+            var result = await _offersRepository.ChangeOfferActivity(offerFromDb);
             response.Value = result;
             return response;
         }
