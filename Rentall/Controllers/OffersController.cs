@@ -88,7 +88,7 @@
             string city,
             string categoryId,
             string offerTypeId,
-            int? page,
+            int page = 1,
             int limit = 10)
         {
             var searchParameters = new SearchParameters

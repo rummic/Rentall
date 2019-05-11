@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data.SqlClient;
     using System.Globalization;
     using System.Linq;
     using System.Security.Claims;
@@ -113,64 +114,72 @@
         public async Task<ResponseDto<List<GetOfferDto>>> GetOffersAdvancedSearch(SearchParameters searchParameters)
         {
             var response = new ResponseDto<List<GetOfferDto>>();
-            var query = $"SELECT * FROM Offers WHERE Active = 1";
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            var query = "SELECT * FROM Offers WHERE Active = 1";
             if (!string.IsNullOrWhiteSpace(searchParameters.Title))
             {
-                query += $" AND LOWER(Title) LIKE '%{searchParameters.Title}%'";
+                query += " AND LOWER(Title) LIKE '%'+@title+'%'";
+                sqlParameters.Add(new SqlParameter("@title",searchParameters.Title));
             }
 
             if (!string.IsNullOrWhiteSpace(searchParameters.PriceMin))
             {
-                query += $" AND CAST(Price as DECIMAL(18,2)) >= {double.Parse(searchParameters.PriceMin, CultureInfo.InvariantCulture).ToString().Replace(',','.')}";
+                query += " AND CAST(Price as DECIMAL(18,2)) >= @priceMin";
+                sqlParameters.Add(new SqlParameter("@priceMin", double.Parse(searchParameters.PriceMin, CultureInfo.InvariantCulture).ToString().Replace(',', '.')));
             }
 
             if (!string.IsNullOrWhiteSpace(searchParameters.PriceMax))
             {
-                query += $" AND CAST(Price as DECIMAL(18,2)) <= {double.Parse(searchParameters.PriceMax, CultureInfo.InvariantCulture).ToString().Replace(',', '.')}";
+                query += " AND CAST(Price as DECIMAL(18,2)) <= @priceMax";
+                sqlParameters.Add(new SqlParameter("@priceMax", double.Parse(searchParameters.PriceMax, CultureInfo.InvariantCulture).ToString().Replace(',', '.')));
             }
 
             if (searchParameters.AreaMin.HasValue)
             {
-                query += $" AND Area >= {searchParameters.AreaMin}";
+                query += " AND Area >= @areaMin";
+                sqlParameters.Add(new SqlParameter("@areaMin", searchParameters.AreaMin));
             }
 
             if (searchParameters.AreaMax.HasValue)
             {
-                query += $" AND Area <= {searchParameters.AreaMax}";
+                query += " AND Area <= @areaMax";
+                sqlParameters.Add(new SqlParameter("@areaMax", searchParameters.AreaMax));
             }
 
             if (searchParameters.Level.HasValue)
             {
-                query += $" AND Level = {searchParameters.Level}";
+                query += " AND Level = @level";
+                sqlParameters.Add(new SqlParameter("@level",searchParameters.Level));
             }
 
             if (searchParameters.RoomCount.HasValue)
             {
-                query += $" AND RoomCount = {searchParameters.RoomCount}";
+                query += " AND RoomCount = @roomCount";
+                sqlParameters.Add(new SqlParameter("@roomCount", searchParameters.RoomCount));
             }
 
             if (!string.IsNullOrWhiteSpace(searchParameters.City))
             {
-                query += $" AND LOWER(City) = '{searchParameters.City}'";
+                query += " AND LOWER(City) = @city";
+                sqlParameters.Add(new SqlParameter("@city", searchParameters.City));
             }
 
             if (!string.IsNullOrWhiteSpace(searchParameters.CategoryId))
             {
-                query += $" AND CategoryId = {searchParameters.CategoryId}";
+                query += " AND CategoryId = @categoryId";
+                sqlParameters.Add(new SqlParameter("@categoryId", searchParameters.CategoryId));
             }
 
             if (!string.IsNullOrWhiteSpace(searchParameters.OfferTypeId))
             {
-                query += $" AND OfferTypeId = {searchParameters.OfferTypeId}";
+                query += " AND OfferTypeId = @offerTypeId";
+                sqlParameters.Add(new SqlParameter("@offerTypeId", searchParameters.OfferTypeId));
             }
 
-            if (!searchParameters.Page.HasValue)
-            {
-                searchParameters.Page = 1;
-            }
-
-            query += $" ORDER BY Id OFFSET {searchParameters.Limit * (searchParameters.Page - 1)} ROWS FETCH NEXT {searchParameters.Limit} ROWS ONLY";
-            var offersToMap = await _offersRepository.GetOffersByQuery(query);
+            query += " ORDER BY Id OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY";
+            sqlParameters.Add(new SqlParameter("@offset", searchParameters.Limit * (searchParameters.Page - 1)));
+            sqlParameters.Add(new SqlParameter("@limit", searchParameters.Limit));
+            var offersToMap = await _offersRepository.GetOffersByQuery(query, sqlParameters);
             if (!offersToMap.Any())
             {
                 response.AddError(OfferErrors.NotFoundByQuery);

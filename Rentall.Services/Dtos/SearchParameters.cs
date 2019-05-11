@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Rentall.Services.Dtos
+﻿namespace Rentall.Services.Dtos
 {
     public class SearchParameters
     {
@@ -16,7 +12,7 @@ namespace Rentall.Services.Dtos
         public string City { get; set; }
         public string CategoryId { get; set; }
         public string OfferTypeId { get; set; }
-        public int? Page { get; set; }
+        public int Page { get; set; }
         public int Limit { get; set; }
     }
 }
