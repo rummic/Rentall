@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './alloff.css';
 import { Button, Breadcrumb, Modal } from 'react-bootstrap';
-import { Redirect,Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import NavbarIndex from '../Navbar/indexNav';
 
@@ -27,10 +27,14 @@ class alloff extends Component {
     componentWillMount() {
         fetch('https://localhost:44359/api/Offers/User/' + sessionStorage.getItem('login'))
             .then(response => response.json())
-            .then(parseJSON => {
-                this.setState({
-                    offerts: parseJSON.value || []
-                })
+            .then(responseJSON => {
+                if (responseJSON.hasErrors) {
+                    document.getElementById("empyOffer").innerHTML = responseJSON.errors;
+                } else {
+                    this.setState({
+                        offerts: responseJSON.value || []
+                    })
+                }
             })
     }
 
@@ -71,8 +75,12 @@ class alloff extends Component {
                     {
                         this.state.offerts.map((item, i) => (
                             <div className="offcon" key={i}>
-                                <a className="close" onClick={() => this.handleShow()}></a>
-                                <div className="offoto"><img src={(item.photos[0]===undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0] )}  alt="as" /></div>
+                                <div>
+                                    <a className="close" onClick={() => this.handleShow()}></a>
+                                    <span className="glyphicon glyphicon-trash" onClick={() => this.handleShow()}></span>
+                                    <Link to={{ pathname: '/update', state: item }}><Button>Aktualizuj</Button></Link>
+                                </div>
+                                <div className="offoto"><img src={(item.photos[0] === undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0])} alt="as" /></div>
                                 <div className="ofdesc">{item.title}<hr />
                                     <div className="ofinf">
                                         <div className="localization"> {item.city}, {item.street}</div>
@@ -87,7 +95,7 @@ class alloff extends Component {
                                 </div>
                                 <div className="ofdes">
                                     <div className="ofprice"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} suffix={'zł'} /></div>
-                                    <div className="ofbutton"><Link to={{pathname: '/detailsoff',state:item}}><Button>Szczegóły</Button></Link></div>
+                                    <div className="ofbutton"><Link to={{ pathname: '/detailsoff', state: item }}><Button>Szczegóły</Button></Link></div>
                                 </div>
                                 <div className="clearfix"></div>
                                 <Modal show={this.state.show} onHide={this.handleClose}>

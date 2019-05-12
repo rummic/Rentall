@@ -11,6 +11,7 @@ import Alloff from "./Components/Offerts/alloff";
 import Detailsoff from "./Components/Offerts/detailsoff";
 import SettingsUser from "./Components/UserSettings/accsettings"
 import Search from './Components/MainPage/search';
+import UpdateOffer from './Components/Offerts/updateOffer';
 class App extends Component {
 
   render() {
@@ -27,6 +28,7 @@ class App extends Component {
       <Route path="/detailsoff" component={Detailsoff}/>
       <Route path="/settings" component={SettingsUser}/>
       <Route path="/search" component={Search}/>
+      <Route path="/update" component={UpdateOffer}/>
       </div>
       </BrowserRouter>
     );

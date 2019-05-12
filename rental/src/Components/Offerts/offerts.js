@@ -5,8 +5,8 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import NavbarIndex from '../Navbar/indexNav';
 
+const token = sessionStorage.getItem("token");
 class offerts extends Component {
-
   constructor(props) {
     super(props);
 
@@ -81,7 +81,6 @@ class offerts extends Component {
   }
 
   addOffer() {
-    const token = sessionStorage.getItem("token");
     fetch('https://localhost:44359/api/Offers', {
       method: 'POST',
       headers: {
@@ -124,9 +123,6 @@ class offerts extends Component {
           }
           alert("Oferta dodana poprawnie");
           this.props.history.push("/index")
-        }
-        else {
-          alert("Proszę wybrać zdjęcie");
         }
       })
   }
@@ -243,7 +239,7 @@ class offerts extends Component {
                       <label className="btn btn-primary butadd">Wybierz&hellip;
                       <input className="inputImage" id={"inputImage" + index} type="file" name="photo" onChange={(e) => this.handleChange(e, index)} value={this.state.file} />
                       </label>
-                      <img src="" className={"image" + index} id="imaddof" height="100" alt="Image" />
+                      <img src="https://screenshotlayer.com/images/assets/placeholder.png" className={"image" + index} id="imaddof" height="100" alt="Image" />
                     </div>
                   )
                 })

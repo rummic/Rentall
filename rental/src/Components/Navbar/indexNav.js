@@ -19,10 +19,10 @@ class NavbarIndex extends Component {
                     <Nav className="mr-auto">
                     <Button className="addOffer" variant="outline-light" size="sm" href="/addOffer" >Dodaj oferte</Button>
                     </Nav>
-                    <Form inline>
-                        <Navbar.Text className=" mr-sm-2">
+                    <Navbar.Text className=" mr-sm-2">
                             Zalogowany jako : 
                         </Navbar.Text>
+                    <Form inline>
                         <Nav className="mr-auto">
                             <NavDropdown title={sessionStorage.getItem('login')} id="collasible-nav-dropdown">
                                 <NavDropdown.Item href="/alloff"><span className="glyphicon glyphicon-picture"></span> Oferty</NavDropdown.Item>

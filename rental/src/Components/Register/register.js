@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './register.css';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { Link,Redirect} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 const emailRegex = RegExp(/^[a-z\d]+[\w\d.-]*@(?:[a-z\d]+[a-z\d-]+\.){1,5}[a-z]{2,6}$/);
 const phoneRedex = RegExp(/(?<!\w)(\(?(\+|00)?48\)?)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}(?!\w)/);
@@ -72,11 +72,11 @@ class register extends Component {
         formErrors.email = emailRegex.test(value) ? "" : "Invalid email address";
         break;
       case "phoneNumber":
-      formErrors.phoneNumber = phoneRedex.test(value) ? "" : "Incorrect number";
-      break;
-      case "password" :
-      formErrors.password = passwordRedex.test(value) ? "" : "Incorrect password. Minimum six characters, at least one uppercase letter, one lowercase letter and one number" ;
-      break;
+        formErrors.phoneNumber = phoneRedex.test(value) ? "" : "Incorrect number";
+        break;
+      case "password":
+        formErrors.password = passwordRedex.test(value) ? "" : "Incorrect password. Minimum six characters, at least one uppercase letter, one lowercase letter and one number";
+        break;
       default:
         break;
     }
@@ -86,7 +86,6 @@ class register extends Component {
 
   addUser() {
     if (formValid(this.state)) {
-
       fetch('https://localhost:44359/api/Users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -99,16 +98,35 @@ class register extends Component {
           "phoneNumber": this.state.phoneNumber,
           "role": this.state.role
         })
-      }).then(this.props.history.push("/index"))
+      }).then((result) => {
+        if (result.hasErrors) {
+            
+        } else {
+          fetch('https://localhost:44359/api/Users/Authenticate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              "login": this.state.login,
+              "password": this.state.password,
+            })
+            }).then(res => res.json())
+            .then((result) => {
+              sessionStorage.setItem('login',result.value.login);
+              sessionStorage.setItem('token',result.value.token);
+              sessionStorage.setItem('id',result.value.id);
+              this.props.history.push("/index")
+            })
+          }
+      })
     }
   }
 
   render() {
     const { formErrors } = this.state;
-    
 
-    if(sessionStorage.getItem("token")){
-      return(<Redirect to={'/index'}/>) 
+
+    if (sessionStorage.getItem("token")) {
+      return (<Redirect to={'/index'} />)
     }
     return (
       <div className="fomrconatiner">
@@ -153,27 +171,27 @@ class register extends Component {
               <Form.Label>Adres Email</Form.Label>
               <Form.Control type="email" required placeholder="Adres email" name="email" className={formErrors.email.length > 0 ? "error" : null} onChange={this.handleChange} />
               {formErrors.email.length > 0 && (
-                    <span className="errorMessage">{formErrors.email}</span>
-                  )}
+                <span className="errorMessage">{formErrors.email}</span>
+              )}
             </Form.Group>
             <Form.Group controlId="formBasicPhone">
               <Form.Label>Numer telefonu</Form.Label>
               <Form.Control type="text" required placeholder="Numer telefonu" name="phoneNumber" className={formErrors.phoneNumber.length > 0 ? "error" : null} onChange={this.handleChange} />
               {formErrors.phoneNumber.length > 0 && (
-                    <span className="errorMessage">{formErrors.phoneNumber}</span>
-                  )}
+                <span className="errorMessage">{formErrors.phoneNumber}</span>
+              )}
             </Form.Group>
             <Form.Group controlId="formBasicPassowrd">
               <Form.Label>Hasło</Form.Label>
               <Form.Control type="password" required placeholder="Hasło" name="password" className={formErrors.password.length > 0 ? "error" : null} onChange={this.handleChange} />
               {formErrors.password.length > 0 && (
-                    <span className="errorMessage">{formErrors.password}</span>
-                  )}
+                <span className="errorMessage">{formErrors.password}</span>
+              )}
             </Form.Group>
             <Button variant="primary" size="md" type="submit" block onClick={this.addUser.bind(this)}>Zarejestruj</Button>
           </Form>
           <p className="rej1">Masz już konto?</p>
-           <Link to="/login" className="rej1">Zaloguj sie</Link>
+          <Link to="/login" className="rej1">Zaloguj sie</Link>
           <div className="clearfix"></div>
         </div>
       </div>

@@ -34,7 +34,6 @@ class accsettings extends Component {
       },
     }).then(response => response.json())
       .then(parseJSON => {
-        console.log(parseJSON.value)
         this.setState({
           firstName: parseJSON.value.firstName,
           lastName: parseJSON.value.lastName,
@@ -63,9 +62,14 @@ class accsettings extends Component {
     })
       .then(response => response.json())
       .then(parseJSON => {
-        console.log(parseJSON);
+        if(parseJSON.hasErrors){
+          alert(parseJSON.errors)
+        }else{
+          alert("Poprawnie zmieniono dane")
+          this.props.history.push("/index")
+        }
       })
-      .catch(err => console.log(err))
+      
   }
 
   render() {
@@ -85,24 +89,24 @@ class accsettings extends Component {
             <div className="title">Ustawienia </div>
             <div className="section1">
               <label>Imie</label>
-              <input type="text" placeholder={this.state.firstName} name="firstName" onChange={this.onChange} />
+              <input type="text" value={this.state.firstName} name="firstName" onChange={this.onChange} />
             </div>
             <div className="clearfix"></div>
             <div className="section1">
               <label>Nazwisko</label>
-              <input type="text" placeholder={this.state.lastName} name="lastName" onChange={this.onChange} />
+              <input type="text" value={this.state.lastName} name="lastName" onChange={this.onChange} />
             </div>
             <div className="section1">
               <label>Email</label>
-              <input type="text" placeholder={this.state.email} name="email" onChange={this.onChange} />
+              <input type="text" value={this.state.email} name="email" onChange={this.onChange} />
             </div>
             <div className="section1">
               <label>Numer telefonu</label>
-              <input type="text" placeholder={this.state.phoneNumber} name="phoneNumber" onChange={this.onChange} />
+              <input type="text" value={this.state.phoneNumber} name="phoneNumber" onChange={this.onChange} />
             </div>
             <div className="section1">
               <label>Hasło</label>
-              <input type="text" placeholder="Podaj hasło" name="password" onChange={this.onChange} />
+              <input type="password" placeholder="Podaj hasło" name="password" onChange={this.onChange} />
             </div>
             <div className="clearfix"></div>
           </div>

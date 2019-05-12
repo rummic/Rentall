@@ -13,19 +13,20 @@ class home extends Component {
             offerts: [],
             category: [],
             offerType: [],
-            categoryName: "",
-            offerTypeName: "",
+            categoryId: "",
+            offerTypeId: "",
             title: "",
             priceMin: "",
             priceMax: "",
             areaMin: "",
             areaMax: "",
-            level: "",
+            level: 0,
             roomCount: "",
             city: "",
             limit: 10,
             open: false,
             featuredOffers: [],
+            page: 1
         }
         this.onChange = this.onChange.bind(this);
         this.searchOffer = this.searchOffer.bind(this);
@@ -66,7 +67,8 @@ class home extends Component {
                 this.state.offerts.map((item, i) => (
                     <div className="offerts1 searchFoto" key={i}>
                         <div className="offcon" >
-                            <div className="offoto"><img src={(item.photos[0] == undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0])} alt="foto" /></div>
+                            <div className="offoto">
+                                <img src={(item.photos[0] === undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0])} alt="foto" /></div>
                             <div className="ofdesc">{item.title}<hr />
                                 <div className="ofinf">
                                     <div className="localization"> {item.city}, {item.street}</div>
@@ -94,24 +96,58 @@ class home extends Component {
 
     searchOffer() {
         document.getElementById("emptyOffer").style.display = 'none ';
-        fetch('https://localhost:44359/api/Offers/Advanced?' +
-            `city=${this.state.city}&title=${this.state.title}&priceMin=${this.state.priceMin}
-                &priceMax=${this.state.priceMax}&areaMin=${this.state.areaMin}&areaMax=${this.state.areaMax}&
-                level=${this.state.level}&roomCount=${this.state.roomCount}
-                &categoryName=${this.state.categoryName}&offerType=${this.state.offerTypeName}&limit=${this.state.limit}&page=1`)
+        var param = ""
+        if (this.state.city) {
+            param += `city=${this.state.city}&`
+        }
+        if (this.state.title) {
+            param += `title=${this.state.title}&`
+        }
+        if (this.state.priceMin) {
+            param += `priceMin=${this.state.priceMin}&`
+        }
+        if (this.state.priceMax) {
+            param += `priceMax=${this.state.priceMax}&`
+        }
+        if (this.state.areaMax) {
+            param += `areaMax=${this.state.areaMax}&`
+        }
+        if (this.state.areaMin) {
+            param += `areaMin=${this.state.areaMin}&`
+        }
+        if (this.state.level) {
+            param += `level=${this.state.level}&`
+        }
+        if (this.state.roomCount) {
+            param += `roomCount=${this.state.roomCount}&`
+        }
+        if (this.state.categoryId) {
+            param += `categoryId=${this.state.categoryId}&`
+        }
+        if (this.state.offerTypeId) {
+            param += `offerTypeId=${this.state.offerTypeId}&`
+        }
+        if (this.state.limit) {
+            param += `limit=${this.state.limit}&`
+        }
+        if (this.state.page) {
+            param += `page=${this.state.page}`
+        }
+
+        fetch('https://localhost:44359/api/Offers/Advanced?' + param)
             .then(response => response.json())
             .then(parseJSON => {
-                if (parseJSON.value != null) {
-                    this.setState({
-                        offerts: parseJSON.value || []
-                    })
-                    document.getElementsByClassName("offerts")[0].style.display = 'none';
-                } else {
-                    document.getElementById("emptyOffer").innerHTML = "Brak ofert";
+                if (parseJSON.hasErrors) {
+                    document.getElementById("emptyOffer").innerHTML = parseJSON.errors;
                     document.getElementById("emptyOffer").style.display = 'block';
                     this.setState({
                         offerts: []
                     })
+                } else {
+                    this.setState({
+                        offerts: parseJSON.value || []
+                    })
+                    document.getElementsByClassName("offerts")[0].style.display = 'none';
                 }
             })
     }
@@ -147,7 +183,7 @@ class home extends Component {
                                     <Row>
                                         <Col>
                                             <label>Kategoria: </label>
-                                            <select className="arrow" defaultValue={'DEFAULT'} name="categoryName" onChange={this.onChange} >
+                                            <select className="arrow" defaultValue={'DEFAULT'} name="categoryId" onChange={this.onChange} >
                                                 {
                                                     <option disabled value="DEFAULT">Wybierz..</option>
                                                 }
@@ -160,7 +196,7 @@ class home extends Component {
                                         </Col>
                                         <Col>
                                             <label>Typ: </label>
-                                            <select name="offerTypeName" defaultValue={'DEFAULT'} onChange={this.onChange} >
+                                            <select name="offerTypeId" defaultValue={'DEFAULT'} onChange={this.onChange} >
                                                 {
                                                     <option disabled value="DEFAULT" >Wybierz..</option>
                                                 }
@@ -197,8 +233,19 @@ class home extends Component {
                     <p className="random">Przykładowe nasze oferty</p>
                     {
                         this.state.featuredOffers.map((item) => (
-                            <div className="offert">
-                                <div className="ofer"><img src={(item.photos[0]===undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0] )} alt="as" />jakiś tam opisik<div className="cost"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} suffix={'zł'} /></div></div>
+                            <div className="offert" key={item.id}>
+                                <div className="ofer"><img src={(item.photos[0] === undefined
+                                    ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0])}
+                                    alt="as" />
+                                    <Row>
+                                        <Col >Kategoria : {item.categoryName}</Col>
+                                        <Col >Rodzaj ogłoszenia : {item.offerTypeType}</Col>
+                                        <Col >Powierzchnia : <NumberFormat value={item.area} displayType={'text'} thousandSeparator={' '} suffix={'m²'} /></Col>
+                                    </Row>
+                                    <div className="cost">
+                                        <NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} suffix={'zł'} />
+                                    </div>
+                                </div>
                                 <div className="ofbutton"><Link to={{ pathname: '/search', state: item }}><Button>Szczegóły</Button></Link></div>
                             </div>
                         ))
