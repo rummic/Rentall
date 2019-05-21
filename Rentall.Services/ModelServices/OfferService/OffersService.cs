@@ -59,7 +59,7 @@
             var categoryFromDb = await _categoriesRepository.GetCategoryById(offer.CategoryId);
             var offerTypeFromDb = await _offerTypesRepository.GetOfferTypeById(offer.OfferTypeId);
 
-            ResponseDto<int> response = OffersValidator.ValidateAddOffer(userFromDb, categoryFromDb, offerTypeFromDb);
+            ResponseDto<int> response = OffersValidator.ValidateAddOffer(userFromDb, categoryFromDb, offerTypeFromDb, offerToDb);
             if (response.HasErrors)
             {
                 return response;
@@ -262,7 +262,7 @@
             var categoryFromDb = await _categoriesRepository.GetCategoryById(offer.CategoryId);
             var offerTypeFromDb = await _offerTypesRepository.GetOfferTypeById(offer.OfferTypeId);
 
-            var response = OffersValidator.ValidateUpdateOffer(offerFromDb, userFromDb, categoryFromDb, offerTypeFromDb);
+            var response = OffersValidator.ValidateUpdateOffer(offerFromDb, userFromDb, categoryFromDb, offerTypeFromDb, offerToDb);
             if (response.HasErrors)
             {
                 return response;
