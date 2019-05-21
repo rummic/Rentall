@@ -19,10 +19,12 @@
     using Rentall.DAL.Model;
     using Rentall.DAL.Repositories;
     using Rentall.DAL.Repositories.IRepositories;
+    using Rentall.Services.Dtos.MessageDto;
     using Rentall.Services.Dtos.OfferDto;
     using Rentall.Services.Dtos.PhotoDto;
     using Rentall.Services.Dtos.UserDto;
     using Rentall.Services.ModelServices.CategoryService;
+    using Rentall.Services.ModelServices.MessageService;
     using Rentall.Services.ModelServices.OfferService;
     using Rentall.Services.ModelServices.OfferTypeService;
     using Rentall.Services.ModelServices.PhotoService;
@@ -83,6 +85,8 @@
             services.AddScoped<IOfferTypesService, OfferTypesService>();
             services.AddScoped<IPhotosRepository, PhotosRepository>();
             services.AddScoped<IPhotoService, PhotoService>();
+            services.AddScoped<IMessagesRepository, MessagesRepository>();
+            services.AddScoped<IMessagesService, MessagesService>();
         }
 
         private static void ConfigureSwagger(IServiceCollection services)
@@ -121,6 +125,10 @@
                             .ForMember(x => x.Category, o => o.Ignore()).ForMember(x => x.OfferType, o => o.Ignore());
                         cfg.CreateMap<Photo, GetPhotoByPathDto>();
                         cfg.CreateMap<UpdateOfferDto, Offer>();
+                        cfg.CreateMap<AddMessageDto, Message>()
+                            .ForMember(x => x.Recipient, opt => opt.Ignore())
+                            .ForMember(x => x.Sender, opt => opt.Ignore())
+                            .ForMember(x => x.SendDate, opt => opt.Ignore());
                     });
         }
 

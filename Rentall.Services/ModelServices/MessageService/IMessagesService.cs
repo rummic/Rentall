@@ -1,0 +1,14 @@
+﻿namespace Rentall.Services.ModelServices.MessageService
+{
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using Rentall.DAL.Model;
+    using Rentall.Services.Dtos;
+    using Rentall.Services.Dtos.MessageDto;
+
+    public interface IMessagesService
+    {
+        Task<ResponseDto<int>> AddMessage(AddMessageDto messageDto, ClaimsPrincipal user);
+    }
+}
