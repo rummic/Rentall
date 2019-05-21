@@ -13,5 +13,7 @@
         public static readonly string EmptyFirstName = "Imie nie może być puste.";
         public static readonly string EmptyLastName = "Nazwisko nie może być puste.";
         public static readonly string EmptyPhoneNumber = "Numer telefonu nie może być pusty.";
+        public static readonly string LoginInvalidChars = "Login może składać się z tylko z liter i cyfr";
+        public static readonly string EmailInvalid = "Podany adres email jest niepoprawny.";
     }
 }
