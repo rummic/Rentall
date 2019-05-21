@@ -62,16 +62,20 @@ class accsettings extends Component {
     })
       .then(response => response.json())
       .then(parseJSON => {
-        if(parseJSON.hasErrors){
-          alert(parseJSON.errors)
-        }else{
+        if (parseJSON.hasErrors) {
+          document.getElementById("badData").innerHTML = parseJSON.errors;
+          document.getElementById("badData").style.color = "red";
+        } else {
           alert("Poprawnie zmieniono dane")
           this.props.history.push("/index")
         }
       })
-      
   }
 
+  showInput() {
+    document.getElementById("password").style.display = "inline";
+    document.getElementById("hideButton").style.display = "none"
+  }
   render() {
     if (!sessionStorage.getItem("token")) {
       return (<Redirect to={'/home'} />)
@@ -81,12 +85,14 @@ class accsettings extends Component {
         <NavbarIndex history={this.props.history} />
         <div className="clearfix"></div>
         <div className="contentbox1">
+
           <div className="offerts1">
             <Breadcrumb>
               <Breadcrumb.Item href="/index">RentAll</Breadcrumb.Item>
               <Breadcrumb.Item active>Ustawienia</Breadcrumb.Item>
             </Breadcrumb>
             <div className="title">Ustawienia </div>
+            <p id="badData"></p>
             <div className="section1">
               <label>Imie</label>
               <input type="text" value={this.state.firstName} name="firstName" onChange={this.onChange} />
@@ -106,7 +112,8 @@ class accsettings extends Component {
             </div>
             <div className="section1">
               <label>Hasło</label>
-              <input type="password" placeholder="Podaj hasło" name="password" onChange={this.onChange} />
+              <button id="hideButton" variant="primary" onClick={this.showInput} >Zmień hasło</button>
+              <input type="password" id="password" placeholder="Podaj hasło" name="password" onChange={this.onChange} />
             </div>
             <div className="clearfix"></div>
           </div>

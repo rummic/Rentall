@@ -63,19 +63,19 @@ class register extends Component {
 
     switch (name) {
       case 'firstName':
-        formErrors.firstName = value.length < 3 && value.length > 0 ? 'Minimum 3 characters required' : "";
+        formErrors.firstName = value.length < 3 && value.length > 0 ? 'Wymagane minimum 3 znaki' : "";
         break;
       case 'lastName':
-        formErrors.lastName = value.length < 2 && value.length > 0 ? 'Minimum 2 characters required' : "";
+        formErrors.lastName = value.length < 2 && value.length > 0 ? 'Wymagane minimum 2 znaki' : "";
         break;
       case "email":
-        formErrors.email = emailRegex.test(value) ? "" : "Invalid email address";
+        formErrors.email = emailRegex.test(value) ? "" : "Błędny adres e-mail";
         break;
       case "phoneNumber":
-        formErrors.phoneNumber = phoneRedex.test(value) ? "" : "Incorrect number";
+        formErrors.phoneNumber = phoneRedex.test(value) ? "" : "Błędny numer telefonu";
         break;
       case "password":
-        formErrors.password = passwordRedex.test(value) ? "" : "Incorrect password. Minimum six characters, at least one uppercase letter, one lowercase letter and one number";
+        formErrors.password = passwordRedex.test(value) ? "" : "Wymagane minimum 6 znaków,jedna duża litera,jedna mała litera oraz jedna cyfra";
         break;
       default:
         break;
@@ -147,7 +147,7 @@ class register extends Component {
               <Col lg={6}>
                 <Form.Group controlId="formBasicName">
                   <Form.Label>Imie</Form.Label>
-                  <Form.Control type="text" required placeholder="Imie" name="firstName" className={formErrors.firstName.length > 0 ? "error" : null} onChange={this.handleChange} />
+                  <Form.Control type="text" required placeholder="Imie" name="firstName" onChange={this.handleChange} />
                   {formErrors.firstName.length > 0 && (
                     <span className="errorMessage">{formErrors.firstName}</span>
                   )}
@@ -156,7 +156,7 @@ class register extends Component {
               <Col lg={6}>
                 <Form.Group controlId="formBasicLastName">
                   <Form.Label>Nazwisko</Form.Label>
-                  <Form.Control type="text" required placeholder="Nazwisko" name="lastName" className={formErrors.lastName.length > 0 ? "error" : null} onChange={this.handleChange} />
+                  <Form.Control type="text" required placeholder="Nazwisko" name="lastName" onChange={this.handleChange} />
                   {formErrors.lastName.length > 0 && (
                     <span className="errorMessage">{formErrors.lastName}</span>
                   )}
@@ -169,21 +169,21 @@ class register extends Component {
             </Form.Group>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Adres Email</Form.Label>
-              <Form.Control type="email" required placeholder="Adres email" name="email" className={formErrors.email.length > 0 ? "error" : null} onChange={this.handleChange} />
+              <Form.Control type="email" required placeholder="Adres email" name="email" onChange={this.handleChange} />
               {formErrors.email.length > 0 && (
                 <span className="errorMessage">{formErrors.email}</span>
               )}
             </Form.Group>
             <Form.Group controlId="formBasicPhone">
               <Form.Label>Numer telefonu</Form.Label>
-              <Form.Control type="text" required placeholder="Numer telefonu" name="phoneNumber" className={formErrors.phoneNumber.length > 0 ? "error" : null} onChange={this.handleChange} />
+              <Form.Control type="text" required placeholder="Numer telefonu" name="phoneNumber" onChange={this.handleChange} />
               {formErrors.phoneNumber.length > 0 && (
                 <span className="errorMessage">{formErrors.phoneNumber}</span>
               )}
             </Form.Group>
             <Form.Group controlId="formBasicPassowrd">
               <Form.Label>Hasło</Form.Label>
-              <Form.Control type="password" required placeholder="Hasło" name="password" className={formErrors.password.length > 0 ? "error" : null} onChange={this.handleChange} />
+              <Form.Control type="password" required placeholder="Hasło" name="password" onChange={this.handleChange} />
               {formErrors.password.length > 0 && (
                 <span className="errorMessage">{formErrors.password}</span>
               )}
