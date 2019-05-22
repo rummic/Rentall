@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Button, Table} from 'react-bootstrap';
-import './message.css';
+import './messages.css';
 
 class message extends Component {
 
