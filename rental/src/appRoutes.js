@@ -11,6 +11,9 @@ import Detailsoff from "./Components/Offerts/detailsoff";
 import SettingsUser from "./Components/UserSettings/accsettings"
 import Search from './Components/MainPage/detailsSearch';
 import UpdateOffer from './Components/Offerts/updateOffer';
+import Messages from './Components/Message/allMessages';
+import DetailMess from './Components/Message/message';
+
 class App extends Component {
 
   render() {
@@ -28,6 +31,8 @@ class App extends Component {
       <Route path="/settings" component={SettingsUser}/>
       <Route path="/search" component={Search}/>
       <Route path="/update" component={UpdateOffer}/>
+      <Route path="/messages" component={Messages}/>
+      <Route path='/conversation' component={DetailMess}/>
       </div>
       </BrowserRouter>
     );

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../Offerts/detailsoff.css';
 import NavbarIndex from '../Navbar/indexNav';
-import { Col, Row, Container, Form, Carousel, Breadcrumb } from 'react-bootstrap';
+import { Col, Row, Container, Carousel, Breadcrumb } from 'react-bootstrap';
 import NumberFormat from 'react-number-format';
 import { Redirect } from 'react-router-dom';
 
