@@ -67,17 +67,22 @@ class message extends Component {
             {
               this.state.messages.map((item, i) => (
                 <div key={i}>
-                  {
+                  <div className="nickname">{ 
                     item.senderLogin
-                  } ->
+                  
+                  }</div>
+                  <div className="dialogbox1">
                   {item.messageText}
+                  </div>
 
                 </div>
               ))
             }
-            <input type="text" name="answer" onChange={this.onChange} />
-            <button onClick={() => this.sendMessage()}>Wyslij</button>
           </div>
+          <div className="odpowiedz">
+          <input type="text" name="answer" onChange={this.onChange} />
+            <button onClick={() => this.sendMessage()}>Wyslij</button>
+            </div>
         </div>
       </div>
     );

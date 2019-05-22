@@ -12,15 +12,29 @@ body{
 
 .messages{
     width: 80%;
+    height: 450px;
     margin: auto;
     justify-content: center;
+    overflow: auto;
+    padding: 30px;
 }
 
 .messages .dialogbox1{
     width: 60%;
-    background-color: rgb(203, 250, 203);
-    margin: 20px;
-    padding: 10px;    
+    background-color: rgb(40, 176, 255);
+    margin: 20px auto;
+    padding: 10px;
+    border-radius: 20px;
+    text-align: left;  
+    justify-content: center;
+    font-size:18px;  
+}
+
+.messages .nickname{
+    color: gray;
+    margin-bottom: -20px;
+    text-align: left;
+    margin-left: 220px;
 }
 
 .messages .dialogbox2{
@@ -32,7 +46,37 @@ body{
     
 }
 
+.odpowiedz{
+    margin-top: 10px;
+    margin-bottom: 10px; 
+}
 
+.odpowiedz input{
+    width: 40%;
+    margin: 10px;
+    border: none;
+    border-bottom: 1px black solid;
+    border-radius: 5px;
+}
+
+.odpowiedz input:focus{
+    border-bottom: 2px rgb(40, 176, 255) solid;
+}
+
+.odpowiedz button{
+    margin: 10px;
+    border: 2px rgb(40, 176, 255) solid;
+    border-radius: 10px;
+    background-color: white;
+    color: rgb(40, 176, 255);
+    width: 100px;
+    height: 35px;
+}
+
+.odpowiedz button:hover{
+    background-color: rgb(40, 176, 255);
+    color: white;
+}
 
 
 
