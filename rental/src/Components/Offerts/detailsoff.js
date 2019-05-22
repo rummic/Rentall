@@ -55,19 +55,6 @@ class detailsoff extends Component {
             <Col sm={4}>
               <Col className="nameUser"><span className="glyphicon glyphicon-user"> </span> {item.user.login}</Col>
               <Col className="phoneUser"><span className="glyphicon glyphicon-earphone"></span> {item.user.phoneNumber}</Col>
-              <form>
-                <Form.Group controlId="formBasicName">
-                  <Form.Control type="text" required placeholder="Imie" name="firstName" />
-                </Form.Group>
-                <Form.Group controlId="formBasicEmail">
-                  <Form.Control type="email" required placeholder="Adres email" name="email" />
-                </Form.Group>
-                <Form.Group controlId="formBasicPhone">
-                  <Form.Control type="text" required placeholder="Numer telefonu" name="phoneNumber" />
-                </Form.Group>
-                <textarea rows="10" cols="50"></textarea>
-                <button type="submit">Wyslij</button>
-              </form>
             </Col>
           </Row>
           <hr />
