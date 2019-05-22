@@ -3,7 +3,7 @@ import '../Offerts/detailsoff.css';
 import NavbarIndex from '../Navbar/indexNav';
 import { Col, Row, Container, Carousel } from 'react-bootstrap';
 import NumberFormat from 'react-number-format';
-
+import NavbarMainPage from '../Navbar/mainPageNav';
 
 class search extends Component {
     constructor(props) {
@@ -43,7 +43,7 @@ class search extends Component {
         const obj = this.props.location.state;
         return (
             <div className="box">
-                <NavbarIndex history={this.props.history} />
+              {sessionStorage.getItem("token")  ? <NavbarIndex history={this.props.history} />: <NavbarMainPage />}
                 <div className="clearfix"></div>
                 <div className="offertbox">
                     <div>
