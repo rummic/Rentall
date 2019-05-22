@@ -61,24 +61,17 @@ class home extends Component {
                     featuredOffers: parseJSON.value
                 })
             })
-            window.addEventListener('scroll', this.handleScroll);
+           
     }
 
-    componentWillUnmount() {
-        window.removeEventListener('scroll', this.handleScroll);
-    };
-
-    handleScroll() {
-        const wScroll = window.scrollY
-        const w = window.screen.height / 2
-        if (wScroll > w) {
-            this.setState({
-                limit: this.state.limit + 1
-            })
-        }
+    handleScroll() { 
+            this.searchOffer();
     };
 
     searchOffer() {
+        this.setState({
+            limit: this.state.limit + 3
+        })
         document.getElementById("emptyOffer").style.display = 'none ';
         var param = ""
         if (this.state.city) {
@@ -134,6 +127,10 @@ class home extends Component {
                     document.getElementsByClassName("offerts")[0].style.display = 'none';
                 }
             })
+            console.log(this.state.offerts.length)
+            if(this.state.offerts.length>=0){
+                document.getElementById("moreOffer").style.display="inline";
+            }
     }
 
     render() {
@@ -215,7 +212,7 @@ class home extends Component {
                         <SearchOffer offers={item} key={i} />
                     ))
                 }
-                <button onClick={this.searchOffer} >Zobacz wiecej</button>
+                <button id="moreOffer"onClick={this.handleScroll} >Zobacz wiecej</button>
                 <div className="offerts">
                     <p className="random">Przykładowe nasze oferty</p>
                     {
