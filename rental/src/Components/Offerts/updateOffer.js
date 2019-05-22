@@ -23,7 +23,8 @@ class updateOffer extends Component {
             photos: [],
             user: [],
             category: [],
-            offerType: []
+            offerType: [],
+            zipCode : ""
         }
         this.onChange = this.onChange.bind(this);
     }
@@ -47,7 +48,8 @@ class updateOffer extends Component {
             photos: obj.photos,
             user: obj.user,
             categoryName: obj.categoryName,
-            offerTypeType: obj.offerTypeType
+            offerTypeType: obj.offerTypeType,
+            zipCode : obj.zipCode
         })
 
 
@@ -90,7 +92,8 @@ class updateOffer extends Component {
                                 "city": this.state.city,
                                 "street": this.state.street,
                                 "categoryId": (i + 1),
-                                "offerTypeId": (j + 1)
+                                "offerTypeId": (j + 1),
+                                "zipCode" : this.state.zipCode
                             })
                         })
                             .then(response => response.json())

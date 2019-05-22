@@ -95,7 +95,7 @@ class alloff extends Component {
                                 </div>
                                 <div className="ofdes">
                                     <div className="ofprice"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} suffix={'zł'} /></div>
-                                    <div className="ofbutton"><Link to={{ pathname: '/detailsoff', state: item }}><Button>Szczegóły</Button></Link></div>
+                                    <div className="ofbutton"><Link to={{ pathname: '/detailsoff/'+item.id}}><Button>Szczegóły</Button></Link></div>
                                 </div>
                                 <div className="clearfix"></div>
                                 <Modal show={this.state.show} onHide={this.handleClose}>

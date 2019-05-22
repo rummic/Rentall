@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import './offerts.css';
-import { Breadcrumb } from 'react-bootstrap';
+import { Breadcrumb} from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import NavbarIndex from '../Navbar/indexNav';
 
 const token = sessionStorage.getItem("token");
+
+const areaEr = RegExp(/^[0-9]*$/);
+const levelEr = RegExp(/^[0-9]*$/);
+const zipCodeEr = RegExp(/^[0-9]{2}(?:-[0-9]{3})?$/)
+const roomCountEr = RegExp(/^[0-9]*$/);
+const priceEr = RegExp(/^(\d*([,](?=\d{0,3}))?\d+)+((?!\2)[,]\d\d)?$/)
+
 class offerts extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +33,20 @@ class offerts extends Component {
       userLogin: sessionStorage.getItem('login'),
       files: [],
       category: [],
-      offerType: []
+      offerType: [],
+      formErrors: {
+        titleEr: "",
+        descriptionEr: "", 
+        numberEr: "",  
+        zipCodeEr: "",
+        levelEr: "",
+        areaEr: "",
+        roomCountEr: "",
+        cityEr: "",
+        streetEr: "",
+        cityStreetEr: "",
+        priceEr:""
+      }
     }
     this.onChange = this.onChange.bind(this);
   };
@@ -50,6 +70,42 @@ class offerts extends Component {
   }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
+
+    const { name, value } = e.target;
+    let formErrors = this.state.formErrors;
+
+    switch (name) {
+      case 'title':
+        formErrors.titleEr = value.length < 3 && value.length > 0 ? 'Wymagane minimum 3 znaki' : value.length > 50 ? "Tytuł nie może zawierać więcej niż 50 znaków." : "";
+        break;
+      case 'description':
+        formErrors.descriptionEr = value.length < 3 && value.length > 0 ? 'Wymagane minimum 3 znaki' : value.length > 1200 ? "Opis nie może zawierać więcej niż 1200 znaków." : "";
+        break;
+      case 'zipCode':
+        formErrors.zipCodeEr = zipCodeEr.test(value) ? "" : "Błędny kod pocztowy. Format kodu __-___";
+        break;
+      case 'level':
+        formErrors.levelEr = levelEr.test(value) ? "" : "Pole może zawierać tylko cyfry."
+        break;
+      case 'area':
+        formErrors.areaEr = areaEr.test(value) ? "" : "Pole może zawierać tylko cyfry."
+        break;
+      case 'roomCount':
+        formErrors.roomCountEr = roomCountEr.test(value) ? "" : "Pole może zawierać tylko cyfry."
+        break;
+      case 'city':
+        formErrors.cityEr = value.length < 3 && value.length > 0 ? "Pole musi zawierać conajmniej 3 znaki." : ""
+        break;
+      case 'street':
+        formErrors.streetEr = value.length < 3 && value.length > 0 ? "Pole musi zawierać conajmniej 3 znaki." : ""
+        break;
+      case 'price':
+        formErrors.priceEr = priceEr.test(value) ? "": "Błąd."
+        break;
+      default:
+        break;
+    }
+    this.setState({ formErrors, [name]: value })
   }
 
   addFile() {
@@ -88,7 +144,6 @@ class offerts extends Component {
         "Authorization": `bearer ${token}`
       },
       body: JSON.stringify({
-
         "title": this.state.title,
         "description": this.state.description,
         "price": this.state.price,
@@ -102,11 +157,10 @@ class offerts extends Component {
         "categoryId": this.state.categoryId,
         "offerTypeId": this.state.offerTypeId,
         "userLogin": sessionStorage.getItem('login')
-
       })
     }).then(res => res.json())
       .then(data => {
-        if (this.state.files.length > 0) {
+        if (!data.hasErrors) {
           var filesArray = this.state.files;
           for (let i = 0; i < this.state.files.length; i++) {
             let formData = new FormData();
@@ -123,11 +177,14 @@ class offerts extends Component {
           }
           alert("Oferta dodana poprawnie");
           this.props.history.push("/index")
+        }else{
+          alert("Uzupełnij dane")
         }
       })
   }
 
   render() {
+    const { formErrors } = this.state;
     if (!sessionStorage.getItem("token")) {
       return (<Redirect to={'/home'} />)
     }
@@ -136,7 +193,6 @@ class offerts extends Component {
         <NavbarIndex history={this.props.history} />
         <div className="clearfix"></div>
         <div className="contentbox1">
-
           <div className="offerts1">
             <Breadcrumb>
               <Breadcrumb.Item href="/index">RentAll</Breadcrumb.Item>
@@ -145,7 +201,10 @@ class offerts extends Component {
             <div className="title">RentAll - dodaj nowe ogłoszenie </div>
             <div className="section1">
               <label>Tytuł</label>
-              <input type="text" placeholder="Podaj tytuł" name="title" onChange={this.onChange} />
+              <input type="text" placeholder="Podaj tytuł" required name="title" onChange={this.onChange} />
+              {formErrors.titleEr.length > 0 && (
+                <span className="errorMessage">{formErrors.titleEr}</span>
+              )}
             </div>
             <div className="clearfix"></div>
             <div className="section1">
@@ -177,7 +236,10 @@ class offerts extends Component {
             <div className="subsection">
               <label>Powierzchnia</label>
               <div>
-                <input type="number" name="area" onChange={this.onChange} />
+                <input type="number" required name="area" onChange={this.onChange} />
+                {formErrors.areaEr.length > 0 && (
+                  <span className="errorMessage">{formErrors.areaEr}</span>
+                )}
               </div>
             </div>
             <div className="subsection">
@@ -185,25 +247,37 @@ class offerts extends Component {
               <div>
                 <input type="number" name="level" onChange={this.onChange} />
               </div>
+              {formErrors.levelEr.length > 0 && (
+                <span className="errorMessage">{formErrors.levelEr}</span>
+              )}
             </div>
             <div className="clearfix"></div>
             <div className="subsection">
               <label>Liczba pokoi</label>
               <div>
-                <input type="text" name="roomCount" onChange={this.onChange} />
+                <input type="number" name="roomCount" onChange={this.onChange} />
               </div>
+              {formErrors.roomCountEr.length > 0 && (
+                <span className="errorMessage">{formErrors.roomCountEr}</span>
+              )}
             </div>
             <div className="subsection">
               <label>Cena</label>
               <div>
-                <input type="number" name="price" onChange={this.onChange} />
+                <input type="text" name="price" required onChange={this.onChange} />
               </div>
+              {formErrors.priceEr.length > 0 && (
+                <span className="errorMessage">{formErrors.priceEr}</span>
+              )}
             </div>
             <div className="text">
               <label>Opis</label>
               <div>
-                <textarea rows="8" name="description" onChange={this.onChange} ></textarea>
+                <textarea rows="8" name="description" required onChange={this.onChange} ></textarea>
               </div>
+              {formErrors.descriptionEr.length > 0 && (
+                <span className="errorMessage">{formErrors.descriptionEr}</span>
+              )}
             </div>
             <div className="clearfix"></div>
           </div>
@@ -212,20 +286,29 @@ class offerts extends Component {
             <div className="subsection">
               <label>Miejscowosc</label>
               <div>
-                <input type="text" name="city" onChange={this.onChange} />
+                <input type="text" name="city" required onChange={this.onChange} />
               </div>
+              {formErrors.cityEr.length > 0 && (
+                <span className="errorMessage">{formErrors.cityEr}</span>
+              )}
             </div>
             <div className="subsection">
               <label>Ulica</label>
               <div>
                 <input type="text" name="street" onChange={this.onChange} />
               </div>
+              {formErrors.streetEr.length > 0 && (
+                <span className="errorMessage">{formErrors.streetEr}</span>
+              )}
             </div>
             <div className="subsection">
               <label>Kod pocztowy</label>
               <div>
-                <input type="text" name="zipCode" onChange={this.onChange} />
+                <input type="text" name="zipCode" required onChange={this.onChange} />
               </div>
+              {formErrors.zipCodeEr.length > 0 && (
+                <span className="errorMessage">{formErrors.zipCodeEr}</span>
+              )}
             </div>
             <div className="clearfix"></div>
           </div>
@@ -250,11 +333,13 @@ class offerts extends Component {
                 </button>
               </div>
             </div>
+            <div id="errors"></div>
             <div className="but"><button onClick={this.addOffer.bind(this)}>Dodaj</button></div>
             <div className="clearfix"></div>
           </div>
         </div>
       </div>
+      
     );
   }
 }

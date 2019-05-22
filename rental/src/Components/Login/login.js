@@ -62,13 +62,9 @@ class login extends Component {
                 <p>RentAll &ensp; Logowanie</p>
               </Col>
             </Row>
-
             <p className="log">Zaloguj sie</p>
             <a>Aby korzystać z usług RentAll musisz zalogować się na swoje konto na portalu RentAll</a>
-
           </div>
-
-
           <Form.Group controlId="formBasicLogin">
             <Form.Label>Login</Form.Label>
             <Form.Control type="text" required placeholder="Login" name="login" onChange={this.onChange} />
@@ -82,9 +78,7 @@ class login extends Component {
           </FormGroup>
           <Button variant="primary" size="md" type="submit" block onClick={this.login}>
             Zaloguj
-                    </Button>
-
-
+          </Button>
         </div>
 
         <div className="formboxre">
