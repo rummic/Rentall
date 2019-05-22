@@ -17,14 +17,13 @@
     using Rentall.DAL.Repositories.IRepositories;
     using Rentall.Services.Dtos;
     using Rentall.Services.Dtos.PhotoDto;
+    using Rentall.Services.Validators;
 
     public class PhotoService : IPhotoService
     {
         private readonly IOffersRepository _offersRepository;
 
         private readonly IPhotosRepository _photosRepository;
-
-        private readonly List<string> _allowedExtensions = new List<string> { ".jpeg", ".jpg", ".png" };
 
         private readonly string _photosFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Photos");
         public PhotoService(IHostingEnvironment hostingEnvironment, IOffersRepository offersRepository, IPhotosRepository photosRepository)
@@ -44,32 +43,9 @@
 
         public async Task<ResponseDto<string>> AddPhoto(ClaimsPrincipal user, IFormFile photo, int offerId)
         {
-            var result = new ResponseDto<string>();
-            if (photo.Length <= 0)
-            {
-                result.AddError(PhotoErrors.EmptyFile);
-                return result;
-            }
-
-            if (_allowedExtensions.All(x => x != Path.GetExtension(photo.FileName)))
-            {
-                result.AddError(PhotoErrors.WrongExtension);
-                return result;
-            }
-
             Offer offerFromDb = await _offersRepository.GetOfferById(offerId);
-            if (offerFromDb == null)
-            {
-                result.AddError(OfferErrors.NotFoundById);
-                return result;
-            }
-
-            if (user.Identity.Name != offerFromDb.User.Login)
-            {
-                result.AddError(UserErrors.NotAllowed);
-                return result;
-            }
-
+            var result = PhotosValidator.ValidateAddPhoto(user, offerFromDb, photo);
+            
             string filePath = GetAvailablePath(_photosFolderPath, photo.FileName);
             Photo photoToAdd =
                 new Photo
