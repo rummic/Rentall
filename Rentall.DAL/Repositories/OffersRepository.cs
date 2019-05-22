@@ -45,7 +45,6 @@
         public async Task<IEnumerable<Offer>> GetOffersByQuery(string query, List<SqlParameter> sqlParameters)
         {
             var offers = await _context.Offers.FromSql(query, sqlParameters.ToArray()).Include(x => x.Photos).Include(x => x.User).Include(x => x.Category).Include(x => x.OfferType).ToListAsync();
-            //var offers = await _context.Offers.FromSql($"SELECT * FROM Offers WHERE Active = 1 AND LOWER(Title) LIKE '%'+@title+'%'",new SqlParameter("@title", "Mieszkanie na wynajem")).Include(x => x.Photos).Include(x => x.User).Include(x => x.Category).Include(x => x.OfferType).ToListAsync();
             return offers;
         }
 

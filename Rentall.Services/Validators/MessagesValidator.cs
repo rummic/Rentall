@@ -23,5 +23,14 @@ namespace Rentall.Services.Validators
 
             return response;
         }
+
+        public static ResponseDto<List<GetMessagesDto>> ValidateGetMessageInbox(User recipient)
+        {
+            var response = new ResponseDto<List<GetMessagesDto>>();
+            if(recipient == null)
+                response.AddError(UserErrors.NotFoundByLogin);
+
+            return response;
+        }
     }
 }

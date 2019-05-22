@@ -1,4 +1,8 @@
-﻿namespace Rentall.Services.ModelServices.MessageService
+﻿using System.Collections.Generic;
+using System.Linq;
+using Rentall.Commons.ErrorMessages;
+
+namespace Rentall.Services.ModelServices.MessageService
 {
     using System;
     using System.Security.Claims;
@@ -36,6 +40,23 @@
             message.Sender = sender;
             message.Recipient = recipient;
             response.Value = await _messagesRepository.AddMessage(message);
+            return response;
+        }
+
+        public async Task<ResponseDto<List<GetMessagesDto>>> GetMessageInbox(ClaimsPrincipal user)
+        {
+            var recipient = await _usersRepository.GetUserByLogin(user.Identity.Name);
+            var response = MessagesValidator.ValidateGetMessageInbox(recipient);
+            if (response.HasErrors)
+                return response;
+
+            var messagesFromDb = await _messagesRepository.GetMessagesInbox(recipient);
+            if (!messagesFromDb.Any())
+            {
+                response.AddError(MessageErrors.EmptyInbox);
+            }
+            List<GetMessagesDto> mappedMessages = Mapper.Map<List<GetMessagesDto>>(messagesFromDb);
+            response.Value = mappedMessages;
             return response;
         }
     }

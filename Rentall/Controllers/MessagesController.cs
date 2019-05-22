@@ -43,5 +43,17 @@ namespace Rentall.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet]
+        public async Task<ActionResult<ResponseDto<List<GetMessagesDto>>>> GetMessageInbox()
+        {
+            ResponseDto<List<GetMessagesDto>> response = await _messagesService.GetMessageInbox(User);
+            if (response.HasErrors)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+        }
     }
 }

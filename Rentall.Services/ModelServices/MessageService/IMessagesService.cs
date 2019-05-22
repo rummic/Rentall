@@ -1,4 +1,6 @@
-﻿namespace Rentall.Services.ModelServices.MessageService
+﻿using System.Collections.Generic;
+
+namespace Rentall.Services.ModelServices.MessageService
 {
     using System.Security.Claims;
     using System.Threading.Tasks;
@@ -10,5 +12,6 @@
     public interface IMessagesService
     {
         Task<ResponseDto<int>> AddMessage(AddMessageDto messageDto, ClaimsPrincipal user);
+        Task<ResponseDto<List<GetMessagesDto>>> GetMessageInbox(ClaimsPrincipal user);
     }
 }
