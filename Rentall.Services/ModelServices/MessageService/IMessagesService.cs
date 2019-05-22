@@ -13,5 +13,6 @@ namespace Rentall.Services.ModelServices.MessageService
     {
         Task<ResponseDto<int>> AddMessage(AddMessageDto messageDto, ClaimsPrincipal user);
         Task<ResponseDto<List<GetMessagesDto>>> GetMessageInbox(ClaimsPrincipal user);
+        Task<ResponseDto<List<GetMessagesDto>>> GetConversation(ClaimsPrincipal user, string senderLogin);
     }
 }

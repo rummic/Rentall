@@ -9,5 +9,6 @@ namespace Rentall.DAL.Repositories.IRepositories
     {
         Task<int> AddMessage(Message message);
         Task<IEnumerable<Message>> GetMessagesInbox(User recipient);
+        Task<IEnumerable<Message>> GetConversation(User recipient, User sender);
     }
 }

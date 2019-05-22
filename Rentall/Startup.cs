@@ -130,7 +130,8 @@
                             .ForMember(x => x.Sender, opt => opt.Ignore())
                             .ForMember(x => x.SendDate, opt => opt.Ignore());
                         cfg.CreateMap<Message, GetMessagesDto>()
-                            .ForMember(x => x.SenderLogin, opt => opt.MapFrom(x => x.Sender.Login));
+                            .ForMember(x => x.SenderLogin, opt => opt.MapFrom(x => x.Sender.Login))
+                            .ForMember(x => x.RecipientLogin, opt => opt.MapFrom(x => x.Recipient.Login));
                     });
         }
 
