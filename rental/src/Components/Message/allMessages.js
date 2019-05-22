@@ -55,7 +55,7 @@ class allMessages extends Component {
 
                                             <td>{item.senderLogin},{item.recipientLogin}</td>
                                             <td>{item.sendDate}</td>
-                                            <td><Link to={{ pathname: '/conversation/'+item.recipientLogin+"/"+(i+1) }}><Button variant="primary">Otwórz</Button></Link></td>
+                                            <td><Link to={{ pathname: '/conversation/'+item.senderLogin+"/"+(i+1) }}><Button variant="primary">Otwórz</Button></Link></td>
                                         </tr>
                                     ))
                                 }
