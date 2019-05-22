@@ -51,6 +51,7 @@
             userFromDb.LastName = user.LastName;
             userFromDb.Password = user.Password;
             userFromDb.PhoneNumber = user.PhoneNumber;
+            userFromDb.Salt = user.Salt;
             await _context.SaveChangesAsync();
             return userFromDb.Id;
         }
