@@ -32,7 +32,7 @@ class App extends Component {
       <Route path="/search" component={Search}/>
       <Route path="/update" component={UpdateOffer}/>
       <Route path="/messages" component={Messages}/>
-      <Route path='/conversation' component={DetailMess}/>
+      <Route path='/conversation/:login/:id' component={DetailMess}/>
       </div>
       </BrowserRouter>
     );

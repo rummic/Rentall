@@ -5,6 +5,30 @@ import NavbarIndex from '../Navbar/indexNav';
 import './messages.css';
 
 class allMessages extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            messages: [],
+        }
+    }
+    componentWillMount() {
+        const token = sessionStorage.getItem("token");
+        fetch('https://localhost:44359/api/Messages', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(responseJSON => {
+                if (!responseJSON.hasErrors) {
+                    this.setState({
+                        messages: responseJSON.value || []
+                    })
+                }
+            })
+    }
 
     render() {
         if (!sessionStorage.getItem("token")) {
@@ -19,18 +43,25 @@ class allMessages extends Component {
                             <thead>
                                 <tr>
 
-                                    <th>Nadawca</th>
+                                    <th>Użytkownik</th>
                                     <th>Data nadania</th>
                                     <th>Akcja</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                {
+                                    this.state.messages.map((item, i) => (
+                                        <tr key={i}>
 
-                                    <td>ktostam</td>
-                                    <td>090-9</td>
-                                    <td><Link to={{ pathname: '/conversation' }}><Button variant="primary">Otwórz</Button></Link></td>
-                                </tr>
+                                            <td>{item.senderLogin},{item.recipientLogin}</td>
+                                            <td>{item.sendDate}</td>
+                                            <td><Link to={{ pathname: '/conversation/'+item.recipientLogin+"/"+(i+1) }}><Button variant="primary">Otwórz</Button></Link></td>
+                                        </tr>
+                                    ))
+                                }
+
+
+
                             </tbody>
                         </Table>
                     </div>
