@@ -4,6 +4,7 @@ import { Button, Row, Container, Col, Collapse } from 'react-bootstrap';
 import NumberFormat from 'react-number-format';
 import NavbarMainPage from '../Navbar/mainPageNav';
 import { Redirect, Link } from 'react-router-dom';
+import SearchOffer from '../MainPage/searchOffer';
 
 class home extends Component {
     constructor(props) {
@@ -23,13 +24,14 @@ class home extends Component {
             level: 0,
             roomCount: "",
             city: "",
-            limit: 10,
+            limit: 2,
             open: false,
             featuredOffers: [],
             page: 1
         }
         this.onChange = this.onChange.bind(this);
         this.searchOffer = this.searchOffer.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
     }
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value })
@@ -59,40 +61,22 @@ class home extends Component {
                     featuredOffers: parseJSON.value
                 })
             })
+            window.addEventListener('scroll', this.handleScroll);
     }
 
-    showOfferts() {
-        if (this.state.offerts.length > 0) {
-            return (
-                this.state.offerts.map((item, i) => (
-                    <div className="offerts1 searchFoto" key={i}>
-                        <div className="offcon" >
-                            <div className="offoto">
-                                <img src={(item.photos[0] === undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0])} alt="foto" /></div>
-                            <div className="ofdesc">{item.title}<hr />
-                                <div className="ofinf">
-                                    <div className="localization"> {item.city}, {item.street}</div>
-                                    <ul>
-                                        <li>Powierzchnia : {item.area} m²</li>
-                                        <li>Piętro : {item.level}</li>
-                                        <li>Liczba pokoi : {item.roomCount}</li>
-                                        <li>Kategoria : {item.categoryName}</li>
-                                        <li>Rodzaj ogłoszenia : {item.offerTypeType}</li>
-                                    </ul>
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
+    };
 
-                                </div>
-                            </div>
-                            <div className="ofdes">
-                                <div className="ofprice"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} suffix={' zł'} /> </div>
-                                <div className="ofbutton"><Link to={{ pathname: '/search', state: item }}><Button>Szczegóły</Button></Link></div>
-                            </div>
-                            <div className="clearfix"></div>
-                        </div>
-                    </div>
-                ))
-            )
+    handleScroll() {
+        const wScroll = window.scrollY
+        const w = window.screen.height / 2
+        if (wScroll > w) {
+            this.setState({
+                limit: this.state.limit + 1
+            })
         }
-    }
+    };
 
     searchOffer() {
         document.getElementById("emptyOffer").style.display = 'none ';
@@ -227,8 +211,11 @@ class home extends Component {
                 </div>
                 <div className="emptyOffer" id="emptyOffer"></div>
                 {
-                    this.showOfferts()
+                    this.state.offerts.map((item, i) => (
+                        <SearchOffer offers={item} key={i} />
+                    ))
                 }
+                <button onClick={this.searchOffer} >Zobacz wiecej</button>
                 <div className="offerts">
                     <p className="random">Przykładowe nasze oferty</p>
                     {

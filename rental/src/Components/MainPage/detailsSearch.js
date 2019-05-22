@@ -5,10 +5,15 @@ import { Col, Row, Container, Form, Carousel} from 'react-bootstrap';
 import NumberFormat from 'react-number-format';
 class search extends Component {
 
-    detailsOffer() {
+    render() {
         const obj = this.props.location.state;
         return (
-            <Container>
+            <div className="box">
+                <NavbarMainPage />
+                <div className="clearfix"></div>
+                <div className="offertbox">
+                    <div>
+                    <Container>
                 <Row>
                     <Col md={1}>
                         <a href="/">Wróć</a>
@@ -69,20 +74,6 @@ class search extends Component {
                     <Col>{obj.description}</Col>
                 </Row>
             </Container>
-        )
-    }
-
-
-    render() {
-        return (
-            <div className="box">
-                <NavbarMainPage />
-                <div className="clearfix"></div>
-                <div className="offertbox">
-                    <div>
-                        {
-                            this.detailsOffer()
-                        }
                     </div>
 
                 </div>
