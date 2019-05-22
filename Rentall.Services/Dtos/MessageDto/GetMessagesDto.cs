@@ -8,6 +8,7 @@ namespace Rentall.Services.Dtos.MessageDto
     {
         public string MessageText { get; set; }
         public string SenderLogin { get; set; }
+        public string RecipientLogin { get; set; }
         public DateTime SendDate { get; set; }
     }
 }

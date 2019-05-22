@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './alloff.css';
-import { Button, Breadcrumb, Modal } from 'react-bootstrap';
+import { Button, Breadcrumb } from 'react-bootstrap';
 import { Redirect, Link } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import NavbarIndex from '../Navbar/indexNav';
@@ -10,20 +10,11 @@ class alloff extends Component {
         super(props);
         this.state = {
             offerts: [],
-            show: false
         }
-        this.handleShow = this.handleShow.bind(this);
-        this.handleClose = this.handleClose.bind(this);
+
     }
 
-    handleClose() {
-        this.setState({ show: false });
-    }
-
-    handleShow() {
-        this.setState({ show: true });
-    }
-
+ 
     componentWillMount() {
         fetch('https://localhost:44359/api/Offers/User/' + sessionStorage.getItem('login'))
             .then(response => response.json())
@@ -76,8 +67,8 @@ class alloff extends Component {
                         this.state.offerts.map((item, i) => (
                             <div className="offcon" key={i}>
                                 <div>
-                                    <a className="close" onClick={() => this.handleShow()}></a>
-                                    <span className="glyphicon glyphicon-trash" onClick={() => this.handleShow()}></span>
+                                    <a className="close" onClick={() => this.delete(i)}></a>
+                                    <span className="glyphicon glyphicon-trash" onClick={() => this.delete(i)}></span>
                                     <Link to={{ pathname: '/update', state: item }}><Button>Aktualizuj</Button></Link>
                                 </div>
                                 <div className="offoto"><img src={(item.photos[0] === undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0])} alt="as" /></div>
@@ -98,20 +89,6 @@ class alloff extends Component {
                                     <div className="ofbutton"><Link to={{ pathname: '/detailsoff/'+item.id}}><Button>Szczegóły</Button></Link></div>
                                 </div>
                                 <div className="clearfix"></div>
-                                <Modal show={this.state.show} onHide={this.handleClose}>
-                                    <Modal.Header>
-                                        <Modal.Title>Usuwanie ogłoszenia</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>Czy chcesz usunąć wybrane ogłoszenie ?</Modal.Body>
-                                    <Modal.Footer>
-                                        <Button variant="danger" onClick={() => this.delete(i)}>
-                                            Tak
-                                        </Button>
-                                        <Button variant="dark" onClick={this.handleClose}>
-                                            Nie
-                                         </Button>
-                                    </Modal.Footer>
-                                </Modal>
                             </div>
                         ))
                     }

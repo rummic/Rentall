@@ -24,7 +24,7 @@ class updateOffer extends Component {
             user: [],
             category: [],
             offerType: [],
-            zipCode : ""
+            zipCode: ""
         }
         this.onChange = this.onChange.bind(this);
     }
@@ -49,7 +49,7 @@ class updateOffer extends Component {
             user: obj.user,
             categoryName: obj.categoryName,
             offerTypeType: obj.offerTypeType,
-            zipCode : obj.zipCode
+            zipCode: obj.zipCode
         })
 
 
@@ -93,13 +93,15 @@ class updateOffer extends Component {
                                 "street": this.state.street,
                                 "categoryId": (i + 1),
                                 "offerTypeId": (j + 1),
-                                "zipCode" : this.state.zipCode
+                                "zipCode": this.state.zipCode
                             })
                         })
                             .then(response => response.json())
                             .then(parseJSON => {
+                                console.log(parseJSON)
                                 if (parseJSON.hasErrors) {
-                                    alert(parseJSON.errors)
+                                    document.getElementById("badForm").innerHTML = parseJSON.errors;
+                                    document.getElementById("badForm").style.color = "red";
                                 } else {
                                     alert("Poprawnie zmieniono dane")
                                     this.props.history.push("/alloff")
@@ -127,6 +129,7 @@ class updateOffer extends Component {
                         <Breadcrumb.Item active>Aktualizacja</Breadcrumb.Item>
                     </Breadcrumb>
                     <Container>
+                    <p id="badForm"></p>
                         <Row className="headerOffer">
                             <Col className="titleOffer" md={8}><input type="text" value={obj.title} name="title" onChange={this.onChange} /></Col>
                             <Col className="priceOffer" md={4}><input type="number" value={obj.price} name="price" onChange={this.onChange} /></Col>

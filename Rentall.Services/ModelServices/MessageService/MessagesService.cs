@@ -59,5 +59,23 @@ namespace Rentall.Services.ModelServices.MessageService
             response.Value = mappedMessages;
             return response;
         }
+
+        public async Task<ResponseDto<List<GetMessagesDto>>> GetConversation(ClaimsPrincipal user, string senderLogin)
+        {
+            var recipient = await _usersRepository.GetUserByLogin(user.Identity.Name);
+            var sender = await _usersRepository.GetUserByLogin(senderLogin);
+            var response = MessagesValidator.ValidateGetConversation(recipient, sender);
+            if (response.HasErrors)
+                return response;
+
+            var messagesFromDb = await _messagesRepository.GetConversation(recipient, sender);
+            if (!messagesFromDb.Any())
+            {
+                response.AddError(MessageErrors.EmptyConversation);
+            }
+            List<GetMessagesDto> mappedMessages = Mapper.Map<List<GetMessagesDto>>(messagesFromDb);
+            response.Value = mappedMessages;
+            return response;
+        }
     }
 }

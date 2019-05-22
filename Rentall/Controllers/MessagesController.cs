@@ -55,5 +55,17 @@ namespace Rentall.Controllers
 
             return Ok(response);
         }
+
+        [HttpGet("{senderLogin}")]
+        public async Task<ActionResult<ResponseDto<List<GetMessagesDto>>>> GetConversation(string senderLogin)
+        {
+            ResponseDto<List<GetMessagesDto>> response = await _messagesService.GetConversation(User, senderLogin);
+            if (response.HasErrors)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+        }
     }
 }

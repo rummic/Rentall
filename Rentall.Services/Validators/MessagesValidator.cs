@@ -32,5 +32,16 @@ namespace Rentall.Services.Validators
 
             return response;
         }
+
+        public static ResponseDto<List<GetMessagesDto>> ValidateGetConversation(User recipient, User sender)
+        {
+            var response = new ResponseDto<List<GetMessagesDto>>();
+            if (recipient == null)
+                response.AddError(UserErrors.NotFoundByLogin);
+            if (sender == null)
+                response.AddError(UserErrors.NotFoundByLogin);
+
+            return response;
+        }
     }
 }

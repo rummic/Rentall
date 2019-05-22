@@ -1,0 +1,50 @@
+body{
+    background-color: rgba(234, 234, 234, 1);
+}
+
+.box1{
+    width: 90%;
+    background-color: white;
+    margin: 20px auto;
+    padding: 10px;
+
+}
+
+.messages{
+    width: 80%;
+    margin: auto;
+    justify-content: center;
+}
+
+.messages .dialogbox1{
+    width: 60%;
+    background-color: rgb(203, 250, 203);
+    margin: 20px;
+    padding: 10px;    
+}
+
+.messages .dialogbox2{
+    width: 60%;
+    background-color: rgba(234, 234, 234, 1);
+    margin: 20px ;   
+    padding: 10px;
+    margin-left: 400px;
+    
+}
+
+
+
+
+
+Button{
+    margin: auto;
+
+}
+
+th:first-child{
+    width: 70%;
+}
+
+tr:last-child{
+    border-bottom: 2px rgb(231, 231, 231) solid;
+}
