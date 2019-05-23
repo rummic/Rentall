@@ -210,6 +210,7 @@ text-align: center;
 .offert img{
     width: 100%;
     padding: 3px;
+    height: 400px;
 
 }
 
@@ -252,6 +253,9 @@ a{
     color: white;
 }
 
+#moreOffer{
+    margin: 20px;
+}
 
 @media screen and (max-width: 908px)
 {
@@ -299,6 +303,12 @@ a{
     
     
     }
+
+    .offert img{
+        height: 200px;
+    }
+
+    
 }
 
 @media screen and (max-width: 800px)
@@ -361,6 +371,7 @@ a{
         float: left;
         width: 40%;
         padding: 3px;
+        height: 200px;
     
     }
     

@@ -81,12 +81,11 @@ class alloff extends Component {
                                 </div>
                                 <div className="ofdes">
                                 <div className="offdel">
-                                    <a className="close" onClick={() => this.delete(i)}></a>
                                     <span className="glyphicon glyphicon-trash trash" onClick={() => this.delete(i)}></span>
+                                    <div className="updatbut"><button className=" glyphicon glyphicon-pencil"><Link to={{ pathname: '/update', state: item }}></Link></button></div>
                                 </div>
                                     <div className="ofprice"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} suffix={'zł'} /></div>
                                     <div className="ofbutton"><Link to={{ pathname: '/detailsoff/'+item.id}}><Button>Szczegóły</Button></Link></div>
-                                    <div className="updatbut"><Link to={{ pathname: '/update', state: item }}><Button>Aktualizuj</Button></Link></div>
                                 </div>
                                 <div className="clearfix"></div>
                             </div>
