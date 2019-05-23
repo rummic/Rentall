@@ -66,11 +66,6 @@ class alloff extends Component {
                     {
                         this.state.offerts.map((item, i) => (
                             <div className="offcon" key={i}>
-                                <div>
-                                    <a className="close" onClick={() => this.delete(i)}></a>
-                                    <span className="glyphicon glyphicon-trash" onClick={() => this.delete(i)}></span>
-                                    <Link to={{ pathname: '/update', state: item }}><Button>Aktualizuj</Button></Link>
-                                </div>
                                 <div className="offoto"><img src={(item.photos[0] === undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0])} alt="as" /></div>
                                 <div className="ofdesc">{item.title}<hr />
                                     <div className="ofinf">
@@ -85,8 +80,13 @@ class alloff extends Component {
                                     </div>
                                 </div>
                                 <div className="ofdes">
+                                <div className="offdel">
+                                    <a className="close" onClick={() => this.delete(i)}></a>
+                                    <span className="glyphicon glyphicon-trash trash" onClick={() => this.delete(i)}></span>
+                                </div>
                                     <div className="ofprice"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} suffix={'zł'} /></div>
                                     <div className="ofbutton"><Link to={{ pathname: '/detailsoff/'+item.id}}><Button>Szczegóły</Button></Link></div>
+                                    <div className="updatbut"><Link to={{ pathname: '/update', state: item }}><Button>Aktualizuj</Button></Link></div>
                                 </div>
                                 <div className="clearfix"></div>
                             </div>

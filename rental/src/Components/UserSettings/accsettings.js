@@ -115,9 +115,9 @@ class accsettings extends Component {
               <button id="hideButton" variant="primary" onClick={this.showInput} >Zmień hasło</button>
               <input type="password" id="password" placeholder="Podaj hasło" name="password" onChange={this.onChange} />
             </div>
+            <div className="but"><button variant="primary" onClick={this.update.bind(this)}>Zmień dane</button></div>
             <div className="clearfix"></div>
           </div>
-          <div className="but"><button variant="primary" onClick={this.update.bind(this)}>Zmień dane</button></div>
         </div>
       </div>
     );
