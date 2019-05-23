@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Rentall.Services.Validators
+﻿namespace Rentall.Services.Validators
 {
+    using System.Collections.Generic;
     using System.Security.Claims;
 
     using Rentall.Commons.ErrorMessages;
