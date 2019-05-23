@@ -13,21 +13,27 @@ namespace Rentall.Services.Validators
 
     public static class MessagesValidator
     {
-        public static ResponseDto<int> ValidateAddMessage(AddMessageDto message, User recipient)
+        public static ResponseDto<int> ValidateAddMessage(AddMessageDto message, User recipient, ClaimsPrincipal user)
         {
             var response = new ResponseDto<int>();
             if (string.IsNullOrWhiteSpace(message.MessageText))
                 response.AddError(MessageErrors.EmptyMessage);
             if (recipient == null)
+            {
                 response.AddError(UserErrors.NotFoundByLogin);
+                return response;
+            }
 
-            return response;
+            if (recipient.Login == user.Identity.Name)
+                response.AddError(MessageErrors.MessageToSelf);
+
+                return response;
         }
 
         public static ResponseDto<List<GetMessagesDto>> ValidateGetMessageInbox(User recipient)
         {
             var response = new ResponseDto<List<GetMessagesDto>>();
-            if(recipient == null)
+            if (recipient == null)
                 response.AddError(UserErrors.NotFoundByLogin);
 
             return response;

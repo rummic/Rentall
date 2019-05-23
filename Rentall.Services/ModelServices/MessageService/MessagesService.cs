@@ -31,7 +31,7 @@ namespace Rentall.Services.ModelServices.MessageService
         {
             var recipient = await _usersRepository.GetUserByLogin(messageDto.RecipientLogin);
             var sender = await _usersRepository.GetUserByLogin(user.Identity.Name);
-            var response = MessagesValidator.ValidateAddMessage(messageDto, recipient);
+            var response = MessagesValidator.ValidateAddMessage(messageDto, recipient, user);
             if (response.HasErrors)
                 return response;
 
