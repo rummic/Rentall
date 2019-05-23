@@ -76,10 +76,10 @@ class search extends Component {
                                 <Col sm={4}>
                                     <Col className="nameUser"><span className="glyphicon glyphicon-user"> </span> {obj.user.login}</Col>
                                     <Col className="phoneUser"><span className="glyphicon glyphicon-earphone"></span> {obj.user.phoneNumber}</Col>
-                                    
+                                    {sessionStorage.getItem("token")  ? <div>
                                     <textarea name="message" type="text" rows="10" cols="50" onChange={this.onChange} maxLength="200" ></textarea>
                                     <button  onClick={() => this.sendMessage()}>Wyslij</button>
-                                    
+                                    </div> : ""}
                                 </Col>
                             </Row>
                             <hr />

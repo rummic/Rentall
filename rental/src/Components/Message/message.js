@@ -48,7 +48,6 @@ class message extends Component {
     }).then(response => response.json())
       .then(parseJSON => {
         if (!parseJSON.hasErrors) {
-          alert("wysłano wiadomość")
           window.location.reload();
         }
       })

@@ -30,6 +30,15 @@ class allMessages extends Component {
             })
     }
 
+    person(e){
+        const login = sessionStorage.getItem("login");
+        if(e.senderLogin===login){
+            return e.recipientLogin
+        }else{
+            return e.senderLogin
+        }
+    }
+
     render() {
         if (!sessionStorage.getItem("token")) {
             return (<Redirect to={'/home'} />)
@@ -55,7 +64,7 @@ class allMessages extends Component {
 
                                             <td>{item.senderLogin},{item.recipientLogin}</td>
                                             <td>{item.sendDate}</td>
-                                            <td><Link to={{ pathname: '/conversation/'+item.senderLogin+"/"+(i+1) }}><Button variant="primary">Otwórz</Button></Link></td>
+                                            <td><Link to={{ pathname: '/conversation/'+this.person(item)+"/"+(i+1) }}><Button variant="primary">Otwórz</Button></Link></td>
                                         </tr>
                                     ))
                                 }
