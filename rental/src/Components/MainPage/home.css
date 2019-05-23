@@ -253,7 +253,7 @@ a{
 }
 
 
-@media screen and (max-width: 892px)
+@media screen and (max-width: 908px)
 {
     .searchbox{
         clear:both;
@@ -306,7 +306,6 @@ a{
     .searchbox{
         clear:both;
         width: 90%;
-        height: 180px;
         margin: auto;
         margin-bottom: 30px;
         border-radius: 5px;
@@ -409,7 +408,6 @@ a{
     .searchbox{
         clear:both;
         width: 90%;
-        height: 180px;
         margin: auto;
         margin-bottom: 30px;
         border-radius: 5px;

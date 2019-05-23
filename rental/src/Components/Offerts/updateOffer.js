@@ -132,7 +132,7 @@ class updateOffer extends Component {
                     <p id="badForm"></p>
                         <Row className="headerOffer">
                             <Col className="titleOffer" md={8}><input type="text" value={obj.title} name="title" onChange={this.onChange} /></Col>
-                            <Col className="priceOffer" md={4}><input type="number" value={obj.price} name="price" onChange={this.onChange} /></Col>
+                            <Col className="priceOffer" md={4}><label>Cena: </label><input type="number" value={obj.price} name="price" onChange={this.onChange} /></Col>
                             <Col className="localisationOffer" md={4}><span className="glyphicon glyphicon-map-marker"></span><input type="text" value={obj.city} name="city" onChange={this.onChange} />,<input type="text" value={obj.street} name="street" onChange={this.onChange} /></Col>
                         </Row>
                         <hr />
