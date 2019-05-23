@@ -13,7 +13,6 @@ class alloff extends Component {
         }
 
     }
-
  
     componentWillMount() {
         fetch('https://localhost:44359/api/Offers/User/' + sessionStorage.getItem('login'))
