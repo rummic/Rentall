@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Rentall.Controllers
+﻿namespace Rentall.Controllers
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
@@ -12,8 +10,6 @@ namespace Rentall.Controllers
     using Rentall.Services.Dtos;
     using Rentall.Services.Dtos.MessageDto;
     using Rentall.Services.ModelServices.MessageService;
-
-    using Swashbuckle.AspNetCore.Swagger;
 
     [Route("api/[controller]")]
     [ApiController]

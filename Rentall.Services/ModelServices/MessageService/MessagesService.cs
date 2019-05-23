@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Rentall.Commons.ErrorMessages;
-
-namespace Rentall.Services.ModelServices.MessageService
+﻿namespace Rentall.Services.ModelServices.MessageService
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
     using AutoMapper;
 
+    using Rentall.Commons.ErrorMessages;
     using Rentall.DAL.Model;
     using Rentall.DAL.Repositories.IRepositories;
     using Rentall.Services.Dtos;
