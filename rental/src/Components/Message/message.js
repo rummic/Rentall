@@ -52,6 +52,26 @@ class message extends Component {
         }
       })
   }
+
+  person(e){
+    const login = sessionStorage.getItem("login");
+    if(e.senderLogin===login){
+        return "dialogbox2"
+    }else{
+        return "dialogbox1"
+    }
+}
+
+nick(e){
+  const login = sessionStorage.getItem("login");
+  if(e.senderLogin===login){
+      return "nickname1"
+  }else{
+      return "nickname"
+  }
+}
+
+
   render() {
     return (
       <div className="box">
@@ -66,11 +86,11 @@ class message extends Component {
             {
               this.state.messages.map((item, i) => (
                 <div key={i}>
-                  <div className="nickname">{ 
+                  <div className={this.nick(item)}>{ 
                     item.senderLogin
                   
                   }</div>
-                  <div className="dialogbox1">
+                  <div className={this.person(item)}>
                   {item.messageText}
                   </div>
 

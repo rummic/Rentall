@@ -26,6 +26,8 @@ class allMessages extends Component {
                     this.setState({
                         messages: responseJSON.value || []
                     })
+                }else{
+                    document.getElementById("emptyMessage").innerHTML = responseJSON.errors;
                 }
             })
     }
@@ -68,11 +70,9 @@ class allMessages extends Component {
                                         </tr>
                                     ))
                                 }
-
-
-
                             </tbody>
                         </Table>
+                        <div id="emptyMessage"></div>
                     </div>
                 </div>
             </div>
