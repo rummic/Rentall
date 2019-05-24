@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace Rentall.Services.ModelServices.MessageService
+﻿namespace Rentall.Services.ModelServices.MessageService
 {
+    using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
 

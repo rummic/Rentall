@@ -11,6 +11,7 @@
         }
 
         public T Value { get; set; }
+
         public bool HasErrors => Errors != null && Errors.Any();
         public List<string> Errors { get; set; }
         public void AddError(string error)

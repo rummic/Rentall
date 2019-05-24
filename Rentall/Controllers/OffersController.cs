@@ -1,14 +1,16 @@
-﻿namespace Rentall.Controllers
+﻿    namespace Rentall.Controllers
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
+
     using Rentall.Commons.Enumerables;
     using Rentall.Services.Dtos;
     using Rentall.Services.Dtos.OfferDto;
     using Rentall.Services.ModelServices.OfferService;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     [Route("api/[controller]")]
     [ApiController]

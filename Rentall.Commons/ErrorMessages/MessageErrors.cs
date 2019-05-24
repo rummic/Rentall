@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Rentall.Commons.ErrorMessages
+﻿namespace Rentall.Commons.ErrorMessages
 {
-    public static class MessageErrors
+    public static class MessageErrors//TODO readonly -> const
     {
         public static readonly string EmptyMessage = "Wiadomość musi mieć treść.";
         public static readonly string EmptyInbox = "Brak wiadomości";

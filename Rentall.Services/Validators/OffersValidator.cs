@@ -56,7 +56,9 @@ namespace Rentall.Services.Validators
             }
 
             if (userIdentity.Identity.Name != offer.User.Login)
+            {
                 response.AddError(OfferErrors.NotAllowed);
+            }
 
             return response;
         }
@@ -78,8 +80,12 @@ namespace Rentall.Services.Validators
             return response;
         }
 
-        public static ResponseDto<int> ValidateUpdateOffer(Offer offer, User user, Category category,
-            OfferType offerType, Offer offerToDb)
+        public static ResponseDto<int> ValidateUpdateOffer(
+            Offer offer,
+            User user,
+            Category category,
+            OfferType offerType,
+            Offer offerToDb)
         {
             var response = ValidateOfferForm(category, offerType, offerToDb);
             if (offer == null)
@@ -87,6 +93,7 @@ namespace Rentall.Services.Validators
                 response.AddError(OfferErrors.NotFoundById);
                 return response;
             }
+
             if (user == null)
             {
                 response.AddError(UserErrors.NotFoundByLogin);
@@ -96,7 +103,6 @@ namespace Rentall.Services.Validators
             if (user.Login != offer.User.Login)
             {
                 response.AddError(UserErrors.NotAllowed);
-                return response;
             }
 
             return response;
@@ -104,11 +110,11 @@ namespace Rentall.Services.Validators
 
         private static ResponseDto<int> ValidateOfferForm(Category category, OfferType offerType, Offer offerToDb)
         {
-            ResponseDto<int> response = new ResponseDto<int>();
-            Regex zipCodeRegex = new Regex(@"\d{2}-\d{3}");
+            var response = new ResponseDto<int>();
+            var zipCodeRegex = new Regex(@"\d{2}-\d{3}");
 
-            if (category == null)
-                response.AddError(CategoryErrors.NotFoundById);
+            if (category == null) response.AddError(CategoryErrors.NotFoundById);
+
             if (offerType == null)
                 response.AddError(OfferTypeErrors.NotFoundById);
             if (string.IsNullOrWhiteSpace(offerToDb.Title) || offerToDb.Title.Length < 3)

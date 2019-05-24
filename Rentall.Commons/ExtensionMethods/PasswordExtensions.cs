@@ -3,7 +3,7 @@
     using System.Security.Cryptography;
     using System.Text;
 
-    public static class ExtensionMethods
+    public static class PasswordExtensions
     {
         public static byte[] GenerateSaltedHash(this string password, byte[] salt)
         {
