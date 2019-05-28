@@ -4,6 +4,7 @@ import { Button, Breadcrumb } from 'react-bootstrap';
 import { Redirect, Link } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import NavbarIndex from '../Navbar/indexNav';
+import swal from 'sweetalert';
 
 class alloff extends Component {
     constructor(props) {
@@ -11,9 +12,8 @@ class alloff extends Component {
         this.state = {
             offerts: [],
         }
-
     }
- 
+
     componentWillMount() {
         fetch('https://localhost:44359/api/Offers/User/' + sessionStorage.getItem('login'))
             .then(response => response.json())
@@ -35,19 +35,35 @@ class alloff extends Component {
     }
     delete(i) {
         const token = sessionStorage.getItem("token");
-        fetch('https://localhost:44359/api/Offers/' + this.state.offerts[i].id, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                "Authorization": `bearer ${token}`
-            }
+        swal({
+            title: "Czy na pewno chcesz usunąć ogłoszenie?",
+            text: "Nie będzie możliwości jego przywrócenia!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
         })
-            .then(parseJSON => {
-                console.log(parseJSON);
-            })
-        this.setState({ show: false });
-        window.location.reload();
+            .then((willDelete) => {
+                if (willDelete) {
+                    fetch('https://localhost:44359/api/Offers/' + this.state.offerts[i].id, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            "Authorization": `bearer ${token}`
+                        }
+                    })
+                    swal("Udało się! Twoje ogłoszenie zostało usunięte!", {
+                        icon: "success",
+                    }).then(val => {
+                        if (val) {
+                            window.location.reload();
+                        }
+                    });
+                } else {
+                    swal("Twoje ogłoszenie jest bezpieczne!");
+                }
+            });
     }
+
     render() {
         if (!sessionStorage.getItem("token")) {
             return (<Redirect to={'/home'} />)
@@ -79,12 +95,12 @@ class alloff extends Component {
                                     </div>
                                 </div>
                                 <div className="ofdes">
-                                <div className="offdel">
-                                    <span className="glyphicon glyphicon-trash trash" onClick={() => this.delete(i)}></span>
-                                    <div className="updatbut"><button className=" glyphicon glyphicon-pencil"><Link to={{ pathname: '/update', state: item }}></Link></button></div>
-                                </div>
+                                    <div className="offdel">
+                                        <span className="glyphicon glyphicon-trash trash" onClick={() => this.delete(i)}></span>
+                                        <div className="updatbut"><Link to={{ pathname: '/update', state: item }}><button className=" glyphicon glyphicon-pencil"></button></Link></div>
+                                    </div>
                                     <div className="ofprice"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} suffix={'zł'} /></div>
-                                    <div className="ofbutton"><Link to={{ pathname: '/detailsoff/'+item.id}}><Button>Szczegóły</Button></Link></div>
+                                    <div className="ofbutton"><Link to={{ pathname: '/detailsoff/' + item.id }}><Button>Szczegóły</Button></Link></div>
                                 </div>
                                 <div className="clearfix"></div>
                             </div>
