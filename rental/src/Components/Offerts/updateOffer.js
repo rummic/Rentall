@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NavbarIndex from '../Navbar/indexNav';
 import { Col, Row, Container, Carousel, Breadcrumb } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const token = sessionStorage.getItem("token");
 
@@ -98,12 +99,11 @@ class updateOffer extends Component {
                         })
                             .then(response => response.json())
                             .then(parseJSON => {
-                                console.log(parseJSON)
                                 if (parseJSON.hasErrors) {
                                     document.getElementById("badForm").innerHTML = parseJSON.errors;
                                     document.getElementById("badForm").style.color = "red";
                                 } else {
-                                    alert("Poprawnie zmieniono dane")
+                                    swal("Dobra robota!", "Poprawnie zmieniono ogłoszenie!", "success");
                                     this.props.history.push("/alloff")
                                 }
                             })

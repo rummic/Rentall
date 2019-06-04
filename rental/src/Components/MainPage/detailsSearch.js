@@ -4,6 +4,7 @@ import NavbarIndex from '../Navbar/indexNav';
 import { Col, Row, Container, Carousel } from 'react-bootstrap';
 import NumberFormat from 'react-number-format';
 import NavbarMainPage from '../Navbar/mainPageNav';
+import swal from 'sweetalert';
 
 class search extends Component {
     constructor(props) {
@@ -33,8 +34,13 @@ class search extends Component {
         }).then(response => response.json())
             .then(parseJSON => {
                 if (!parseJSON.hasErrors) {
-                    alert("wysłano wiadomość")
-                    window.location.reload();
+                    swal({
+                        title: "Dobra robota!", text: "Poprawnie wysłano wiadomość!", type:
+                            "success", icon: "success"
+                    }).then(function () {
+                        window.location.reload();
+                    }
+                    );
                 }
             })
     }
@@ -43,7 +49,7 @@ class search extends Component {
         const obj = this.props.location.state;
         return (
             <div className="box">
-              {sessionStorage.getItem("token")  ? <NavbarIndex history={this.props.history} />: <NavbarMainPage />}
+                {sessionStorage.getItem("token") ? <NavbarIndex history={this.props.history} /> : <NavbarMainPage />}
                 <div className="clearfix"></div>
                 <div className="offertbox">
                     <div>
@@ -76,9 +82,9 @@ class search extends Component {
                                 <Col sm={4}>
                                     <Col className="nameUser"><span className="glyphicon glyphicon-user"> </span> {obj.user.login}</Col>
                                     <Col className="phoneUser"><span className="glyphicon glyphicon-earphone"></span> {obj.user.phoneNumber}</Col>
-                                    {sessionStorage.getItem("token")  ? <div>
-                                    <textarea name="message" type="text" rows="10" cols="50" onChange={this.onChange} maxLength="200" ></textarea>
-                                    <button  onClick={() => this.sendMessage()}>Wyslij</button>
+                                    {sessionStorage.getItem("token") && sessionStorage.getItem("login") !== obj.user.login ? <div>
+                                        <textarea name="message" type="text" rows="10" cols="50" onChange={this.onChange} maxLength="200" ></textarea>
+                                        <button onClick={() => this.sendMessage()}>Wyslij</button>
                                     </div> : ""}
                                 </Col>
                             </Row>

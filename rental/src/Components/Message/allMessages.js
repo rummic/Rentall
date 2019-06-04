@@ -41,6 +41,11 @@ class allMessages extends Component {
         }
     }
 
+    newMessage(item){
+        if(item.senderLogin !== sessionStorage.getItem("login")){
+            document.getElementById("newMessage").style.background="red"
+        }
+    }
     render() {
         if (!sessionStorage.getItem("token")) {
             return (<Redirect to={'/home'} />)
@@ -50,23 +55,24 @@ class allMessages extends Component {
                 <NavbarIndex history={this.props.history} />
                 <div className="box1">
                     <div className="messages">
-                        <Table responsive>
+                        <Table responsive >
                             <thead>
                                 <tr>
-
-                                    <th>Użytkownik</th>
+                                    <th>Nadawca</th>
+                                    <th>Odbiorca</th>
                                     <th>Data nadania</th>
                                     <th>Akcja</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="newMessage">
                                 {
                                     this.state.messages.map((item, i) => (
                                         <tr key={i}>
-
-                                            <td>{item.senderLogin},{item.recipientLogin}</td>
+                                            <td>{item.senderLogin}</td>
+                                            <td>{item.recipientLogin}</td>
                                             <td>{item.sendDate}</td>
                                             <td><Link to={{ pathname: '/conversation/'+this.person(item)+"/"+(i+1) }}><Button variant="primary">Otwórz</Button></Link></td>
+                                            {this.newMessage(item)}
                                         </tr>
                                     ))
                                 }

@@ -28,11 +28,6 @@ class alloff extends Component {
             })
     }
 
-    componentDidUpdate() {
-        if (this.state.offerts.length === 0) {
-            document.getElementById("empyOffer").innerHTML = "Brak ofert";
-        }
-    }
     delete(i) {
         const token = sessionStorage.getItem("token");
         swal({
@@ -68,6 +63,7 @@ class alloff extends Component {
         if (!sessionStorage.getItem("token")) {
             return (<Redirect to={'/home'} />)
         }
+        
         return (
             <div className="box">
                 <NavbarIndex history={this.props.history} />

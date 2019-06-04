@@ -5,7 +5,7 @@ import Home from "./Components/MainPage/home";
 import Login from "./Components/Login/login";
 import Register from "./Components/Register/register";
 import Index from "./Components/Index/homez";
-import Offer from "./Components/Offerts/offerts";
+import Offer from "./Components/Offerts/addOfferts";
 import Alloff from "./Components/Offerts/alloff";
 import Detailsoff from "./Components/Offerts/detailsoff";
 import SettingsUser from "./Components/UserSettings/accsettings"

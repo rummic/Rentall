@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './offerts.css';
+import './addOfferts.css';
 import { Breadcrumb } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
@@ -14,7 +14,7 @@ const zipCodeEr = RegExp(/^[0-9]{2}(?:-[0-9]{3})?$/)
 const roomCountEr = RegExp(/^[0-9]*$/);
 const priceEr = RegExp(/^(\d*([,](?=\d{0,3}))?\d+)+((?!\2)[,]\d\d)?$/)
 
-class offerts extends Component {
+class addOfferts extends Component {
   constructor(props) {
     super(props);
 
@@ -344,4 +344,4 @@ class offerts extends Component {
     );
   }
 }
-export default offerts;
+export default addOfferts;
