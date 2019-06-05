@@ -46,10 +46,14 @@
                         continue;
 
                     if (messagesReceived[i].SendDate > messagesSent[j].SendDate)
+                    {
                         messagesSent.RemoveAt(j);
+                        j--;
+                    }
                     else
                     {
                         messagesReceived.RemoveAt(i);
+                        i--;
                         break;
                     }
                 }
