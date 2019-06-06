@@ -2,22 +2,19 @@ import React, { Component } from 'react';
 import './register.css';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const emailRegex = RegExp(/^[a-z\d]+[\w\d.-]*@(?:[a-z\d]+[a-z\d-]+\.){1,5}[a-z]{2,6}$/);
 const phoneRedex = RegExp(/(?<!\w)(\(?(\+|00)?48\)?)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}(?!\w)/);
 const passwordRedex = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}/)
 
-const formValid = ({ formErrors, ...rest }) => {
+const formValid = ({ formErrors }) => {
   let valid = true;
 
   Object.values(formErrors).forEach(val => {
     val.length > 0 && (valid = false);
   });
-
-  Object.values(rest).forEach(val => {
-    val === null && (valid = false)
-  });
-
+  
   return valid;
 }
 
@@ -51,7 +48,7 @@ class register extends Component {
     e.preventDefault();
 
     if (!formValid(this.state)) {
-      console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
+      swal("Błędne dane!", "Popraw wymagane dane!", "error");
     }
   };
 

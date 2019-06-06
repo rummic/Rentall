@@ -50,11 +50,12 @@ class allMessages extends Component {
                 <NavbarIndex history={this.props.history} />
                 <div className="box1">
                     <div className="messages">
-                        <Table responsive>
+                        <Table responsive >
                             <thead>
                                 <tr>
-
-                                    <th>Użytkownik</th>
+                                    <th></th>
+                                    <th>Nadawca</th>
+                                    <th>Odbiorca</th>
                                     <th>Data nadania</th>
                                     <th>Akcja</th>
                                 </tr>
@@ -63,8 +64,9 @@ class allMessages extends Component {
                                 {
                                     this.state.messages.map((item, i) => (
                                         <tr key={i}>
-
-                                            <td>{item.senderLogin},{item.recipientLogin}</td>
+                                            <td>{item.senderLogin !==sessionStorage.getItem("login") ? <span className="glyphicon glyphicon-envelope"></span> : "" }</td>
+                                            <td>{item.senderLogin}</td>
+                                            <td>{item.recipientLogin}</td>
                                             <td>{item.sendDate}</td>
                                             <td><Link to={{ pathname: '/conversation/'+this.person(item)+"/"+(i+1) }}><Button variant="primary">Otwórz</Button></Link></td>
                                         </tr>

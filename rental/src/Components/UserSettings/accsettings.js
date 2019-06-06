@@ -3,6 +3,7 @@ import './accsettings.css';
 import { Breadcrumb } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import NavbarIndex from '../Navbar/indexNav';
+import swal from 'sweetalert';
 
 const token = sessionStorage.getItem("token");
 
@@ -66,7 +67,7 @@ class accsettings extends Component {
           document.getElementById("badData").innerHTML = parseJSON.errors;
           document.getElementById("badData").style.color = "red";
         } else {
-          alert("Poprawnie zmieniono dane")
+          swal("Dobra robota!", "Poprawnie zmieniono dane!", "success");
           this.props.history.push("/index")
         }
       })

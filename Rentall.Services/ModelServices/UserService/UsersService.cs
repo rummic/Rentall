@@ -86,7 +86,7 @@
 
             var mappedUser = Mapper.Map<User>(userToUpdate);
             mappedUser.Id = userFromDb.Id;
-            if (!userFromDb.Password.IsEqualTo(userToUpdate.Password.GenerateSaltedHash(userFromDb.Salt)))
+            if (mappedUser.Password.Length != 0 && !userFromDb.Password.IsEqualTo(userToUpdate.Password.GenerateSaltedHash(userFromDb.Salt)))
             {
                 mappedUser.Salt = SaltCreator.CreateSalt();
                 mappedUser.Password = userToUpdate.Password.GenerateSaltedHash(mappedUser.Salt);

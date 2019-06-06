@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import './offerts.css';
-import { Breadcrumb} from 'react-bootstrap';
+import './addOfferts.css';
+import { Breadcrumb } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import NavbarIndex from '../Navbar/indexNav';
+import swal from 'sweetalert';
 
 const token = sessionStorage.getItem("token");
 
@@ -13,7 +14,7 @@ const zipCodeEr = RegExp(/^[0-9]{2}(?:-[0-9]{3})?$/)
 const roomCountEr = RegExp(/^[0-9]*$/);
 const priceEr = RegExp(/^(\d*([,](?=\d{0,3}))?\d+)+((?!\2)[,]\d\d)?$/)
 
-class offerts extends Component {
+class addOfferts extends Component {
   constructor(props) {
     super(props);
 
@@ -36,8 +37,8 @@ class offerts extends Component {
       offerType: [],
       formErrors: {
         titleEr: "",
-        descriptionEr: "", 
-        numberEr: "",  
+        descriptionEr: "",
+        numberEr: "",
         zipCodeEr: "",
         levelEr: "",
         areaEr: "",
@@ -45,7 +46,7 @@ class offerts extends Component {
         cityEr: "",
         streetEr: "",
         cityStreetEr: "",
-        priceEr:""
+        priceEr: ""
       }
     }
     this.onChange = this.onChange.bind(this);
@@ -100,7 +101,7 @@ class offerts extends Component {
         formErrors.streetEr = value.length < 3 && value.length > 0 ? "Pole musi zawierać conajmniej 3 znaki." : ""
         break;
       case 'price':
-        formErrors.priceEr = priceEr.test(value) ? "": "Błąd."
+        formErrors.priceEr = priceEr.test(value) ? "" : "Błąd."
         break;
       default:
         break;
@@ -175,9 +176,9 @@ class offerts extends Component {
               data: formData
             })
           }
-          alert("Oferta dodana poprawnie");
-          this.props.history.push("/index")
-        }else{
+          swal("Dobra robota!", "Poprawnie dodano ogłoszenie!", "success");
+          this.props.history.push("/index");
+        } else {
           alert("Uzupełnij dane")
         }
       })
@@ -339,8 +340,8 @@ class offerts extends Component {
           </div>
         </div>
       </div>
-      
+
     );
   }
 }
-export default offerts;
+export default addOfferts;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './messages.css';
 import NavbarIndex from '../Navbar/indexNav';
 import { Breadcrumb } from 'react-bootstrap';
+import swal from 'sweetalert';
 
 class message extends Component {
   constructor(props) {
@@ -32,6 +33,8 @@ class message extends Component {
           })
         }
       })
+
+
   }
   sendMessage() {
     const token = sessionStorage.getItem("token");
@@ -48,30 +51,42 @@ class message extends Component {
     }).then(response => response.json())
       .then(parseJSON => {
         if (!parseJSON.hasErrors) {
-          window.location.reload();
+          swal({
+            title: "Dobra robota!", text: "Poprawnie wysłano wiadomość!", type:
+              "success", icon: "success"
+          }).then(function () {
+            window.location.reload();
+          }
+          );
         }
       })
   }
 
-  person(e){
+  person(e) {
     const login = sessionStorage.getItem("login");
-    if(e.senderLogin===login){
-        return "dialogbox2"
-    }else{
-        return "dialogbox1"
+    if (e.senderLogin === login) {
+      return "dialogbox2"
+    } else {
+      return "dialogbox1"
     }
-}
-
-nick(e){
-  const login = sessionStorage.getItem("login");
-  if(e.senderLogin===login){
-      return "nickname1"
-  }else{
-      return "nickname"
   }
-}
 
-
+  nick(e) {
+    const login = sessionStorage.getItem("login");
+    if (e.senderLogin === login) {
+      return "nickname1"
+    } else {
+      return "nickname"
+    }
+  }
+  componentDidUpdate(){
+    this.scrollToBottom();
+  }
+  
+  scrollToBottom() {
+    const {scrollBottom} = this.refs;
+    scrollBottom.scrollTop = scrollBottom.scrollHeight - scrollBottom.clientHeight;
+  }
   render() {
     return (
       <div className="box">
@@ -82,16 +97,16 @@ nick(e){
             <Breadcrumb.Item href="/messages">Wiadomości</Breadcrumb.Item>
             <Breadcrumb.Item active>Konwersacja</Breadcrumb.Item>
           </Breadcrumb>
-          <div className="messages">
+          <div className="messages" ref={`scrollBottom`}>
             {
               this.state.messages.map((item, i) => (
                 <div key={i}>
-                  <div className={this.nick(item)}>{ 
+                  <div className={this.nick(item)}>{
                     item.senderLogin
-                  
+
                   }</div>
                   <div className={this.person(item)}>
-                  {item.messageText}
+                    {item.messageText}
                   </div>
 
                 </div>
@@ -99,9 +114,9 @@ nick(e){
             }
           </div>
           <div className="odpowiedz">
-          <input type="text" name="answer" onChange={this.onChange} />
+            <input type="text" name="answer" onChange={this.onChange} />
             <button onClick={() => this.sendMessage()}>Wyslij</button>
-            </div>
+          </div>
         </div>
       </div>
     );
