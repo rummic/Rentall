@@ -8,13 +8,16 @@ const emailRegex = RegExp(/^[a-z\d]+[\w\d.-]*@(?:[a-z\d]+[a-z\d-]+\.){1,5}[a-z]{
 const phoneRedex = RegExp(/(?<!\w)(\(?(\+|00)?48\)?)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}(?!\w)/);
 const passwordRedex = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}/)
 
-const formValid = ({ formErrors }) => {
+const formValid = ({ formErrors, ...rest }) => {
   let valid = true;
 
   Object.values(formErrors).forEach(val => {
     val.length > 0 && (valid = false);
   });
   
+  Object.values(rest).forEach(val => {
+    val === null && (valid = false)
+  });
   return valid;
 }
 
