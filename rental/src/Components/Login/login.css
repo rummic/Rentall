@@ -37,7 +37,7 @@ body{
 }
 
 
-a:link{
+.nap:link{
     text-decoration: none;
 }
 
@@ -49,7 +49,7 @@ a:link{
     margin-bottom: 4px;
 }
 
-a{
+.nap{
     font-size: 14px;
 }
 

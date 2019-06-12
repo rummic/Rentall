@@ -34,7 +34,6 @@ class alloff extends Component {
             title: "Czy na pewno chcesz usunąć ogłoszenie?",
             text: "Nie będzie możliwości jego przywrócenia!",
             icon: "warning",
-            buttons: true,
             buttons: ["Anuluj", "Usuń"],
             dangerMode: true,
         })

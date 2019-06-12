@@ -63,7 +63,7 @@ class login extends Component {
               </Col>
             </Row>
             <p className="log">Zaloguj sie</p>
-            <a>Aby korzystać z usług RentAll musisz zalogować się na swoje konto na portalu RentAll</a>
+            <p className="nap">Aby korzystać z usług RentAll musisz zalogować się na swoje konto na portalu RentAll</p>
           </div>
           <Form.Group controlId="formBasicLogin">
             <Form.Label>Login</Form.Label>

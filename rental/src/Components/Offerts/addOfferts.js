@@ -323,7 +323,7 @@ class addOfferts extends Component {
                       <label className="btn btn-primary butadd">Wybierz&hellip;
                       <input className="inputImage" id={"inputImage" + index} type="file" name="photo" onChange={(e) => this.handleChange(e, index)} value={this.state.file} />
                       </label>
-                      <img src="https://screenshotlayer.com/images/assets/placeholder.png" className={"image" + index} id="imaddof" height="100" alt="Image" />
+                      <img src="https://screenshotlayer.com/images/assets/placeholder.png" className={"image" + index} id="imaddof" height="100"alt="foto" ></img>
                     </div>
                   )
                 })
