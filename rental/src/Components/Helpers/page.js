@@ -5,6 +5,7 @@ import { Button, Row, Container, Col, Collapse } from 'react-bootstrap';
 import NumberFormat from 'react-number-format';
 import SearchOffer from '../MainPage/searchOffer';
 
+
 class home extends Component {
     constructor(props) {
         super(props);
@@ -184,16 +185,16 @@ class home extends Component {
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Col> <input type="text" placeholder="Minimalna cena" name="priceMin" onChange={this.onChange} /></Col>
-                                        <Col> <input type="text" placeholder="Maxymalna cena" name="priceMax" onChange={this.onChange} /></Col>
+                                        <Col> <input type="number" placeholder="Minimalna cena" name="priceMin" min="0" max="999999999" onChange={this.onChange} /></Col>
+                                        <Col> <input type="number" placeholder="Maksymalna cena" name="priceMax" min="1" max="999999999" onChange={this.onChange} /></Col>
                                     </Row>
                                     <Row>
-                                        <Col><input type="text" placeholder="Minimalna powierzchnia" name="areaMin" onChange={this.onChange} /></Col>
-                                        <Col><input type="text" placeholder="Maxymalna powierzchnia" name="areaMax" onChange={this.onChange} /></Col>
+                                        <Col><input type="number" placeholder="Minimalna powierzchnia" name="areaMin" min="1" max="99999" onChange={this.onChange} /></Col>
+                                        <Col><input type="number" placeholder="Maksymalna powierzchnia" name="areaMax" min="1" max="99999" onChange={this.onChange} /></Col>
                                     </Row>
                                     <Row>
-                                        <Col><input type="text" placeholder="Piętro" name="level" onChange={this.onChange} /></Col>
-                                        <Col> <input type="text" placeholder="Ilość pomieszczeń" name="roomCount" onChange={this.onChange} /></Col>
+                                        <Col><input type="number" placeholder="Piętro" name="level"  min="0" max="999" onChange={this.onChange} /></Col>
+                                        <Col> <input type="number" placeholder="Ilość pomieszczeń" name="roomCount" min="1" max="999" onChange={this.onChange} /></Col>
                                     </Row>
                                 </Container>
                             </div>
