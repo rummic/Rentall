@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Navbar, NavDropdown, Nav, Form, Badge} from 'react-bootstrap';
+import { Button, Navbar, NavDropdown, Nav, Form, Badge } from 'react-bootstrap';
 
 class NavbarIndex extends Component {
     constructor(props) {
@@ -10,7 +10,7 @@ class NavbarIndex extends Component {
         this.logout = this.logout.bind(this);
     }
     logout() {
-        sessionStorage.clear();    
+        sessionStorage.clear();
         this.props.history.push("/home")
     }
 
@@ -29,34 +29,32 @@ class NavbarIndex extends Component {
                     this.setState({
                         messages: responseJSON.value || []
                     })
-                    for(let i = 0;i<this.state.messages.length;i++){
-                        if(this.state.messages[i].senderLogin !== sessionStorage.getItem("login")){
+                    for (let i = 0; i < this.state.messages.length; i++) {
+                        if (this.state.messages[i].senderLogin !== sessionStorage.getItem("login") && this.state.messages[i].seen === false) {
                             document.getElementById("newMessage").innerHTML = "1";
                             document.getElementById("newMessage").style.color = "red"
                             document.getElementById("newMessageInfo").innerHTML = '<a href="/messages">Nowa wiadomość</a>'
-                           let c = document.getElementById("newMessageInfo");
-                           c.getElementsByTagName("a")[0].style.color = "red"
+                            let c = document.getElementById("newMessageInfo");
+                            c.getElementsByTagName("a")[0].style.color = "red"
                             document.getElementById("newMessageInfo").style.margin = "0 auto"
-                        }else{
-                            
                         }
                     }
                 }
             })
     }
 
-    render(){
-      return (
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" >
-                    <Navbar.Brand href="/index">RentAll</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                    <Navbar.Collapse id="responsive-navbar-nav">
+    render() {
+        return (
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" >
+                <Navbar.Brand href="/index">RentAll</Navbar.Brand>
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto" >
-                    <Button className="addOffer" variant="outline-light" size="sm" href="/addOffer" >Dodaj oferte</Button>
+                        <Button className="addOffer" variant="outline-light" size="sm" href="/addOffer" >Dodaj oferte</Button>
                     </Nav>
                     <div id="newMessageInfo"></div>
                     <Navbar.Text className=" mr-sm-2">
-                            Zalogowany jako : 
+                        Zalogowany jako :
                         </Navbar.Text>
                     <Form inline>
                         <Nav className="mr-auto">
@@ -69,10 +67,10 @@ class NavbarIndex extends Component {
                             </NavDropdown>
                         </Nav>
                     </Form>
-                    </Navbar.Collapse>
-                </Navbar>
-      )
+                </Navbar.Collapse>
+            </Navbar>
+        )
     }
-  }
+}
 
-  export default NavbarIndex;
+export default NavbarIndex;
