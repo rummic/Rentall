@@ -16,5 +16,6 @@
         public DateTime SendDate { get; set; }
         public User Sender { get; set; }
         public User Recipient { get; set; }
+        public bool Seen { get; set; }
     }
 }

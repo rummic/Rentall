@@ -10,5 +10,6 @@ namespace Rentall.Services.Dtos.MessageDto
         public string SenderLogin { get; set; }
         public string RecipientLogin { get; set; }
         public DateTime SendDate { get; set; }
+        public bool Seen { get; set; }
     }
 }

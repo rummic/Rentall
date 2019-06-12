@@ -68,6 +68,7 @@
                 return response;
 
             var messagesFromDb = await _messagesRepository.GetConversation(recipient, sender);
+            
             if (!messagesFromDb.Any())
             {
                 response.AddError(MessageErrors.EmptyConversation);

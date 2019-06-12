@@ -83,7 +83,11 @@
         {
             var response = new ResponseDto<int>();
             if (string.IsNullOrEmpty(userToAdd.Login))
+            {
                 response.AddError(UserErrors.EmptyLogin);
+                return response;
+            }
+
             if (string.IsNullOrEmpty(userToAdd.Email))
                 response.AddError(UserErrors.EmptyEmail);
             if (string.IsNullOrEmpty(userToAdd.FirstName))

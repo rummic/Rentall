@@ -72,6 +72,9 @@
                 .Where(x => x.Recipient == sender && x.Sender == recipient)
                 .ToListAsync();
             var messages = messagesReceived.Union(messagesSent).OrderBy(x => x.SendDate);
+            var messagesList = messages.ToList();
+            messagesList.ForEach(x => x.Seen = true);
+            await _context.SaveChangesAsync();
             return messages;
         }
     }
