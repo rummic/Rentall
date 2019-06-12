@@ -257,6 +257,7 @@ a{
     margin: 20px;
 }
 
+
 @media screen and (max-width: 908px)
 {
     .searchbox{
@@ -302,6 +303,10 @@ a{
         margin-top: 10px;
     
     
+    }
+
+    #example-collapse-text input{
+        margin-bottom: -40px;
     }
 
     .offert img{

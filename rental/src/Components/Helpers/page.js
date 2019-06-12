@@ -154,7 +154,7 @@ class home extends Component {
                             <div id="example-collapse-text">
                                 <Container>
                                     <Row>
-                                        <Col sm={12}><input type="text" placeholder="Miasto" name="city" onChange={this.onChange} /></Col>
+                                        <Col sm={12}><label>Miasto :</label><input style={{marginTop: "0px"}} type="text" placeholder="Miasto" name="city" onChange={this.onChange} /></Col>
                                     </Row>
                                     <Row>
                                         <Col>
@@ -185,16 +185,16 @@ class home extends Component {
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Col> <input type="number" placeholder="Minimalna cena" name="priceMin" min="0" max="999999999" onChange={this.onChange} /></Col>
-                                        <Col> <input type="number" placeholder="Maksymalna cena" name="priceMax" min="1" max="999999999" onChange={this.onChange} /></Col>
+                                        <Col><label>Minimalna cena :</label><input style={{marginTop: "0px"}}type="number" placeholder="Minimalna cena" name="priceMin" min="0" max="999999999" onChange={this.onChange} /></Col>
+                                        <Col><label>Maksymalna cena :</label><input style={{marginTop: "0px"}}type="number" placeholder="Maksymalna cena" name="priceMax" min="1" max="999999999" onChange={this.onChange} /></Col>
                                     </Row>
                                     <Row>
-                                        <Col><input type="number" placeholder="Minimalna powierzchnia" name="areaMin" min="1" max="99999" onChange={this.onChange} /></Col>
-                                        <Col><input type="number" placeholder="Maksymalna powierzchnia" name="areaMax" min="1" max="99999" onChange={this.onChange} /></Col>
+                                        <Col><label>Minimalna powierzchnia :</label><input style={{marginTop: "0px"}}type="number" placeholder="Minimalna powierzchnia" name="areaMin" min="1" max="99999" onChange={this.onChange} /></Col>
+                                        <Col><label>Maksymalna powierzchnia :</label><input style={{marginTop: "0px"}}type="number" placeholder="Maksymalna powierzchnia" name="areaMax" min="1" max="99999" onChange={this.onChange} /></Col>
                                     </Row>
                                     <Row>
-                                        <Col><input type="number" placeholder="Piętro" name="level"  min="0" max="999" onChange={this.onChange} /></Col>
-                                        <Col> <input type="number" placeholder="Ilość pomieszczeń" name="roomCount" min="1" max="999" onChange={this.onChange} /></Col>
+                                        <Col><label>Piętro :</label><input style={{marginTop: "0px"}}type="number" placeholder="Piętro" name="level"  min="0" max="999" onChange={this.onChange} /></Col>
+                                        <Col> <label>Ilość pomieszczeń :</label><input style={{marginTop: "0px"}}type="number" placeholder="Ilość pomieszczeń" name="roomCount" min="1" max="999" onChange={this.onChange} /></Col>
                                     </Row>
                                 </Container>
                             </div>
