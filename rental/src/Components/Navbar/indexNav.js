@@ -36,8 +36,6 @@ class NavbarIndex extends Component {
                             document.getElementById("newMessageInfo").innerHTML = '<span class="glyphicon glyphicon-envelope" style="color: red"></span><a href="/messages">  Nowa wiadomość</a>'
                            let c = document.getElementById("newMessageInfo");
                            c.getElementsByTagName("a")[0].style.color = "red"
-                        }else{
-                            
                         }
                     }
                 }
