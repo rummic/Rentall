@@ -33,10 +33,11 @@ class NavbarIndex extends Component {
                         if (this.state.messages[i].senderLogin !== sessionStorage.getItem("login") && this.state.messages[i].seen === false) {
                             document.getElementById("newMessage").innerHTML = "1";
                             document.getElementById("newMessage").style.color = "red"
-                            document.getElementById("newMessageInfo").innerHTML = '<a href="/messages">Nowa wiadomość</a>'
-                            let c = document.getElementById("newMessageInfo");
-                            c.getElementsByTagName("a")[0].style.color = "red"
-                            document.getElementById("newMessageInfo").style.margin = "0 auto"
+                            document.getElementById("newMessageInfo").innerHTML = '<span class="glyphicon glyphicon-envelope" style="color: red"></span><a href="/messages">  Nowa wiadomość</a>'
+                           let c = document.getElementById("newMessageInfo");
+                           c.getElementsByTagName("a")[0].style.color = "red"
+                        }else{
+                            
                         }
                     }
                 }
@@ -52,7 +53,7 @@ class NavbarIndex extends Component {
                     <Nav className="mr-auto" >
                         <Button className="addOffer" variant="outline-light" size="sm" href="/addOffer" >Dodaj oferte</Button>
                     </Nav>
-                    <div id="newMessageInfo"></div>
+                    <div id="newMessageInfo" style ={{ float: "left" ,marginRight: "20px" }}> </div>
                     <Navbar.Text className=" mr-sm-2">
                         Zalogowany jako :
                         </Navbar.Text>
