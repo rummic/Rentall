@@ -179,7 +179,7 @@ class addOfferts extends Component {
           swal("Dobra robota!", "Poprawnie dodano ogłoszenie!", "success");
           this.props.history.push("/index");
         } else {
-          alert("Uzupełnij dane")
+          swal("Uzupełnij dane", " ", "error");
         }
       })
   }

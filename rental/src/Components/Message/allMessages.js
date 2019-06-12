@@ -64,7 +64,7 @@ class allMessages extends Component {
                                 {
                                     this.state.messages.map((item, i) => (
                                         <tr key={i}>
-                                            <td>{item.senderLogin !==sessionStorage.getItem("login") ? <span className="glyphicon glyphicon-envelope"></span> : "" }</td>
+                                            <td>{item.senderLogin !==sessionStorage.getItem("login") && item.seen === false ? <span className="glyphicon glyphicon-envelope"></span> : "" }</td>
                                             <td>{item.senderLogin}</td>
                                             <td>{item.recipientLogin}</td>
                                             <td>{item.sendDate}</td>
