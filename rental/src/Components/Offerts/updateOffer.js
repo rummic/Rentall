@@ -6,6 +6,12 @@ import swal from 'sweetalert';
 
 const token = sessionStorage.getItem("token");
 
+const areaEr = RegExp(/^[0-9]*$/);
+const levelEr = RegExp(/^[0-9]*$/);
+const zipCodeEr = RegExp(/^[0-9]{2}(?:-[0-9]{3})?$/)
+const roomCountEr = RegExp(/^[0-9]*$/);
+const priceEr = RegExp(/^(\d*([,](?=\d{0,3}))?\d+)+((?!\2)[,]\d\d)?$/)
+
 class updateOffer extends Component {
     constructor(props) {
         super(props);
@@ -25,14 +31,64 @@ class updateOffer extends Component {
             user: [],
             category: [],
             offerType: [],
-            zipCode: ""
+            zipCode: "",
+            formErrors: {
+                titleEr: "",
+                descriptionEr: "",
+                numberEr: "",
+                zipCodeEr: "",
+                levelEr: "",
+                areaEr: "",
+                roomCountEr: "",
+                cityEr: "",
+                streetEr: "",
+                cityStreetEr: "",
+                priceEr: ""
+            }
         }
         this.onChange = this.onChange.bind(this);
     }
 
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value })
+        
+    const { name, value } = e.target;
+    let formErrors = this.state.formErrors;
+
+    switch (name) {
+      case 'title':
+        formErrors.titleEr = value.length < 3 && value.length > 0 ? 'Wymagane minimum 3 znaki' : value.length > 50 ? "Tytuł nie może zawierać więcej niż 50 znaków." : "";
+        break;
+      case 'description':
+        formErrors.descriptionEr = value.length < 3 && value.length > 0 ? 'Wymagane minimum 3 znaki' : value.length > 1200 ? "Opis nie może zawierać więcej niż 1200 znaków." : "";
+        break;
+      case 'zipCode':
+        formErrors.zipCodeEr = zipCodeEr.test(value) ? "" : "Błędny kod pocztowy. Format kodu __-___";
+        break;
+      case 'level':
+        formErrors.levelEr = levelEr.test(value) ? "" : "Pole może zawierać tylko cyfry."
+        break;
+      case 'area':
+        formErrors.areaEr = areaEr.test(value) ? "" : "Pole może zawierać tylko cyfry."
+        break;
+      case 'roomCount':
+        formErrors.roomCountEr = roomCountEr.test(value) ? "" : "Pole może zawierać tylko cyfry."
+        break;
+      case 'city':
+        formErrors.cityEr = value.length < 3 && value.length > 0 ? "Pole musi zawierać conajmniej 3 znaki." : ""
+        break;
+      case 'street':
+        formErrors.streetEr = value.length < 3 && value.length > 0 ? "Pole musi zawierać conajmniej 3 znaki." : ""
+        break;
+      case 'price':
+        formErrors.priceEr = priceEr.test(value) ? "" : "Błąd."
+        break;
+      default:
+        break;
     }
+    this.setState({ formErrors, [name]: value })
+  }
+    
 
     componentWillMount() {
         const obj = this.props.location.state;
@@ -114,6 +170,7 @@ class updateOffer extends Component {
     }
 
     render() {
+        const { formErrors } = this.state;
         if (!sessionStorage.getItem("token")) {
             return (<Redirect to={'/home'} />)
         }
@@ -131,12 +188,19 @@ class updateOffer extends Component {
                     <Container>
                     <p id="badForm"></p>
                         <Row className="headerOffer">
-                            <Col className="titleOffer" md={8}><input type="text" value={obj.title} name="title" onChange={this.onChange} /></Col>
-                            <Col className="priceOffer" md={4}><label>Cena: </label><input type="number" value={obj.price} name="price" onChange={this.onChange} /></Col>
-                            <Col className="localisationOffer" md={4}><span className="glyphicon glyphicon-map-marker"></span><input type="text" value={obj.city} name="city" onChange={this.onChange} />,<input type="text" value={obj.street} name="street" onChange={this.onChange} /></Col>
+                            <Col className="titleOffer" md={8}><input type="text" value={obj.title} name="title" onChange={this.onChange} /> 
+                            {formErrors.titleEr.length > 0 && (<span className="errorMessage">{formErrors.titleEr}</span>)}
+                            </Col>
+                            <Col className="priceOffer" md={4}><label>Cena: </label><input type="number" value={obj.price} name="price" onChange={this.onChange} />
+                            {formErrors.priceEr.length > 0 && (<span className="errorMessage">{formErrors.priceEr}</span>)}
+                            </Col>
+                            <Col className="localisationOffer" md={4}><span className="glyphicon glyphicon-map-marker"></span><input type="text" value={obj.city} name="city" onChange={this.onChange} />,<input type="text" value={obj.street} name="street" onChange={this.onChange} />
+                            {formErrors.cityEr.length > 0 && (<span className="errorMessage">{formErrors.cityEr}</span>)}
+                            {formErrors.streetEr.length > 0 && (<span className="errorMessage">{formErrors.streetEr}</span>)}
+                            </Col>
                         </Row>
                         <hr />
-                        <Row className="sliderUser">
+                         <Row className="sliderUser">
                             <Col sm={8}><Carousel>
                                 {
                                     obj.photos.map(function (item, i) {
@@ -175,9 +239,15 @@ class updateOffer extends Component {
                                     }
                                 </select>
                             </Col>
-                            <Col className="detailsOffer">Powierzchnia : <input type="text" value={obj.area} name="area" onChange={this.onChange} /></Col>
-                            <Col className="detailsOffer">Piętro : <input type="text" value={obj.level} name="level" onChange={this.onChange} /></Col>
-                            <Col className="detailsOffer">Liczba pokoi : <input type="text" value={obj.roomCount} name="roomCount" onChange={this.onChange} /></Col>
+                            <Col className="detailsOffer">Powierzchnia : <input type="number" value={obj.area} name="area" onChange={this.onChange} />
+                            {formErrors.areaEr.length > 0 && (<span className="errorMessage">{formErrors.areaEr}</span>)}
+                            </Col>
+                            <Col className="detailsOffer">Piętro : <input type="number" value={obj.level} name="level" onChange={this.onChange} />
+                            {formErrors.levelEr.length > 0 && (<span className="errorMessage">{formErrors.levelEr}</span>)}
+                            </Col>
+                            <Col className="detailsOffer">Liczba pokoi : <input type="number" value={obj.roomCount} name="roomCount" onChange={this.onChange} />
+                            {formErrors.roomCountEr.length > 0 && (<span className="errorMessage">{formErrors.roomCountEr}</span>)}
+                            </Col>
                         </Row>
                         <hr />
                         <Row>
@@ -185,7 +255,9 @@ class updateOffer extends Component {
                         </Row>
                         <hr />
                         <Row className="descriptionOffer">
-                            <Col><input type="text" value={obj.description} name="description" onChange={this.onChange} /></Col>
+                            <Col><input type="text" value={obj.description} name="description" onChange={this.onChange} />
+                            {formErrors.descriptionEr.length > 0 && (<span className="errorMessage">{formErrors.descriptionEr}</span>)}
+                            </Col>
                         </Row>
                         <button variant="primary" onClick={() => this.update(obj.id)}>Aktualizuj</button>
                     </Container>

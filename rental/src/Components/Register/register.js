@@ -123,8 +123,7 @@ class register extends Component {
 
   render() {
     const { formErrors } = this.state;
-
-
+    
     if (sessionStorage.getItem("token")) {
       return (<Redirect to={'/index'} />)
     }
