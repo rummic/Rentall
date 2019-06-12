@@ -35,6 +35,7 @@ class alloff extends Component {
             text: "Nie będzie możliwości jego przywrócenia!",
             icon: "warning",
             buttons: true,
+            buttons: ["Anuluj", "Usuń"],
             dangerMode: true,
         })
             .then((willDelete) => {

@@ -68,6 +68,9 @@ class search extends Component {
                             <Row className="sliderUser">
                                 <Col sm={8}><Carousel>
                                     {
+                                        obj.photos.length === 0 ? <img src='https://screenshotlayer.com/images/assets/placeholder.png' /> : ""
+                                    }
+                                    {
                                         obj.photos.map(function (item, i) {
                                             return <Carousel.Item key={i}>
                                                 <img

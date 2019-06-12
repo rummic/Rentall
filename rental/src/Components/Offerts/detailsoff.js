@@ -41,6 +41,9 @@ class detailsoff extends Component {
           <Row className="sliderUser">
             <Col sm={8}><Carousel>
               {
+                this.state.offerts.photos.length === 0 ? <img src='https://screenshotlayer.com/images/assets/placeholder.png'/> : ""
+              }
+              {
                 item.photos.map(function (item, i) {
                   return <Carousel.Item key={i}>
                     <img

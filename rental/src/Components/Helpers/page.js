@@ -137,8 +137,8 @@ class home extends Component {
             <div>
                 <div className="clearfix"></div>
                 <div className="contentbox">
-                    <div className="description">U nas możesz wynająć nawet budę</div>
-                    <div className="subdescription">wyszukaj interesujących cię ofert</div>
+                    <div className="description">U nas możesz wynająć nawet budę.</div>
+                    <div className="subdescription">Wyszukaj interesujące cię oferty</div>
                     <div className="searchbox arrow">
                         <input type="text" placeholder="Tytuł" name="title" onChange={this.onChange} />
                         <button value="wyszukaj" onClick={this.searchOffer} >Wyszukaj</button>
