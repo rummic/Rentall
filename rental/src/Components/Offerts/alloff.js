@@ -92,8 +92,8 @@ class alloff extends Component {
                                 </div>
                                 <div className="ofdes">
                                     <div className="offdel">
-                                        <span className="glyphicon glyphicon-trash trash" onClick={() => this.delete(i)}></span>
-                                        <span className="glyphicon glyphicon-record trash1" style={{color : "red"}}> </span>
+                                        <span className="glyphicon glyphicon-record trash" style={{color : "red"}}> </span>
+                                        <span className="glyphicon glyphicon-trash trash1" onClick={() => this.delete(i)}></span>
                                         <div className="updatbut"><Link to={{ pathname: '/update', state: item }}><button className=" glyphicon glyphicon-pencil"></button></Link></div>
                                     </div>
                                     <div className="ofprice"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} suffix={'zł'} /></div>
