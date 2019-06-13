@@ -77,7 +77,7 @@ class alloff extends Component {
                     {
                         this.state.offerts.map((item, i) => (
                             <div className="offcon" key={i}>
-                                <div className="offoto"><img src={(item.photos[0] === undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0])} alt="as" /></div>
+                                <div className="offoto"><span className="glyphicon glyphicon-record trash" style={{color : "red", marginRight: "90%", fontSize:"24px"}}> </span><img src={(item.photos[0] === undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0])} alt="as" /></div>
                                 <div className="ofdesc">{item.title}<hr />
                                     <div className="ofinf">
                                         <div className="localization"> {item.city}, {item.street}</div>
@@ -92,8 +92,7 @@ class alloff extends Component {
                                 </div>
                                 <div className="ofdes">
                                     <div className="offdel">
-                                        <span className="glyphicon glyphicon-record trash" style={{color : "red"}}> </span>
-                                        <span className="glyphicon glyphicon-trash trash1" onClick={() => this.delete(i)}></span>
+                                        <span className="glyphicon glyphicon-trash trash" onClick={() => this.delete(i)}></span>
                                         <div className="updatbut"><Link to={{ pathname: '/update', state: item }}><button className=" glyphicon glyphicon-pencil"></button></Link></div>
                                     </div>
                                     <div className="ofprice"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} suffix={'zł'} /></div>
