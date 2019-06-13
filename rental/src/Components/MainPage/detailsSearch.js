@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import '../Offerts/detailsoff.css';
 import NavbarIndex from '../Navbar/indexNav';
 import { Col, Row, Container, Carousel } from 'react-bootstrap';
@@ -74,7 +73,7 @@ class search extends Component {
                 <Container>
                     <Row>
                         <Col md={1}>
-                            <Link to={{ pathname: '/' }}>Wróć</Link>
+                            <button className="btn btn-primary" onClick={() => window.close()}>Wróć</button>
                         </Col>
                     </Row>
                     <Row className="headerOffer">

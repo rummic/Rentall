@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import NumberFormat from 'react-number-format';
-import { Link } from 'react-router-dom';
 
 const searchOffer = (props) => {
     const item = props.offers
     const param = props.param
+    const path = "/search/"+item.id+"/"+param
     return (
             <div className="offerts1 searchFoto">
                 <div className="offcon" >
@@ -25,7 +25,7 @@ const searchOffer = (props) => {
                     </div>
                     <div className="ofdes">
                         <div className="ofprice"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} suffix={' zł'} /> </div>
-                        <div className="ofbutton"><Link to={{ pathname: '/search/'+item.id+"/"+param}}><Button>Szczegóły</Button></Link></div>
+                        <div className="ofbutton"><Button onClick={() => window.open(path)}>Szczegóły</Button></div>
                     </div>
                     <div className="clearfix"></div>
                 </div>
