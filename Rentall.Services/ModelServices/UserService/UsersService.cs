@@ -111,6 +111,26 @@
             return response;
         }
 
+        public async Task<ResponseDto<bool>> ResetPassword(string mail)
+        {
+            var userFromDb = await _usersRepository.GetUserByMail(mail);
+            var response = UsersValidator.ValidateResetPassword(userFromDb, mail);
+            if (response.HasErrors)
+            {
+                return response;
+            }
+
+            var newPassword = CreateRandomPassword(10);
+            userFromDb.Salt = SaltCreator.CreateSalt();
+            userFromDb.Password = newPassword.GenerateSaltedHash(userFromDb.Salt);
+            var result = await _usersRepository.UpdateUser(userFromDb);
+            await MailHelper.ResetPasswordMail(_appSettings.Value, mail, newPassword);
+            response.Value = true;
+            return response;
+        }
+
+
+
         public async Task<ResponseDto<LoggedInUserDto>> Authenticate(LoginUserDto loginUserDto)
         {
             var user = await _usersRepository.GetUserByLogin(loginUserDto.Login);
@@ -145,5 +165,18 @@
             };
             return response;
         }
+
+        public static string CreateRandomPassword(int length)
+        {
+            string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*?_-";
+            Random random = new Random();
+            char[] chars = new char[length];
+            for (int i = 0; i < length; i++)
+            {
+                chars[i] = validChars[random.Next(0, validChars.Length)];
+            }
+            return new string(chars);
+        }
+
     }
 }

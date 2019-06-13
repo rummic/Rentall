@@ -30,7 +30,7 @@
                 FirstName = "Adam",
                 IsDeleted = false,
                 LastName = "Kowalski",
-                Login = "adam",
+                Login = "superadmin",
                 Salt = salt,
                 Password = "hehe".GenerateSaltedHash(salt),
                 PhoneNumber = "123456789",

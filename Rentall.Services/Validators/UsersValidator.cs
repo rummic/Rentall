@@ -33,7 +33,26 @@
             return response;
         }
 
+        public static ResponseDto<bool> ValidateResetPassword(User userFromDb, string mail)
+        {
+            var response = new ResponseDto<bool>();
+            if (userFromDb == null)
+            {
+                response.AddError(UserErrors.NotFoundByMail);
+            }
 
+            if (string.IsNullOrEmpty(mail))
+            {
+                response.AddError(UserErrors.EmptyEmail);
+            }
+
+            if (!new EmailAddressAttribute().IsValid(mail))
+            {
+                response.AddError(UserErrors.EmailInvalid);
+            }
+
+            return response;
+        }
 
         public static ResponseDto<int> ValidateUpdateUser(ClaimsPrincipal loggedInUser, AddUserDto userToUpdate, User userFromDb)
         {

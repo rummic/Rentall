@@ -199,7 +199,7 @@
         {
             var response = new ResponseDto<List<GetOfferDto>>();
             var offersFromDb = await _offersRepository.GetOffers();
-            var randomOffers = offersFromDb.OrderBy(x => Guid.NewGuid()).Take(count).ToList();
+            var randomOffers = offersFromDb.OrderBy(x => Guid.NewGuid()).Where(x => x.Active).Take(count).ToList();
 
             var mappedRandomOffers = Mapper.Map<List<GetOfferDto>>(randomOffers);
             foreach (var mappedOffer in mappedRandomOffers)

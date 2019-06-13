@@ -113,5 +113,23 @@
 
             return BadRequest(result);
         }
+
+        [HttpPost("resetPassword")]
+        [AllowAnonymous]
+        public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            ResponseDto<bool> result = await _usersService.ResetPassword(dto.Mail);
+            if (result.Value)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
     }
 }

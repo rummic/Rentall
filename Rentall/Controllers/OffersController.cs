@@ -149,7 +149,6 @@
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = Role.User)]
         public async Task<ActionResult<ResponseDto<bool>>> ChangeOfferActivity(int id)
         {
             ResponseDto<bool> result = await _offersService.ChangeOfferActivity(User, id);

@@ -221,7 +221,7 @@ class home extends Component {
                 <button id="moreOffer" onClick={this.handleScroll} >Zobacz wiecej</button>
                 <div id= "noOfferts"></div>
                 <div className="offerts">
-                    <p className="random">Przykładowe nasze oferty</p>
+                    <p className="random">Przykładowe oferty</p>
                     {
                         this.state.featuredOffers.map((item) => (
                             <div className="offert" key={item.id}>

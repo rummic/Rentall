@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './login.css';
 import { Form, Button, Row, Col, FormGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
+import { PostData } from "../Helpers/postData";
+import {Redirect} from 'react-router-dom';
 
 class login extends Component {
   constructor(props) {
@@ -16,28 +17,24 @@ class login extends Component {
   }
 
   login() {
-    fetch('https://localhost:44359/api/Users/Authenticate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "login": this.state.login,
-        "password": this.state.password
-      })
-    }).then(response => response.json())
-      .then(parseJSON => {
-        if (parseJSON.hasErrors) {
-          document.getElementById("badLogin").innerHTML = parseJSON.errors;
+    if (this.state.login && this.state.password) {
+      PostData('Authenticate', this.state).then((result) => {
+        let responseJSON = result;
+        
+        if (responseJSON.hasErrors)
+        {
+          document.getElementById("badLogin").innerHTML = result.errors;
           document.getElementById("badLogin").style.color = "red";
         }
         else {
-          sessionStorage.setItem('login', parseJSON.value.login);
-          sessionStorage.setItem('token', parseJSON.value.token);
-          sessionStorage.setItem('id', parseJSON.value.id);
+          sessionStorage.setItem('login',responseJSON.value.login);
+          sessionStorage.setItem('token',responseJSON.value.token);
+          sessionStorage.setItem('id',responseJSON.value.id);
           this.props.history.push("/index")
+
         }
-      })
+      });
+    }
   }
 
   onChange(e) {
@@ -46,8 +43,8 @@ class login extends Component {
   }
 
   render() {
-    if (sessionStorage.getItem("token")) {
-      return (<Redirect to={'/index'} />)
+    if(sessionStorage.getItem("token")){
+      return(<Redirect to={'/index'}/>) 
     }
 
     return (
@@ -62,9 +59,13 @@ class login extends Component {
                 <p>RentAll &ensp; Logowanie</p>
               </Col>
             </Row>
+
             <p className="log">Zaloguj sie</p>
-            <p className="nap">Aby korzystać z usług RentAll musisz zalogować się na swoje konto na portalu RentAll</p>
+            <a>Aby korzystać z usług RentAll musisz zalogować się na swoje konto na portalu RentAll</a>
+
           </div>
+
+
           <Form.Group controlId="formBasicLogin">
             <Form.Label>Login</Form.Label>
             <Form.Control type="text" required placeholder="Login" name="login" onChange={this.onChange} />
@@ -78,7 +79,9 @@ class login extends Component {
           </FormGroup>
           <Button variant="primary" size="md" type="submit" block onClick={this.login}>
             Zaloguj
-          </Button>
+                    </Button>
+
+
         </div>
 
         <div className="formboxre">
