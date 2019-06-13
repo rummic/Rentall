@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Table } from 'react-bootstrap';
+import { Button, Table, Breadcrumb } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
 import NavbarIndex from '../Navbar/indexNav';
 import './messages.css';
@@ -26,17 +26,17 @@ class allMessages extends Component {
                     this.setState({
                         messages: responseJSON.value || []
                     })
-                }else{
+                } else {
                     document.getElementById("emptyMessage").innerHTML = responseJSON.errors;
                 }
             })
     }
 
-    person(e){
+    person(e) {
         const login = sessionStorage.getItem("login");
-        if(e.senderLogin===login){
+        if (e.senderLogin === login) {
             return e.recipientLogin
-        }else{
+        } else {
             return e.senderLogin
         }
     }
@@ -49,6 +49,10 @@ class allMessages extends Component {
             <div className="box">
                 <NavbarIndex history={this.props.history} />
                 <div className="box1">
+                    <Breadcrumb>
+                        <Breadcrumb.Item href="/index">RentAll</Breadcrumb.Item>
+                        <Breadcrumb.Item active>Wiadomości</Breadcrumb.Item>
+                    </Breadcrumb>
                     <div className="messages">
                         <Table responsive >
                             <thead>
@@ -64,11 +68,11 @@ class allMessages extends Component {
                                 {
                                     this.state.messages.map((item, i) => (
                                         <tr key={i}>
-                                            <td>{item.senderLogin !==sessionStorage.getItem("login") && item.seen === false ? <span className="glyphicon glyphicon-envelope"></span> : "" }</td>
+                                            <td>{item.senderLogin !== sessionStorage.getItem("login") && item.seen === false ? <span className="glyphicon glyphicon-envelope"></span> : ""}</td>
                                             <td>{item.senderLogin}</td>
                                             <td>{item.recipientLogin}</td>
                                             <td>{item.sendDate}</td>
-                                            <td><Link to={{ pathname: '/conversation/'+this.person(item)+"/"+(i+1) }}><Button variant="primary">Otwórz</Button></Link></td>
+                                            <td><Link to={{ pathname: '/conversation/' + this.person(item) + "/" + (i + 1) }}><Button variant="primary">Otwórz</Button></Link></td>
                                         </tr>
                                     ))
                                 }

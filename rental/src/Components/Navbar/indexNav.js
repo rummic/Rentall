@@ -30,8 +30,10 @@ class NavbarIndex extends Component {
                         messages: responseJSON.value || []
                     })
                     for (let i = 0; i < this.state.messages.length; i++) {
+                        let count = 1 ; 
                         if (this.state.messages[i].senderLogin !== sessionStorage.getItem("login") && this.state.messages[i].seen === false) {
-                            document.getElementById("newMessage").innerHTML = "1";
+                            count = count + i;
+                            document.getElementById("newMessage").innerHTML = count;
                             document.getElementById("newMessage").style.color = "red"
                             document.getElementById("newMessageInfo").innerHTML = '<span class="glyphicon glyphicon-envelope" style="color: red"></span><a href="/messages">  Nowa wiadomość</a>'
                            let c = document.getElementById("newMessageInfo");

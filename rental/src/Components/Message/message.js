@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './messages.css';
 import NavbarIndex from '../Navbar/indexNav';
 import { Breadcrumb } from 'react-bootstrap';
-import swal from 'sweetalert';
 
 class message extends Component {
   constructor(props) {
@@ -24,8 +23,7 @@ class message extends Component {
         'Content-Type': 'application/json',
         "Authorization": `bearer ${token}`
       }
-    })
-      .then(response => response.json())
+    }).then(response => response.json())
       .then(responseJSON => {
         if (!responseJSON.hasErrors) {
           this.setState({
@@ -33,9 +31,8 @@ class message extends Component {
           })
         }
       })
-
-
   }
+
   sendMessage() {
     const token = sessionStorage.getItem("token");
     fetch('https://localhost:44359/api/Messages', {
@@ -51,13 +48,7 @@ class message extends Component {
     }).then(response => response.json())
       .then(parseJSON => {
         if (!parseJSON.hasErrors) {
-          swal({
-            title: "Dobra robota!", text: "Poprawnie wysłano wiadomość!", type:
-              "success", icon: "success"
-          }).then(function () {
-            window.location.reload();
-          }
-          );
+          window.location.reload();
         }
       })
   }
@@ -79,12 +70,12 @@ class message extends Component {
       return "nickname"
     }
   }
-  componentDidUpdate(){
+  componentDidUpdate() {
     this.scrollToBottom();
   }
-  
+
   scrollToBottom() {
-    const {scrollBottom} = this.refs;
+    const { scrollBottom } = this.refs;
     scrollBottom.scrollTop = scrollBottom.scrollHeight - scrollBottom.clientHeight;
   }
   render() {

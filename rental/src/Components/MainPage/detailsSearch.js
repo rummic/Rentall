@@ -43,6 +43,12 @@ class search extends Component {
                         window.location.reload();
                     }
                     );
+                }else{
+                    swal({
+                        title: "Uwaga!",
+                        text : "Wiadomość nie może być pusta!",
+                        type: "warning",icon: "warning"          
+                      })
                 }
             })
     }
