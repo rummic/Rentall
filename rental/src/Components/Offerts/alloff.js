@@ -6,6 +6,7 @@ import NumberFormat from 'react-number-format';
 import NavbarIndex from '../Navbar/indexNav';
 import swal from 'sweetalert';
 
+const token = sessionStorage.getItem("token");
 class alloff extends Component {
     constructor(props) {
         super(props);
@@ -29,7 +30,6 @@ class alloff extends Component {
     }
 
     delete(i) {
-        const token = sessionStorage.getItem("token");
         swal({
             title: "Czy na pewno chcesz usunąć ogłoszenie?",
             text: "Nie będzie możliwości jego przywrócenia!",
@@ -59,11 +59,59 @@ class alloff extends Component {
             });
     }
 
+    changeActive(item, i) {
+        
+        fetch('https://localhost:44359/api/Offers/' + (item),
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `bearer ${token}`
+                }
+            })
+
+        fetch('https://localhost:44359/api/Offers/' + (item),
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `bearer ${token}`
+                }
+            }).then(response => response.json())
+            .then(responseJSON => {
+                if (!responseJSON.hasErrors) {
+                    if (responseJSON.value.active === false) {
+                        document.getElementsByClassName("changeActive")[i].classList.remove('glyphicon-eye-open');
+                        document.getElementsByClassName("changeActive")[i].classList.add('glyphicon-eye-close');
+                        document.getElementsByClassName("offcon")[i].style.opacity = "1"
+                        document.getElementsByClassName("offcon")[i].style.background = "white"
+                    } else {
+                        document.getElementsByClassName("changeActive")[i].classList.remove('glyphicon-eye-close');
+                        document.getElementsByClassName("changeActive")[i].classList.add('glyphicon-eye-open');
+                        document.getElementsByClassName("changeActive")[i].style.opacity = "1"
+                        document.getElementsByClassName("offcon")[i].style.opacity = "0.3"
+                    }
+                    swal("Dobra robota!", "Poprawnie zmieniono status oferty!", "success");
+                }
+            })
+
+    }
+
+    checkActive(i) {
+        var item = this.state.offerts;
+        if (!item[i].active) {
+            document.getElementsByClassName("changeActive")[i].classList.remove('glyphicon-eye-close');
+            document.getElementsByClassName("changeActive")[i].classList.add('glyphicon-eye-open');
+            document.getElementsByClassName("changeActive")[i].style.opacity = "1"
+            document.getElementsByClassName("offcon")[i].style.opacity = "0.3"
+        }
+    }
+
     render() {
         if (!sessionStorage.getItem("token")) {
             return (<Redirect to={'/home'} />)
         }
-        
+
         return (
             <div className="box">
                 <NavbarIndex history={this.props.history} />
@@ -76,8 +124,8 @@ class alloff extends Component {
                     <div id="empyOffer"></div>
                     {
                         this.state.offerts.map((item, i) => (
-                            <div className="offcon" key={i}>
-                                <div className="offoto"><span className="glyphicon glyphicon-record trash" style={{color : "red", marginRight: "90%", fontSize:"24px"}}> </span><img src={(item.photos[0] === undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0])} alt="as" /></div>
+                            <div className="offcon" onLoad={() => this.checkActive(i)} key={i}>
+                                <div className="offoto"><span className="glyphicon glyphicon-eye-close changeActive" onClick={() => this.changeActive(item.id, i)} style={{  marginRight: "90%", fontSize: "24px", cursor: "pointer" }} > </span><img src={(item.photos[0] === undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item.photos[0])} alt="as" /></div>
                                 <div className="ofdesc">{item.title}<hr />
                                     <div className="ofinf">
                                         <div className="localization"> {item.city}, {item.street}</div>
@@ -92,8 +140,8 @@ class alloff extends Component {
                                 </div>
                                 <div className="ofdes">
                                     <div className="offdel">
-                                        <span className="glyphicon glyphicon-trash trash" onClick={() => this.delete(i)}></span>
-                                        <div className="updatbut"><Link to={{ pathname: '/update', state: item }}><button className=" glyphicon glyphicon-pencil"></button></Link></div>
+                                        <span className="glyphicon glyphicon-trash trash" onClick={() => this.delete(i)} style={{ cursor: "pointer" }}></span>
+                                        <div className="updatbut"><Link to={{ pathname: '/update', state: item }}><button className=" glyphicon glyphicon-pencil" style={{ cursor: "pointer" }}></button></Link></div>
                                     </div>
                                     <div className="ofprice"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} suffix={'zł'} /></div>
                                     <div className="ofbutton"><Link to={{ pathname: '/detailsoff/' + item.id }}><Button>Szczegóły</Button></Link></div>
