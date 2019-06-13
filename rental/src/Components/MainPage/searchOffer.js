@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 const searchOffer = (props) => {
     const item = props.offers
+    const param = props.param
     return (
             <div className="offerts1 searchFoto">
                 <div className="offcon" >
@@ -24,7 +25,7 @@ const searchOffer = (props) => {
                     </div>
                     <div className="ofdes">
                         <div className="ofprice"><NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} suffix={' zł'} /> </div>
-                        <div className="ofbutton"><Link to={{ pathname: '/search', state: item }}><Button>Szczegóły</Button></Link></div>
+                        <div className="ofbutton"><Link to={{ pathname: '/search/'+item.id+"/"+param}}><Button>Szczegóły</Button></Link></div>
                     </div>
                     <div className="clearfix"></div>
                 </div>

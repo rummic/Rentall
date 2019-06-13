@@ -27,11 +27,13 @@ class home extends Component {
             limit: 2,
             open: false,
             featuredOffers: [],
-            page: 1
+            page: 1,
+            param: ""
         }
         this.onChange = this.onChange.bind(this);
         this.searchOffer = this.searchOffer.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
+
     }
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value })
@@ -61,11 +63,10 @@ class home extends Component {
                     featuredOffers: parseJSON.value
                 })
             })
-           
     }
 
-    handleScroll() { 
-            this.searchOffer();
+    handleScroll() {
+        this.searchOffer();
     };
 
     searchOffer() {
@@ -117,6 +118,7 @@ class home extends Component {
                 if (parseJSON.hasErrors) {
                     document.getElementById("emptyOffer").innerHTML = parseJSON.errors;
                     document.getElementById("emptyOffer").style.display = 'block';
+                    document.getElementById("moreOffer").style.display = "none";
                     this.setState({
                         offerts: []
                     })
@@ -127,13 +129,22 @@ class home extends Component {
                     document.getElementsByClassName("offerts")[0].style.display = 'none';
                 }
             })
-            if(this.state.offerts.length>=0){
-                document.getElementById("moreOffer").style.display="inline";
-            }
+        if (this.state.offerts.length >= 0) {
+            document.getElementById("moreOffer").style.display = "inline";
+        }
+       
+        if( this.state.limit>(this.state.offerts.length+3)){
+            document.getElementById("moreOffer").style.display = "none";
+            document.getElementById("noOfferts").innerHTML = "Brak ofert"
+            document.getElementById("noOfferts").style.padding = "10px 0px 10px 0px"
+        }
+        this.setState({
+            param: param
+        })
     }
 
     render() {
-        const { open } = this.state;
+        const { open } = this.state;    
         return (
             <div>
                 <div className="clearfix"></div>
@@ -154,7 +165,7 @@ class home extends Component {
                             <div id="example-collapse-text">
                                 <Container>
                                     <Row>
-                                        <Col sm={12}><label>Miasto :</label><input style={{marginTop: "0px"}} type="text" placeholder="Miasto" name="city" onChange={this.onChange} /></Col>
+                                        <Col sm={12}><label>Miasto :</label><input style={{ marginTop: "0px" }} type="text" placeholder="Miasto" name="city" onChange={this.onChange} /></Col>
                                     </Row>
                                     <Row>
                                         <Col>
@@ -185,16 +196,16 @@ class home extends Component {
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Col><label>Minimalna cena :</label><input style={{marginTop: "0px"}}type="number" placeholder="Minimalna cena" name="priceMin" min="0" max="999999999" onChange={this.onChange} /></Col>
-                                        <Col><label>Maksymalna cena :</label><input style={{marginTop: "0px"}}type="number" placeholder="Maksymalna cena" name="priceMax" min="1" max="999999999" onChange={this.onChange} /></Col>
+                                        <Col><label>Minimalna cena :</label><input style={{ marginTop: "0px" }} type="number" placeholder="Minimalna cena" name="priceMin" min="0" max="999999999" onChange={this.onChange} /></Col>
+                                        <Col><label>Maksymalna cena :</label><input style={{ marginTop: "0px" }} type="number" placeholder="Maksymalna cena" name="priceMax" min="1" max="999999999" onChange={this.onChange} /></Col>
                                     </Row>
                                     <Row>
-                                        <Col><label>Minimalna powierzchnia :</label><input style={{marginTop: "0px"}}type="number" placeholder="Minimalna powierzchnia" name="areaMin" min="1" max="99999" onChange={this.onChange} /></Col>
-                                        <Col><label>Maksymalna powierzchnia :</label><input style={{marginTop: "0px"}}type="number" placeholder="Maksymalna powierzchnia" name="areaMax" min="1" max="99999" onChange={this.onChange} /></Col>
+                                        <Col><label>Minimalna powierzchnia :</label><input style={{ marginTop: "0px" }} type="number" placeholder="Minimalna powierzchnia" name="areaMin" min="1" max="99999" onChange={this.onChange} /></Col>
+                                        <Col><label>Maksymalna powierzchnia :</label><input style={{ marginTop: "0px" }} type="number" placeholder="Maksymalna powierzchnia" name="areaMax" min="1" max="99999" onChange={this.onChange} /></Col>
                                     </Row>
                                     <Row>
-                                        <Col><label>Piętro :</label><input style={{marginTop: "0px"}}type="number" placeholder="Piętro" name="level"  min="0" max="999" onChange={this.onChange} /></Col>
-                                        <Col> <label>Ilość pomieszczeń :</label><input style={{marginTop: "0px"}}type="number" placeholder="Ilość pomieszczeń" name="roomCount" min="1" max="999" onChange={this.onChange} /></Col>
+                                        <Col><label>Piętro :</label><input style={{ marginTop: "0px" }} type="number" placeholder="Piętro" name="level" min="0" max="999" onChange={this.onChange} /></Col>
+                                        <Col> <label>Ilość pomieszczeń :</label><input style={{ marginTop: "0px" }} type="number" placeholder="Ilość pomieszczeń" name="roomCount" min="1" max="999" onChange={this.onChange} /></Col>
                                     </Row>
                                 </Container>
                             </div>
@@ -204,10 +215,11 @@ class home extends Component {
                 <div className="emptyOffer" id="emptyOffer"></div>
                 {
                     this.state.offerts.map((item, i) => (
-                        <SearchOffer offers={item} key={i} />
+                        <SearchOffer offers={item} param={this.state.param} key={i} />
                     ))
                 }
-                <button id="moreOffer"onClick={this.handleScroll} >Zobacz wiecej</button>
+                <button id="moreOffer" onClick={this.handleScroll} >Zobacz wiecej</button>
+                <div id= "noOfferts"></div>
                 <div className="offerts">
                     <p className="random">Przykładowe nasze oferty</p>
                     {
@@ -225,12 +237,12 @@ class home extends Component {
                                         <NumberFormat value={item.price} displayType={'text'} thousandSeparator={' '} suffix={'zł'} />
                                     </div>
                                 </div>
-                                <div className="ofbutton"><Link to={{ pathname: '/search', state: item }}><Button>Szczegóły</Button></Link></div>
+                                <div className="ofbutton"><Link to={{ pathname: '/search/'+item.id}}><Button>Szczegóły</Button></Link></div>
                             </div>
                         ))
                     }
                 </div>
-                </div>
+            </div>
         );
     }
 }

@@ -29,7 +29,7 @@ class App extends Component {
       <Route path="/alloff" component={Alloff}/>
       <Route path="/detailsoff/:id" component={Detailsoff}/>
       <Route path="/settings" component={SettingsUser}/>
-      <Route path="/search" component={Search}/>
+      <Route path="/search/:id" component={Search}/>
       <Route path="/update" component={UpdateOffer}/>
       <Route path="/messages" component={Messages}/>
       <Route path='/conversation/:login/:id' component={DetailMess}/>

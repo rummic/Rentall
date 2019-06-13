@@ -73,7 +73,14 @@
                 .ToListAsync();
             var messages = messagesReceived.Union(messagesSent).OrderBy(x => x.SendDate);
             var messagesList = messages.ToList();
-            messagesList.ForEach(x => x.Seen = true);
+            foreach (var x in messagesList)
+            {
+                if(x.Recipient == recipient)
+                {
+                    x.Seen = true;
+                }
+            }
+
             await _context.SaveChangesAsync();
             return messages;
         }
