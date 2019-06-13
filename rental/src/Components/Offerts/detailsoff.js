@@ -39,7 +39,7 @@ class detailsoff extends Component {
           </Row>
           <hr />
           <Row className="sliderUser">
-            <Col sm={8}><Carousel>
+            <Col sm={8}><Carousel className="carousel">
               {
                 this.state.offerts.photos.length === 0 ? <img src='https://screenshotlayer.com/images/assets/placeholder.png' alt="foto"/> : ""
               }
@@ -47,6 +47,7 @@ class detailsoff extends Component {
                 item.photos.map(function (item, i) {
                   return <Carousel.Item key={i}>
                     <img
+                      
                       className="d-block w-100"
                       src={(item === undefined ? 'https://screenshotlayer.com/images/assets/placeholder.png' : "https://localhost:44359/" + item)}
                       alt="First slide"
