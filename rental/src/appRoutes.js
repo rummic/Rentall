@@ -13,6 +13,7 @@ import Search from './Components/MainPage/detailsSearch';
 import UpdateOffer from './Components/Offerts/updateOffer';
 import Messages from './Components/Message/allMessages';
 import DetailMess from './Components/Message/message';
+import GetPassword from './Components/GetPassword/getpassword'
 
 class App extends Component {
 
@@ -33,6 +34,7 @@ class App extends Component {
       <Route path="/update" component={UpdateOffer}/>
       <Route path="/messages" component={Messages}/>
       <Route path='/conversation/:login/:id' component={DetailMess}/>
+      <Route path='/getpassword' component={GetPassword}/>
       </div>
       </BrowserRouter>
     );

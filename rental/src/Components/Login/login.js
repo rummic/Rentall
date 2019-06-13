@@ -88,6 +88,8 @@ class login extends Component {
           <div className="rej">Nie masz konta ?</div>
           <div className="rej1">Czas je założyć</div>
           <div className="rej1"><Link to="/register">Zarejestruj sie</Link></div>
+          <div className="rej1">Zapomniałeś hasła ?</div>
+          <div className="rej1"><Link to="/getpassword">Przypomnij hasło</Link></div>
           <div className="clearfix"></div>
         </div>
       </div>
