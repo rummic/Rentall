@@ -170,6 +170,23 @@ class updateOffer extends Component {
     }
 
     render() {
+            const stylebut = {
+                    width:"40%",
+                    marginBottom:"10px",
+                    border: "none",
+                        backgroundColor: "orange",
+                    marginTop:"30px",
+                        height: "40px",
+                        borderRadius: "7px",
+                        color:" white",
+                        cursor:"pointer"
+
+                    
+                
+            }
+
+
+
         const { formErrors } = this.state;
         if (!sessionStorage.getItem("token")) {
             return (<Redirect to={'/home'} />)
@@ -188,13 +205,13 @@ class updateOffer extends Component {
                     <Container>
                         <p id="badForm"></p>
                         <Row className="headerOffer">
-                            <Col className="titleOffer" md={8}><input type="text" value={obj.title} name="title" onChange={this.onChange} />
+                            <Col className="titleOffer" md={8}><label>Tytuł : </label><input type="text" value={obj.title} name="title" onChange={this.onChange} />
                                 {formErrors.titleEr.length > 0 && (<span className="errorMessage">{formErrors.titleEr}</span>)}
                             </Col>
                             <Col className="priceOffer" md={4}><label>Cena: </label><input type="number" value={obj.price} name="price" onChange={this.onChange} />
                                 {formErrors.priceEr.length > 0 && (<span className="errorMessage">{formErrors.priceEr}</span>)}
                             </Col>
-                            <Col className="localisationOffer" md={4}><span className="glyphicon glyphicon-map-marker"></span><input type="text" value={obj.city} name="city" onChange={this.onChange} />,<input type="text" value={obj.street} name="street" onChange={this.onChange} />
+                            <Col className="localisationOffer" md={12}><span className="glyphicon glyphicon-map-marker"></span><label>Miasto oraz ulica : </label><input type="text" value={obj.city} name="city" onChange={this.onChange} />,<label></label><input type="text" value={obj.street} name="street" onChange={this.onChange} />
                                 {formErrors.cityEr.length > 0 && (<span className="errorMessage">{formErrors.cityEr}</span>)}
                                 {formErrors.streetEr.length > 0 && (<span className="errorMessage">{formErrors.streetEr}</span>)}
                             </Col>
@@ -224,7 +241,7 @@ class updateOffer extends Component {
                         </Row>
                         <hr />
                         <Row>
-                            <Col className="detailsOffer">Kategoria :
+                            <Col className="detailsOffer"><label style={{marginRight: "10px"}}>Kategoria :</label>
                                  <select className="arrow" value={obj.categoryName} name="categoryName" onChange={this.onChange} >
                                     {
                                         this.state.category.map(item => (
@@ -258,11 +275,11 @@ class updateOffer extends Component {
                         </Row>
                         <hr />
                         <Row className="descriptionOffer">
-                            <Col><input type="text" value={obj.description} name="description" onChange={this.onChange} />
+                            <Col><textarea rows="8" type="text" value={obj.description} name="description" onChange={this.onChange} ></textarea>
                                 {formErrors.descriptionEr.length > 0 && (<span className="errorMessage">{formErrors.descriptionEr}</span>)}
                             </Col>
                         </Row>
-                        <button variant="primary" onClick={() => this.update(obj.id)}>Aktualizuj</button>
+                        <button style={stylebut} variant="primary" onClick={() => this.update(obj.id)}>Aktualizuj</button>
                     </Container>
                 </div>
             </div>
