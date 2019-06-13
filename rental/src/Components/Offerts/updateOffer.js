@@ -203,7 +203,7 @@ class updateOffer extends Component {
                         <Row className="sliderUser">
                             <Col sm={8}><Carousel>
                                 {
-                                    obj.photos.length === 0 ? <img src='https://screenshotlayer.com/images/assets/placeholder.png' /> : ""
+                                    obj.photos.length === 0 ? <img src='https://screenshotlayer.com/images/assets/placeholder.png' alt="foto" /> : ""
                                 }
                                 {
                                     obj.photos.map(function (item, i) {
